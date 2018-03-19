@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
+import Profile from "../components/Profile";
 import Dashboard from "../components/Dashboard";
 import * as CampaignActions from "../actions";
 
@@ -14,6 +15,7 @@ class App extends Component {
         <Route exact path="/" component={Dashboard} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/profile" component={Profile} />
         {/* about page -- default for unauthenticated arrivals */}
       </div>
     );
