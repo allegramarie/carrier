@@ -1,15 +1,6 @@
 import React, { Component } from "react";
-import {
-  Heading,
-  Title,
-  Sidebar as GrommetSidebar,
-  Header,
-  Button,
-  Menu,
-  Box,
-  Anchor
-} from "grommet";
-import CloseIcon from "grommet/components/icons/base/Close";
+import { Title, Sidebar as GrommetSidebar, Header, Box } from "grommet";
+import SidebarMenu from "./SidebarMenu";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -22,14 +13,10 @@ class Sidebar extends Component {
     return (
       <GrommetSidebar colorIndex="neutral-1" fixed={true}>
         <Header pad="medium" justify="start">
-          <Title>Title</Title>
+          <Title>MailAppTitle</Title>
         </Header>
         <Box flex="grow" justify="start">
-          <Menu primary={true}>
-            <Anchor href="#">First</Anchor>
-            <Anchor href="#">Second</Anchor>
-            <Anchor href="#">Third</Anchor>
-          </Menu>
+          <SidebarMenu />
         </Box>
       </GrommetSidebar>
     );

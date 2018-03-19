@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-import BaseContent from "../components/BaseContent";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Dashboard from "../components/Dashboard";

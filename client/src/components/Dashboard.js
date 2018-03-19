@@ -1,18 +1,25 @@
 import React, { Component } from "react";
-import {
-  Header,
-  NavControl,
-  Article,
-  Section,
-  Heading,
-  Tiles,
-  Tile,
-  Split,
-  Box
-} from "grommet";
-import Navbar from "./Navbar";
+import { Header, Article, Section, Heading, Split, Box } from "grommet";
 import Sidebar from "./Sidebar";
-// import CampaignList from "./components/CampaignList";
+import CampaignTable from "./CampaignTable";
+
+const campaigns = [
+  {
+    status: "active",
+    name: "My Cooking Newsletter #4",
+    groups: ["PTA", "Baking Club"]
+  },
+  {
+    status: "draft",
+    name: "SaaS Platform Mailer",
+    groups: ["Tech Nerds", "MailChimp"]
+  },
+  {
+    status: "draft",
+    name: "CarrierPigeon Platform Advert",
+    groups: ["Impressed Recruiters"]
+  }
+];
 
 class Dashboard extends Component {
   constructor(props) {
@@ -23,32 +30,17 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <Split flex="right" separator="false" fixed="false">
+        <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
-          <Box
-            colorIndex="accent-1"
-            justify="center"
-            align="right"
-            pad="medium"
-          >
+          <Box justify="center" align="start" pad="medium">
             <Article ref="content" pad="none">
-              <Header
-                direction="row"
-                justify="between"
-                size="large"
-                pad={{ horizontal: "medium", between: "small" }}
-              />
               <Section key="utilization" pad="medium" full="horizontal">
                 <Header justify="between">
                   <Heading tag="h2" margin="none">
-                    Utilization
+                    Campaigns
                   </Heading>
                 </Header>
-              </Section>
-              <Section pad="medium" full="horizontal">
-                <Heading tag="h2">Running Tasks</Heading>
-                {/* <CampaignList campaigns={["list", "of", "campaigns"]} /> */}
+                <CampaignTable campaigns={campaigns} />
               </Section>
             </Article>
           </Box>
