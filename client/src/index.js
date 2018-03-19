@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import reducer from './reducers';
-import App from './containers/App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import reducer from "./reducers";
+import App from "./containers/App";
+import Grommet from "grommet";
 //import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(reducer);
@@ -14,9 +15,11 @@ const store = createStore(reducer);
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <Grommet.App>
+        <App />
+      </Grommet.App>
     </Router>
   </Provider>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 //registerServiceWorker();
