@@ -16,7 +16,7 @@ id SERIAL PRIMARY KEY,
 name varchar(500) NOT NULL,
 subject varchar(500) NOT NULL,
 fromID varchar(100) NOT NULL,
-content varchar(500) NOT NULL,
+content varchar(500) NOT NULL
 );
 
 CREATE TABLE contacts (

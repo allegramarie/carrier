@@ -27,7 +27,7 @@ class Dashboard extends Component {
         <Split flex="right" separator="false" fixed="false">
           <Sidebar />
           <Box
-            colorIndex="neutral-2"
+            colorIndex="accent-1"
             justify="center"
             align="right"
             pad="medium"

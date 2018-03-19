@@ -15,7 +15,7 @@ const store = createStore(reducer);
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Grommet.App>
+      <Grommet.App centered={false}>
         <App />
       </Grommet.App>
     </Router>

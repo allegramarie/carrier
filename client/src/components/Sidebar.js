@@ -21,7 +21,7 @@ class Sidebar extends Component {
     // Always open, for now.
     return (
       <GrommetSidebar colorIndex="neutral-1" fixed={true}>
-        <Header pad="medium" justify="between">
+        <Header pad="medium" justify="start">
           <Title>Title</Title>
         </Header>
         <Box flex="grow" justify="start">
