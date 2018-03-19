@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-import {
-  Title,
-  Sidebar as GrommetSidebar,
-  Header,
-  Menu,
-  Box,
-  Anchor
-} from "grommet";
+import { Title, Sidebar as GrommetSidebar, Header, Box } from "grommet";
+import SidebarMenu from "./SidebarMenu";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -22,11 +16,7 @@ class Sidebar extends Component {
           <Title>MailAppTitle</Title>
         </Header>
         <Box flex="grow" justify="start">
-          <Menu primary={true}>
-            <Anchor href="#">Dashboard</Anchor>
-            <Anchor href="#">Profile</Anchor>
-            <Anchor href="#">New</Anchor>
-          </Menu>
+          <SidebarMenu />
         </Box>
       </GrommetSidebar>
     );
