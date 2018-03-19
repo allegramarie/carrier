@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS newsletterDB;
+DROP DATABASE IF EXISTS mail;
 
-CREATE DATABASE newsletterDB;
+CREATE DATABASE mail;
 
 \c newsletterDB;
 
