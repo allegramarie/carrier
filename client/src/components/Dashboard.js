@@ -1,16 +1,5 @@
 import React, { Component } from "react";
-import {
-  Header,
-  NavControl,
-  Article,
-  Section,
-  Heading,
-  Tiles,
-  Tile,
-  Split,
-  Box
-} from "grommet";
-import Navbar from "./Navbar";
+import { Header, Article, Section, Heading, Split, Box } from "grommet";
 import Sidebar from "./Sidebar";
 import CampaignTable from "./CampaignTable";
 
@@ -41,9 +30,9 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Split flex="right" separator="false" fixed="false">
+        <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
-          <Box justify="center" align="right" pad="medium">
+          <Box justify="center" align="start" pad="medium">
             <Article ref="content" pad="none">
               <Section key="utilization" pad="medium" full="horizontal">
                 <Header justify="between">

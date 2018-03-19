@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Table, TableRow } from "grommet";
+import React from "react";
+import { Table } from "grommet";
 import CampaignTableRow from "./CampaignTableRow";
 
 const CampaignTable = props => (
