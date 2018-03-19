@@ -22,13 +22,13 @@ class Sidebar extends Component {
     return (
       <GrommetSidebar colorIndex="neutral-1" fixed={true}>
         <Header pad="medium" justify="start">
-          <Title>Title</Title>
+          <Title>MailAppTitle</Title>
         </Header>
         <Box flex="grow" justify="start">
           <Menu primary={true}>
-            <Anchor href="#">First</Anchor>
-            <Anchor href="#">Second</Anchor>
-            <Anchor href="#">Third</Anchor>
+            <Anchor href="#">Dashboard</Anchor>
+            <Anchor href="#">Profile</Anchor>
+            <Anchor href="#">New</Anchor>
           </Menu>
         </Box>
       </GrommetSidebar>
