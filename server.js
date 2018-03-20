@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const sendgrid = require("./sendgrid.js");
+const db = require("./database");
 
 let app = express();
 
@@ -25,6 +26,23 @@ app.post("/send", (request, response) => {
     .catch(err => {
       console.log("Error", err);
     });
+});
+
+app.get("/campaigns", (request, response) => {
+  db.getUserCampaigns(request.body, data => {
+    console.log(data);
+    response.send(data);
+  });
+});
+
+app.post("/newContact", (request, response) => {
+  var campaign = request.body.campaignID;
+  db.addNewContact(request.body, data => {
+    db.createCampaignContact(campaign, data, res => {
+      console.log(res);
+      response.send(res);
+    });
+  });
 });
 
 // SERVER SETUP ------------------------------------------------
