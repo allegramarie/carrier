@@ -17,6 +17,7 @@ app.get("/", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
+  console.log("here");
   sendgrid(request, response)
     .then(data => {
       console.log("Response", data);
