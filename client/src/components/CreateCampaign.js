@@ -1,29 +1,59 @@
 import React, { Component } from "react";
-import Section from "grommet/components/Section";
-import Article from "grommet/components/Article";
-import Headline from "grommet/components/Headline";
-import Form from "grommet/components/Form";
-import FormField from "grommet/components/FormField";
-import TextInput from "grommet/components/TextInput";
-import { Header, Heading, Split, Box, Paragraph, Button } from "grommet";
+import {
+  Header,
+  Heading,
+  Split,
+  Box,
+  Paragraph,
+  Button,
+  Select,
+  Section,
+  Article,
+  Headline,
+  Form,
+  FormField,
+  TextInput
+} from "grommet";
 import Toast from "grommet/components/Toast";
+import { Redirect } from "react-router-dom";
+import FormPreviousIcon from "grommet/components/icons/base/FormPrevious";
+import RevertIcon from "grommet/components/icons/base/Revert";
 
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
       campaignName: null,
-      contactName: [],
-      contactEmail: [],
+      contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
+      contactEmail: [
+        "eric@eric.com",
+        "allegra@allegra.com",
+        "alex.com",
+        "yuyu@yuyu.com"
+      ],
+      contactInfo: [
+        { name: "Eric", email: "eric@eric.com" },
+        { name: "Allegra", email: "allegra@allegra.com" },
+        { name: "Alex", email: "alex@alex.com" },
+        { name: "Yuyu", email: "yuyu@yuyu.com" }
+      ],
       content: "",
       popup: false
     };
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Box justify="center" align="start" pad="medium">
+          <Button
+            icon={<RevertIcon />}
+            onClick={() => {
+              return <Redirect to="/" />;
+            }}
+            href="localhost:3000"
+          />
           <Article ref="content" pad="none">
             <Section key="utilization" pad="medium" full="horizontal">
               <Header justify="between">
@@ -42,7 +72,15 @@ class CreateCampaign extends Component {
                   label="Add Contact Name"
                   style={{ width: "70%", height: "70%" }}
                 >
-                  <TextInput />
+                  <TextInput
+                    onKeyPress={event => {
+                      if (event.key === "Enter")
+                        this.state.contactInfo.push({
+                          name: "test",
+                          email: "testing"
+                        });
+                    }}
+                  />
                 </FormField>
                 <FormField
                   label="Add Contact Email"
@@ -50,6 +88,29 @@ class CreateCampaign extends Component {
                 >
                   <TextInput />
                 </FormField>
+                <p />
+                <Select
+                  placeHolder="All Contacts"
+                  inline={false}
+                  multiple={false}
+                  onSearch={false}
+                  options={this.state.contactInfo.map(function(info, key) {
+                    return {
+                      value: info.name,
+                      sub: info.email,
+                      label: (
+                        <Box direction="row" justify="start">
+                          <span>{info.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="secondary">
+                            {info.email}
+                          </span>
+                        </Box>
+                      )
+                    };
+                  })}
+                  value={undefined}
+                  onChange={() => {}}
+                />
+                <p />
                 <FormField
                   label="Email Content"
                   style={{ width: "800px", height: "400px" }}
@@ -57,10 +118,9 @@ class CreateCampaign extends Component {
                   <TextInput />
                 </FormField>
               </Form>
-              <p />
               <Box align="end">
                 <Button
-                  label="Send"
+                  label="Save Campaign"
                   type="submit"
                   primary={true}
                   onClick={() => {
@@ -72,9 +132,11 @@ class CreateCampaign extends Component {
               {this.state.popup === true ? (
                 <Toast
                   status="ok"
-                  onClose={() => this.setState({ popup: false })}
+                  onClose={() => {
+                    this.setState({ popup: false });
+                  }}
                 >
-                  Message Sent!
+                  Campaign Saved!
                 </Toast>
               ) : (
                 <p />

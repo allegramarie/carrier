@@ -10,7 +10,7 @@
     "dev:client": "cd client && yarn run start",
     "dev:server": "nodemon server.js",
     "install": "yarn run install:client",
-    "install:client": "cd client && yarn install && yarn build",
+    "install:client": "pwd && ls && cd client && yarn install && yarn build",
     "start": "node server.js",
     "precommit": "pretty-quick --staged"
   },

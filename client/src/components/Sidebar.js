@@ -11,7 +11,7 @@ class Sidebar extends Component {
   render() {
     // Always open, for now.
     return (
-      <GrommetSidebar colorIndex="neutral-1" fixed={true}>
+      <GrommetSidebar size="small" colorIndex="neutral-1" fixed={true}>
         <Header pad="medium" justify="start">
           <Title>MailAppTitle</Title>
         </Header>

@@ -3,9 +3,10 @@ import { Menu, Anchor } from "grommet";
 
 const SidebarMenu = () => (
   <Menu primary={true}>
-    <Anchor href="#">Dashboard</Anchor>
-    <Anchor href="#">Profile</Anchor>
-    <Anchor href="#">New</Anchor>
+    <Anchor path="/">Dashboard</Anchor>
+    <Anchor path="/profile">Profile</Anchor>
+    <Anchor path="/createCampaign">Create Campaign</Anchor>
+    <Anchor path="/login">Login</Anchor>
   </Menu>
 );
 
