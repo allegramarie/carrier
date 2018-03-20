@@ -1,8 +1,8 @@
 import React from "react";
-import { Table, Anchor } from "grommet";
+import { Table } from "grommet";
 import CampaignTableRow from "./CampaignTableRow";
-import { Link, Redirect, withRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { Redirect } from "react-router-dom";
+// import { createBrowserHistory } from "history";
 
 class CampaignTable extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class CampaignTable extends React.Component {
     // return (<Redirect to="/campaigns"/>)
   }
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     if (this.state.show === true) {
       return <Redirect to="/campaigns" />;
     }
