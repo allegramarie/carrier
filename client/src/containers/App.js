@@ -9,6 +9,7 @@ import Dashboard from "../components/Dashboard";
 import Grommet from "grommet";
 import * as CampaignActions from "../actions";
 import CreateCampaign from "../components/CreateCampaign";
+import Campaigns from "../components/Campaigns";
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
           <Route path="/createCampaign" component={CreateCampaign} />
+          <Route path="/campaigns" component={Campaigns} />
           {/* about page -- default for unauthenticated arrivals */}
         </Switch>
       </Grommet.App>
