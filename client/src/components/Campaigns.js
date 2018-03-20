@@ -19,6 +19,8 @@ class Campaigns extends Component {
         <div className="navigationButtonsLeft">
           <Link to="/">Back</Link>
         </div>
+        <div />
+        <div />
       </div>
     );
   }
