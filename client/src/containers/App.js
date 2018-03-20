@@ -1,19 +1,26 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {Route} from 'react-router-dom';
-import {connect} from 'react-redux';
-import BaseContent from '../components/BaseContent';
-import {Test} from '../components/Test';
-import * as CampaignActions from '../actions';
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import Login from "../components/Login";
+import Signup from "../components/Signup";
+import Profile from "../components/Profile";
+import Dashboard from "../components/Dashboard";
+import Grommet from "grommet";
+import * as CampaignActions from "../actions";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        {console.log(BaseContent)}
-        <Route exact path="/" component={BaseContent} />
-        <Route path="/test" component={Test} />
-      </div>
+      <Grommet.App centered={false}>
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/profile" component={Profile} />
+          {/* about page -- default for unauthenticated arrivals */}
+        </Switch>
+      </Grommet.App>
     );
   }
 }
@@ -26,11 +33,13 @@ class App extends Component {
 //)
 
 const mapStateToProps = state => ({
-  campaigns: state.campaigns,
+  campaigns: state.campaigns
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(CampaignActions, dispatch),
+  actions: bindActionCreators(CampaignActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(App);
