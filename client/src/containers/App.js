@@ -10,6 +10,7 @@ import BaseContent from "../components/BaseContent";
 import Grommet from "grommet";
 import * as CampaignActions from "../actions";
 import Campaigns from "../components/Campaigns";
+import CreateCampaign from "../components/CreateCampaign";
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
+          <Route path="/createCampaign" component={CreateCampaign} />
           <Route path="/campaigns" component={Campaigns} />
           {/* about page -- default for unauthenticated arrivals */}
         </Switch>
@@ -27,13 +29,6 @@ class App extends Component {
     );
   }
 }
-
-//const App = ({todos, actions}) => (
-//<div>
-//<Header addTodo={actions.addTodo} />
-//<MainSection todos={todos} actions={actions} />
-//</div>
-//)
 
 const mapStateToProps = state => ({
   campaigns: state.campaigns
