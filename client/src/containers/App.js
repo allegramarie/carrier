@@ -17,7 +17,7 @@ class App extends Component {
           <Route exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/profile" compoment={Profile} />
+          <Route path="/profile" component={Profile} />
           {/* about page -- default for unauthenticated arrivals */}
         </Switch>
       </Grommet.App>
