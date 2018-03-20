@@ -38,10 +38,12 @@ class Campaigns extends Component {
   // }
   handleClick() {
     this.setState({
-      item: this.state.item.push({
-        name: this.state.nameInput,
-        email: this.state.emailInput
-      }),
+      item: [
+        ...this.state.item,
+        { name: this.state.nameInput, email: this.state.emailInput }
+      ],
+      // this.state.item.concat({name: this.state.nameInput,email: this.state.emailInput})
+      // [...this.state.myArray, ...[1,2,3] ]
       emailInput: "",
       nameInput: ""
     });
@@ -105,8 +107,7 @@ class Campaigns extends Component {
             </FormFields>
             <Footer pad={{ vertical: "medium" }}>
               <Button
-                label="Submit"
-                type="submit"
+                label="Add"
                 onClick={() => {
                   this.handleClick();
                 }}

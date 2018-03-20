@@ -6,6 +6,7 @@ const SidebarMenu = () => (
     <Anchor path="/">Dashboard</Anchor>
     <Anchor path="/profile">Profile</Anchor>
     <Anchor path="/login">Login</Anchor>
+    <Anchor path="/createCampaign">Create Campaign</Anchor>
   </Menu>
 );
 
