@@ -11,6 +11,47 @@ const pool = new Pool({
   database: "mail"
 });
 
+const checkUserExists = function(input, callback) {
+  pool.query(
+    `Select id from users where email = '%${input}%'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const getUserCampaigns = function(input, callback) {
+  pool.query(
+    `Select * from campaigns where fromID = '%${input}%`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewContact = function(input, callback) {
+  pool.query(
+    `insert into contacts (name, email) values ('${input.name}', '${
+      input.email
+    }';`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
 pool.connect((err, client, done) => {
   if (err) {
     return console.error("connection error", err.stack);
