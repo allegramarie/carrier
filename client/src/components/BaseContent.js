@@ -2,13 +2,26 @@ import React from "react";
 import { connect } from "react-redux";
 import logo from "./logo.svg";
 import "./BaseContent.css";
-import sendGrid from "../actions/sendgrid.js";
 import thunk from "redux-thunk";
+import axios from "axios";
 
 class BaseContent extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  handleClick() {
+    axios
+      .post("/send")
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <div className="App">
@@ -18,7 +31,7 @@ class BaseContent extends React.Component {
         </header>
         <button
           onClick={() => {
-            this.props.dispatch(sendGrid());
+            this.handleClick();
           }}
         >
           Clicky
