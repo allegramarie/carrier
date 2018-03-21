@@ -113,11 +113,39 @@ class Campaigns extends Component {
           ["unsubscribe", this.state.unsubscribe]
         ],
         type: "pie"
+      },
+      pie: {
+        label: {
+          format: function(value, ratio, id) {
+            return value;
+          }
+        }
       }
     });
   }
 
   render() {
+    //   var currentdate = new Date();
+    // var datetime = "Last Sync: "
+    //                 + (currentdate.getMonth()+1)  + "/"
+    //                 + (currentdate.getDate()-7) + "/"
+    //                 + currentdate.getFullYear()
+    //                 // + currentdate.getHours() + ":"
+    //                 // + currentdate.getMinutes() + ":"
+    //                 // + currentdate.getSeconds();
+    //                 console.log(datetime)
+    //   const time = function Last7Days() {
+    //     var result = [];
+    //     for (var i=0; i<7; i++) {
+    //         var d = new Date();
+    //         d.setDate(d.getDate() - i);
+    //         result.push( formatDate(d) )
+    //     }
+    //
+    //     return(result.join(','));
+    // }
+    // console.log(time)
+
     // console.log('here campaigns',this.props.router)
     // console.log(this.state.nameInput,"name")
     // console.log(this.state.emailInput,"email")
