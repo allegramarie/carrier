@@ -6,10 +6,11 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Profile from "../components/Profile";
 import Dashboard from "../components/Dashboard";
+import BaseContent from "../components/BaseContent";
 import Grommet from "grommet";
 import * as CampaignActions from "../actions";
-import CreateCampaign from "../components/CreateCampaign";
 import Campaigns from "../components/Campaigns";
+import CreateCampaign from "../components/CreateCampaign";
 
 class App extends Component {
   render() {

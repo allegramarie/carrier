@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import thunk from "redux-thunk";
 // import FormField from 'grommet/components/FormField';
 import {
   TextInput,
@@ -9,7 +11,8 @@ import {
   Heading,
   Footer,
   Table,
-  FormFields
+  FormFields,
+  Box
 } from "grommet";
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
@@ -21,8 +24,17 @@ class Campaigns extends Component {
     this.state = {
       // item:[{name:['Alex', 'Eric']},{email:['Alex@hackreactor.com','Eric@hackreactor.com']}],
       item: [
-        { name: "Alex", email: "Alex@hackreactor.com" },
-        { name: "Eric", email: "Eric@hackreactor.com" }
+        { name: "Jerry", email: "jieningjchen@gmail.com" },
+        { name: "Adam", email: "adammateo@gmail.com" },
+        { name: "Chris", email: "christopher.rigoli@gmail.com" },
+        { name: "Riley", email: "rileyalsman@gmail.com" },
+        { name: "Juan", email: "juangalan.a.s@gmail.com" },
+        { name: "Sin", email: "sin11eric@gmail.com" },
+        { name: "Manos", email: "manolaki@gmail.com" },
+        { name: "Quack", email: "qisforq@gmail.com" },
+        { name: "Levine", email: "aalexlevine@gmail.com" },
+        { name: "Brent", email: "brent.timothy.hagen@gmail.com" },
+        { name: "Rory", email: "rory.eagan@gmail.com" }
       ],
       nameInput: "",
       emailInput: ""
@@ -30,6 +42,7 @@ class Campaigns extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
+    this.sendEmail = this.sendEmail.bind(this);
     // this.handleBack = this.handleBack.bind(this);
   }
   // handleBack(){
@@ -38,10 +51,10 @@ class Campaigns extends Component {
   // }
   handleClick() {
     this.setState({
-      item: this.state.item.push({
-        name: this.state.nameInput,
-        email: this.state.emailInput
-      }),
+      item: [
+        ...this.state.item,
+        { name: this.state.nameInput, email: this.state.emailInput }
+      ],
       emailInput: "",
       nameInput: ""
     });
@@ -56,6 +69,18 @@ class Campaigns extends Component {
     this.setState({
       emailInput: e.target.value
     });
+  }
+
+  sendEmail() {
+    console.log("send");
+    axios
+      .post("/send")
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -113,6 +138,15 @@ class Campaigns extends Component {
               />
             </Footer>
           </Form>
+          <Box align="end">
+            <Button
+              label="Send"
+              primary={true}
+              onClick={() => {
+                this.sendEmail();
+              }}
+            />
+          </Box>
         </div>
       </div>
     );

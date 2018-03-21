@@ -18,7 +18,7 @@ import Toast from "grommet/components/Toast";
 import { Redirect } from "react-router-dom";
 import FormPreviousIcon from "grommet/components/icons/base/FormPrevious";
 import RevertIcon from "grommet/components/icons/base/Revert";
-
+import { Link } from "react-router-dom";
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
@@ -47,13 +47,15 @@ class CreateCampaign extends Component {
     return (
       <div>
         <Box justify="center" align="start" pad="medium">
-          <Button
-            icon={<RevertIcon />}
-            onClick={() => {
-              return <Redirect to="/" />;
-            }}
-            href="localhost:3000"
-          />
+          <Link to="/">
+            <Button
+              icon={<RevertIcon size="large" colorIndex="neutral-2" />}
+              onClick={() => {
+                return <Redirect to="/" />;
+              }}
+              href="localhost:3000/"
+            />
+          </Link>
           <Article ref="content" pad="none">
             <Section key="utilization" pad="medium" full="horizontal">
               <Header justify="between">
@@ -123,6 +125,7 @@ class CreateCampaign extends Component {
                   label="Save Campaign"
                   type="submit"
                   primary={true}
+                  style={{ marginRight: "15%" }}
                   onClick={() => {
                     this.setState({ popup: true });
                   }}
