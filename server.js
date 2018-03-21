@@ -50,14 +50,34 @@ app.post("/newContact", (request, response) => {
 });
 
 // AUTH ROUTES
-app.post("/login", (request, response) => {});
+app.post("/login", (request, response) => {
+  const { username, password } = request.body;
+  console.log("In login");
+  console.log(username, password);
+  // Change this function when database check is implemented
+  auth.validateUserLogin(username, password).then(isValid => {
+    // If credentials are valid, generate a new token and return it.
+    if (isValid) {
+      const token = auth.genToken();
+      auth.setSession(token, username);
+      response.send({ token });
+    } else {
+      response.status(401).send({ err: "Bad Credentials: Access Denied" });
+    }
+  });
+});
+
 app.post("/logout", (request, response) => {});
 app.post("/signup", (request, response) => {});
 
 app.post("/auth", (request, response) => {
   // If the session exists, check that it's valid.
   const authenticated = request.session ? true : false;
-  response.send({ authenticated });
+  if (authenticated) {
+    response.send({ authenticated });
+  } else {
+    response.status(401).send({ authenticated });
+  }
 });
 
 // SERVER SETUP ------------------------------------------------
