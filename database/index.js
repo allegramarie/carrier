@@ -1,6 +1,5 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
-const mail = require("./schema.sql");
 
 const pool = new Pool({
   host: "thesis-project.coxryxwvinqh.us-east-1.rds.amazonaws.com",
@@ -10,6 +9,92 @@ const pool = new Pool({
   password: "thesis123",
   database: "mail"
 });
+
+const checkUserExists = function(input, callback) {
+  pool.query(
+    `Select id from users where email = '%${input}%'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const getUserCampaigns = function(input, callback) {
+  pool.query(
+    `Select * from campaigns where fromID = '%${input}%`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewContact = function(input, callback) {
+  pool.query(
+    `insert into contacts (name, email) values ('${input.name}', '${
+      input.email
+    }';`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const createCampaignContact = function(campaign, contact, callback) {
+  pool.query(
+    `insert into campaignContacts where campaignID = '${
+      input.id
+    }' (contactID) values ('${results.id}')`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewCampaign = function(input, callback) {
+  pool.query(
+    `insert into campaigns (name, subject, fromID, content, userID) values ('${
+      input.name
+    }', '${input.subject}', '${input.fromID}', '${input.content}', '${
+      input.userID
+    }';`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const campaignContacts = function(input, callback) {
+  pool.query(
+    `select contacts from campaignContacts where campaign id = '${input}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
 
 pool.connect((err, client, done) => {
   if (err) {
@@ -26,4 +111,9 @@ pool.connect((err, client, done) => {
   }
 });
 
-module.exports = {};
+module.exports = {
+  addNewCampaign,
+  addNewContact,
+  getUserCampaigns,
+  checkUserExists
+};

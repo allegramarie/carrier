@@ -17,6 +17,50 @@ let sendGrid = (req, res) => {
             {
               email: "allegra.berndt@gmail.com",
               name: "John Doe"
+            },
+            {
+              email: "jieningjchen@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "adammateo@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "christopher.rigoli@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "rileyalsman@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "juangalan.a.s@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: " sin11eric@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "manolaki@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "qisforq@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "aalexlevine@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "brent.timothy.hagen@gmail.com",
+              name: "John Doe"
+            },
+            {
+              email: "rory.eagan@gmail.com",
+              name: "John Doe"
             }
           ],
           subject: "Hello, World!"
