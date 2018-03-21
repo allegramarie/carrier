@@ -5,7 +5,8 @@ const Auth = {
   token: "",
   // isAuthenticated: returns a bool indicating auth status.
   isAuthenticated() {
-    if (token === "") {
+    if (this.token === "") {
+      this.saveState();
       return false;
     } else {
       // Post to server with token to check if it's valid.
@@ -17,13 +18,22 @@ const Auth = {
           if (!authenticated) {
             this.token = "";
           }
+          this.saveState();
           return authenticated;
         })
         .catch(error => {
           throw error;
         });
     }
+  },
+  saveState() {
+    localStorage.setItem("auth", this.token);
+  },
+  initialize() {
+    this.token = localStorage.getItem("auth");
   }
 };
+
+Auth.initialize();
 
 export default Auth;
