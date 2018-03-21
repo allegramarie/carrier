@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS mail;
 
 CREATE DATABASE mail;
 
-\c newsletterDB;
+\c mail;
 
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
@@ -17,7 +17,7 @@ name varchar(500) NOT NULL,
 subject varchar(500) NOT NULL,
 fromID varchar(100) NOT NULL,
 content varchar(500) NOT NULL,
-userID integer REFERENCES users (id)
+userID integer REFERENCES users(id)
 );
 
 CREATE TABLE contacts (
@@ -25,11 +25,11 @@ id SERIAL PRIMARY KEY,
 name varchar(100) NOT NULL,
 email varchar(100) NOT NULL,
 UNIQUE (EMAIL)
-)
+);
 
 CREATE TABLE campaignContacts (
 id SERIAL PRIMARY KEY,
-compaignID integer REFERENCES campaigns(id),
+campaignID integer REFERENCES campaigns(id),
 contactID integer REFERENCES contacts(id)
 )
 

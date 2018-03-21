@@ -6,6 +6,7 @@ import axios from "axios";
 import c3 from "c3";
 import d3 from "d3";
 // import thunk from 'redux-thunk'
+import { connect } from "react-redux";
 // import FormField from 'grommet/components/FormField';
 import {
   TextInput,
@@ -217,4 +218,11 @@ class Campaigns extends Component {
   }
 }
 
-export default Campaigns;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    campaigns: state.campaigns
+  };
+}
+
+export default connect(mapStateToProps)(Campaigns);

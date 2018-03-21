@@ -1,18 +1,41 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
 
+// const pool = new Pool({
+//   host: "thesis-project.coxryxwvinqh.us-east-1.rds.amazonaws.com",
+//   // connectionString: process.env.DATABASE_URL,
+//   port: 5432,
+//   user: "thesis",
+//   password: "thesis123",
+//   database: "mail"
+// });
+
 const pool = new Pool({
-  host: "thesis-project.coxryxwvinqh.us-east-1.rds.amazonaws.com",
+  host: "localhost",
   // connectionString: process.env.DATABASE_URL,
-  port: 5432,
-  user: "thesis",
-  password: "thesis123",
+  user: "",
+  password: "",
   database: "mail"
 });
 
+const addNewUser = function(input, callback) {
+  pool.query(
+    `insert into users (email, password) values ('${input.email}', '${
+      input.password
+    }';`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
 const checkUserExists = function(input, callback) {
   pool.query(
-    `Select id from users where email = '%${input}%'`,
+    `Select id from users where email = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -25,11 +48,12 @@ const checkUserExists = function(input, callback) {
 
 const getUserCampaigns = function(input, callback) {
   pool.query(
-    `Select * from campaigns where fromID = '%${input}%`,
+    `Select * from campaigns where fromID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
+        console.log("User campaign results", results);
         callback(results);
       }
     }
@@ -85,7 +109,7 @@ const addNewCampaign = function(input, callback) {
 
 const campaignContacts = function(input, callback) {
   pool.query(
-    `select contacts from campaignContacts where campaign id = '${input}'`,
+    `select contactID from campaignContacts where campaignID ='${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -100,7 +124,7 @@ pool.connect((err, client, done) => {
   if (err) {
     return console.error("connection error", err.stack);
   } else {
-    client.query("SELECT * FROM campaigns WHERE id = $1", [1], (err, res) => {
+    client.query("SELECT * FROM campaigns WHERE id = $1", [2], (err, res) => {
       done();
       if (err) {
         console.log(err.stack);
@@ -115,5 +139,6 @@ module.exports = {
   addNewCampaign,
   addNewContact,
   getUserCampaigns,
-  checkUserExists
+  checkUserExists,
+  addNewUser
 };
