@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sendgrid = require("./sendgrid.js");
 const db = require("./database");
+const auth = require("./auth");
 
 let app = express();
 
@@ -9,6 +10,9 @@ let app = express();
 app.use(bodyParser.json());
 // Parse forms as well
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Provides access to user sessions via `request.session`
+app.use(auth.attachSession);
 
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
@@ -43,6 +47,17 @@ app.post("/newContact", (request, response) => {
       response.send(res);
     });
   });
+});
+
+// AUTH ROUTES
+app.post("/login", (request, response) => {});
+app.post("/logout", (request, response) => {});
+app.post("/signup", (request, response) => {});
+
+app.post("/auth", (request, response) => {
+  // If the session exists, check that it's valid.
+  const authenticated = request.session ? true : false;
+  response.send({ authenticated });
 });
 
 // SERVER SETUP ------------------------------------------------
