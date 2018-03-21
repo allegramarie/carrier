@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "grommet";
 import CampaignTableRow from "./CampaignTableRow";
 import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
 // import { createBrowserHistory } from "history";
 
 class CampaignTable extends React.Component {
@@ -41,7 +40,6 @@ class CampaignTable extends React.Component {
             this.handleClick();
           }}
         >
-          {console.log(this.props)}
           {this.props.campaigns.map((campaign, index) => (
             <CampaignTableRow campaign={campaign} key={index} />
           ))}
@@ -50,11 +48,4 @@ class CampaignTable extends React.Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-    campaigns: state.campaigns
-  };
-}
-
-export default connect(mapStateToProps)(CampaignTable);
+export default CampaignTable;

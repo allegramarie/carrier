@@ -35,7 +35,7 @@ const addNewUser = function(input, callback) {
 
 const checkUserExists = function(input, callback) {
   pool.query(
-    `Select id from users where email = '%${input}%'`,
+    `Select id from users where email = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -47,9 +47,8 @@ const checkUserExists = function(input, callback) {
 };
 
 const getUserCampaigns = function(input, callback) {
-  console.log("Within user campaigns", input);
   pool.query(
-    `Select * from campaigns where fromID = '%${input}%`,
+    `Select * from campaigns where fromID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -110,7 +109,7 @@ const addNewCampaign = function(input, callback) {
 
 const campaignContacts = function(input, callback) {
   pool.query(
-    `select contacts from campaignContacts where campaign id = '${input}'`,
+    `select contactID from campaignContacts where campaignID ='${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);

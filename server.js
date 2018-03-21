@@ -43,8 +43,8 @@ app.post("/send", (request, response) => {
 });
 
 app.get("/campaigns", (request, response) => {
-  console.log("Getting user campaigns in the server");
-  db.getUserCampaigns(request.body, data => {
+  console.log("Getting user campaigns in the server", request.query.fromID);
+  db.getUserCampaigns(request.query.fromID, data => {
     console.log(data);
     response.send(data);
   });
@@ -58,7 +58,7 @@ app.post("/newCampaign", (request, response) => {
 });
 
 app.get("/campaignContacts", (request, response) => {
-  db.campaignContacts(request.body, data => {
+  db.campaignContacts(request.query.id, data => {
     console.log(data);
     response.send(data);
   });

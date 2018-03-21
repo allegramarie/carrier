@@ -29,7 +29,7 @@ UNIQUE (EMAIL)
 
 CREATE TABLE campaignContacts (
 id SERIAL PRIMARY KEY,
-compaignID integer REFERENCES campaigns(id),
+campaignID integer REFERENCES campaigns(id),
 contactID integer REFERENCES contacts(id)
 )
 

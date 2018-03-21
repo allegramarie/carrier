@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import thunk from "redux-thunk";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Profile from "../components/Profile";
@@ -11,8 +12,18 @@ import Grommet from "grommet";
 import * as CampaignActions from "../actions";
 import Campaigns from "../components/Campaigns";
 import CreateCampaign from "../components/CreateCampaign";
+import { getCampaigns, getContacts } from "../actions";
 
 class App extends Component {
+  componentWillMount() {
+    this.props.dispatch(getCampaigns(this.props.user.user[0].id));
+  }
+  componentDidMount() {
+    console.log(this.props);
+    this.props.dispatch(getCampaigns(this.props.user.user[0].id));
+    // this.props.dispatch(getContacts())
+  }
+
   render() {
     return (
       <Grommet.App centered={false}>
@@ -36,10 +47,4 @@ const mapStateToProps = state => ({
   contacts: state.contacts
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(CampaignActions, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(App);
+export default connect(mapStateToProps)(App);

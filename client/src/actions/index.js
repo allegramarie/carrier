@@ -24,7 +24,9 @@ export function checkUser(user) {
   return function(dispatch) {
     axios
       .get("/checkUser", {
-        user: user
+        params: {
+          user: user
+        }
       })
       .then(response => {
         dispatch({ type: types.CHECK_USER, payload: response.data });
@@ -52,14 +54,17 @@ export function newUser(user) {
   };
 }
 
-export function getCampaigns(user) {
+export function getCampaigns(fromID) {
   return function(dispatch) {
     axios
       .get("/campaigns", {
-        fromID: user
+        params: {
+          fromID: fromID
+        }
       })
       .then(response => {
-        dispatch({ type: types.GET_CAMPAIGNS, payload: response.data });
+        console.log("Response from get campaigns", response.data.rows);
+        dispatch({ type: types.GET_CAMPAIGNS, payload: response.data.rows });
       })
       .catch(err => {
         console.log(err);
@@ -68,10 +73,13 @@ export function getCampaigns(user) {
 }
 
 export function getContacts(id) {
+  console.log("inside getContacts for user id:", id);
   return function(dispatch) {
     axios
       .get("/campaignContacts", {
-        id: id
+        params: {
+          id: id
+        }
       })
       .then(response => {
         dispatch({ type: types.GET_CONTACTS, payload: response.data });
