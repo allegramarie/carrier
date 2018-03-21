@@ -2,21 +2,21 @@ import React, { Component } from "react";
 import {
   Header,
   Heading,
-  Split,
+  // Split,
   Box,
-  Paragraph,
+  // Paragraph,
   Button,
   Select,
   Section,
   Article,
-  Headline,
+  // Headline,
   Form,
   FormField,
   TextInput
 } from "grommet";
 import Toast from "grommet/components/Toast";
 import { Redirect } from "react-router-dom";
-import FormPreviousIcon from "grommet/components/icons/base/FormPrevious";
+// import FormPreviousIcon from "grommet/components/icons/base/FormPrevious";
 import RevertIcon from "grommet/components/icons/base/Revert";
 
 class CreateCampaign extends Component {

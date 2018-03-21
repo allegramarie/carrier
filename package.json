@@ -20,6 +20,7 @@
     "express": "^4.16.3",
     "grommet": "^1.10.1",
     "history": "^4.7.2",
+    "react-dropzone": "^4.2.9",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "redux": "^3.7.2",

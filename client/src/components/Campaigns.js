@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import thunk from "redux-thunk";
+// import thunk from 'redux-thunk'
 // import FormField from 'grommet/components/FormField';
 import {
   TextInput,
@@ -17,6 +17,9 @@ import {
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
 import Recipients from "./Recipients.js";
+import Status from "grommet/components/icons/Status";
+import Toast from "grommet/components/Toast";
+import RevertIcon from "grommet/components/icons/base/Revert";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -37,7 +40,8 @@ class Campaigns extends Component {
         { name: "Rory", email: "rory.eagan@gmail.com" }
       ],
       nameInput: "",
-      emailInput: ""
+      emailInput: "",
+      show: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
@@ -59,6 +63,7 @@ class Campaigns extends Component {
       // [...this.state.myArray, ...[1,2,3] ]
       emailInput: "",
       nameInput: ""
+      // show: true
     });
     console.log(this.state.item, "in onClick");
   }
@@ -74,14 +79,17 @@ class Campaigns extends Component {
   }
   sendEmail() {
     console.log("send");
-    axios
-      .post("/send")
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.setState({
+      show: true
+    });
+    // axios
+    //   .post("/send")
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 
   render() {
@@ -94,9 +102,7 @@ class Campaigns extends Component {
     return (
       // console.log(this.state.item)
       <div>
-        <div className="navigationButtonsLeft">
-          <Link to="/">Back</Link>
-        </div>
+        <Button icon={<RevertIcon />} path="/" />
         <div>
           <Table>
             <thead>
@@ -139,13 +145,17 @@ class Campaigns extends Component {
             </Footer>
           </Form>
           <Box align="end">
-            <Button
-              label="Send"
-              primary={true}
-              onClick={() => {
-                this.sendEmail();
-              }}
-            />
+            {this.state.show === false ? (
+              <Button
+                label="Send"
+                primary={true}
+                onClick={() => {
+                  this.sendEmail();
+                }}
+              />
+            ) : (
+              <Status value="ok" size="large" />
+            )}
           </Box>
         </div>
       </div>

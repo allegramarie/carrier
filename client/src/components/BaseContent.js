@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import logo from "./logo.svg";
 import "./BaseContent.css";
-import thunk from "redux-thunk";
+// import thunk from "redux-thunk";
 import axios from "axios";
 
 class BaseContent extends React.Component {
