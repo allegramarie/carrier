@@ -12,6 +12,7 @@ import * as CampaignActions from "../actions";
 import Campaigns from "../components/Campaigns";
 import CreateCampaign from "../components/CreateCampaign";
 import Drop from "../components/dropzone";
+import PrivateRoute from "../PrivateRoute";
 
 class App extends Component {
   render() {
@@ -21,7 +22,7 @@ class App extends Component {
           <Route exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/profile" component={Profile} />
+          <PrivateRoute path="/profile" component={Profile} />
           <Route path="/createCampaign" component={CreateCampaign} />
           <Route path="/campaigns" component={Campaigns} />
           <Route path="/drop" component={Drop} />
