@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import campaigns from "./campaigns";
-import addContacts from "./addContacts";
+import contacts from "./contacts";
+import user from "./user";
 
 const rootReducer = combineReducers({
+  user,
   campaigns,
-  addContacts
+  contacts
 });
 
 export default rootReducer;

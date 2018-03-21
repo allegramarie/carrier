@@ -17,6 +17,20 @@ app.get("/", (request, response) => {
   response.send("Hello");
 });
 
+app.get("/checkUser", (request, response) => {
+  db.checkUserExists(request.body, data => {
+    console.log(data);
+    response.send(data);
+  });
+});
+
+app.post("/newUser", (request, response) => {
+  db.addNewUser(request.body, data => {
+    console.log(data);
+    response.send(data);
+  });
+});
+
 app.post("/send", (request, response) => {
   sendgrid(request, response)
     .then(data => {
@@ -29,7 +43,22 @@ app.post("/send", (request, response) => {
 });
 
 app.get("/campaigns", (request, response) => {
+  console.log("Getting user campaigns in the server");
   db.getUserCampaigns(request.body, data => {
+    console.log(data);
+    response.send(data);
+  });
+});
+
+app.post("/newCampaign", (request, response) => {
+  db.addNewCampaign(request.body, data => {
+    console.log(data);
+    response.send(data);
+  });
+});
+
+app.get("/campaignContacts", (request, response) => {
+  db.campaignContacts(request.body, data => {
     console.log(data);
     response.send(data);
   });

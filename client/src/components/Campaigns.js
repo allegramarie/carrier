@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 // import FormField from 'grommet/components/FormField';
 import {
   TextInput,
@@ -120,4 +121,11 @@ class Campaigns extends Component {
   }
 }
 
-export default Campaigns;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    campaigns: state.campaigns
+  };
+}
+
+export default connect(mapStateToProps)(Campaigns);

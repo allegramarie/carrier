@@ -31,7 +31,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  campaigns: state.campaigns
+  campaigns: state.campaigns,
+  user: state.user,
+  contacts: state.contacts
 });
 
 const mapDispatchToProps = dispatch => ({
