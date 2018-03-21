@@ -4,7 +4,6 @@ const Auth = {
   // token: returned by /login route, and must be set in the callback.
   token: "",
   isAuthenticated: false,
-  // isAuthenticated: returns a bool indicating auth status.
   authenticate(callback) {
     // Post to server with token to check if it's valid.
     axios
@@ -29,10 +28,10 @@ const Auth = {
     this.token = localStorage.getItem("auth");
   },
   logout() {
-    axios.post("/logout", { token: this.token }).then(results => {
-      this.token = "";
-      this.isAuthenticated = false;
-    });
+    axios.post("/logout", { token: this.token });
+    this.token = "";
+    this.isAuthenticated = false;
+    this.saveState();
   }
 };
 
