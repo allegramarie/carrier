@@ -16,12 +16,15 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "c3": "^0.4.22",
     "concurrently": "^3.5.1",
+    "d3": "^4.13.0",
     "express": "^4.16.3",
     "grommet": "^1.10.1",
     "history": "^4.7.2",
     "pg": "^7.4.1",
     "pg-format": "^1.0.4",
+    "react-c3js": "^0.1.20",
     "react-dropzone": "^4.2.9",
     "react-file-reader": "^1.1.4",
     "react-redux": "^5.0.7",
@@ -30,8 +33,10 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "css-loader": "^0.28.11",
     "husky": "^0.14.3",
     "prettier": "^1.11.1",
-    "pretty-quick": "^1.4.1"
+    "pretty-quick": "^1.4.1",
+    "style-loader": "^0.20.3"
   }
 }

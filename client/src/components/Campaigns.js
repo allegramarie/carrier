@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+// import C3Chart from 'react-c3js';
+// import 'c3/c3.css';
+import c3 from "c3";
+import d3 from "d3";
 // import thunk from 'redux-thunk'
 // import FormField from 'grommet/components/FormField';
 import {
@@ -50,12 +54,16 @@ class Campaigns extends Component {
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
+    this.pieGraph = this.pieGraph.bind(this);
     // this.handleBack = this.handleBack.bind(this);
   }
   // handleBack(){
   //   // console.log(this.props.router,'router')
   //   this.props.router.goBack()
   // }
+  componentDidMount() {
+    this.pieGraph();
+  }
   handleClick() {
     this.setState({
       item: [
@@ -95,13 +103,27 @@ class Campaigns extends Component {
     //   });
   }
 
+  pieGraph() {
+    const chart = c3.generate({
+      bindto: "#chart",
+      data: {
+        columns: [
+          ["send", this.state.send],
+          ["open", this.state.open],
+          ["unsubscribe", this.state.unsubscribe]
+        ],
+        type: "pie"
+      }
+    });
+  }
+
   render() {
     // console.log('here campaigns',this.props.router)
     // console.log(this.state.nameInput,"name")
     // console.log(this.state.emailInput,"email")
 
-    console.log(this.state.item);
-    console.log(this.state);
+    // console.log(this.state.item);
+    // console.log(this.state);
     return (
       // console.log(this.state.item)
       <div>
@@ -146,6 +168,7 @@ class Campaigns extends Component {
                 }}
               />
             </Footer>
+            <div id="chart" />
           </Form>
           <Box align="end">
             {this.state.show === false ? (
