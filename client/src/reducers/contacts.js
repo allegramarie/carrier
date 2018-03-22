@@ -7,25 +7,17 @@ const initialState = {
 export default function addContact(state = initialState, action) {
   switch (action.type) {
     case ADD_CONTACT:
-      return [
-        ...state,
-        //action.payload // Using this assumes a fully formed campaign object is the payload.
-        {
-          id: action.payload.id,
-          name: action.payload.name,
-          email: action.payload.email
-          // Fill this in with a S3 URI later
-        }
-      ];
+      return;
+      //action.payload // Using this assumes a fully formed campaign object is the payload.
+      {
+        contacts: action.payload;
+        // Fill this in with a S3 URI later
+      }
     case GET_CONTACTS:
-      return [
-        ...state,
-        {
-          id: action.payload.id,
-          name: action.payload.name,
-          email: action.payload.email
-        }
-      ];
+      return;
+      {
+        contacts: action.payload;
+      }
 
     default:
       return state;

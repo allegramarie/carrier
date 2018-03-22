@@ -17,12 +17,9 @@ import PrivateRoute from "../PrivateRoute";
 import { getCampaigns, getContacts } from "../actions";
 
 class App extends Component {
-  componentWillMount() {
-    this.props.dispatch(getCampaigns(this.props.user.user[0].id));
-  }
   componentDidMount() {
-    console.log(this.props);
-    this.props.dispatch(getCampaigns(this.props.user.user[0].id));
+    console.log("props in app", this.props);
+    this.props.dispatch(getCampaigns(this.props.user.user.id));
     // this.props.dispatch(getContacts())
   }
 

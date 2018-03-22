@@ -54,16 +54,15 @@ export function newUser(user) {
   };
 }
 
-export function getCampaigns(fromID) {
+export function getCampaigns(userID) {
   return function(dispatch) {
     axios
       .get("/campaigns", {
         params: {
-          fromID: fromID
+          userID: userID
         }
       })
       .then(response => {
-        console.log("Response from get campaigns", response.data.rows);
         dispatch({ type: types.GET_CAMPAIGNS, payload: response.data.rows });
       })
       .catch(err => {

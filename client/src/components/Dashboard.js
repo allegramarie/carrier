@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Header, Article, Section, Heading, Split, Box } from "grommet";
 import Sidebar from "./Sidebar";
 import CampaignTable from "./CampaignTable";
+import { connect } from "react-redux";
 
 const campaigns = [
   {
@@ -40,7 +41,7 @@ class Dashboard extends Component {
                     Campaigns
                   </Heading>
                 </Header>
-                <CampaignTable campaigns={campaigns} />
+                <CampaignTable />
               </Section>
             </Article>
           </Box>
@@ -50,4 +51,11 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    campaigns: state.campaigns
+  };
+}
+
+export default connect(mapStateToProps)(Dashboard);

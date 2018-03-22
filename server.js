@@ -41,9 +41,7 @@ app.post("/send", (request, response) => {
 });
 
 app.get("/campaigns", (request, response) => {
-  console.log("Getting user campaigns in the server", request.query.fromID);
-  db.getUserCampaigns(request.query.fromID, data => {
-    console.log(data);
+  db.getUserCampaigns(request.query.userID, data => {
     response.send(data);
   });
 });

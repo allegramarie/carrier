@@ -48,12 +48,11 @@ const checkUserExists = function(input, callback) {
 
 const getUserCampaigns = function(input, callback) {
   pool.query(
-    `Select * from campaigns where fromID = '${input}'`,
+    `Select * from campaigns where userID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("User campaign results", results);
         callback(results);
       }
     }
