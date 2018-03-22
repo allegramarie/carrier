@@ -47,7 +47,7 @@ class CampaignTable extends React.Component {
             <tr>
               <th>Status</th>
               <th>Name</th>
-              <th>Groups</th>
+              <th>Subject</th>
             </tr>
           </thead>
           <tbody

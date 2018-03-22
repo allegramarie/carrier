@@ -20,7 +20,6 @@ class App extends Component {
   componentDidMount() {
     console.log("props in app", this.props);
     this.props.dispatch(getCampaigns(this.props.user.user.id));
-    // this.props.dispatch(getContacts())
   }
 
   render() {
