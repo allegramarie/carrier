@@ -26,6 +26,9 @@ const Auth = {
   },
   initialize() {
     this.token = localStorage.getItem("auth");
+    if (this.token && this.token !== "") {
+      this.isAuthenticated = true;
+    }
   },
   logout() {
     axios.post("/logout", { token: this.token });

@@ -10,16 +10,10 @@ let app = express();
 app.use(bodyParser.json());
 // Parse forms as well
 app.use(bodyParser.urlencoded({ extended: true }));
-
 // Provides access to user sessions via `request.session`
 app.use(auth.attachSession);
-
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
-
-app.get("/", (request, response) => {
-  response.send("Hello");
-});
 
 app.get("/checkUser", (request, response) => {
   db.checkUserExists(request.body, data => {
@@ -81,8 +75,6 @@ app.post("/newContact", (request, response) => {
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;
-  console.log("In login");
-  console.log(username, password);
   // Change this function when database check is implemented
   auth.validateUserLogin(username, password).then(isValid => {
     // If credentials are valid, generate a new token and return it.

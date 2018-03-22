@@ -39,11 +39,23 @@ const attachSession = (request, response, next) => {
   next();
 };
 
+// Routes with this middleware will require a token be sent with request.
+const protect = (request, response, next) => {
+  // If the session exists, check that it's valid.
+  const authenticated = request.session ? true : false;
+  if (authenticated) {
+    next();
+  } else {
+    response.status(401).send({ authenticated });
+  }
+};
+
 module.exports = {
   genToken,
   getSession,
   sessions,
   attachSession,
   validateUserLogin,
-  setSession
+  setSession,
+  protect
 };
