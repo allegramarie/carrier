@@ -14,7 +14,6 @@ class Dashboard extends Component {
     return (
       <div>
         <Split flex="right" separator={false} fixed={false}>
-          <Sidebar />
           <Box justify="center" align="start" pad="medium">
             <Article ref="content" pad="none">
               <Section key="utilization" pad="medium" full="horizontal">
