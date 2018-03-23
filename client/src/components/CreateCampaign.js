@@ -26,6 +26,8 @@ import test2 from "./test2.json";
 import custom from "./custom.json";
 import thunk from "redux-thunk";
 import { connect } from "react-redux";
+import axios from "axios";
+// import config from "./config.js";
 
 class CreateCampaign extends Component {
   constructor(props) {
@@ -46,23 +48,66 @@ class CreateCampaign extends Component {
         { name: "Alex", email: "alex@alex.com" },
         { name: "Yuyu", email: "yuyu@yuyu.com" }
       ],
+      subject: null,
+      nameInput: "",
+      emailInput: "",
+      contactInfo: [],
+      sendgridEmails: [],
       themes: [
         { themeName: "custom" },
         { themeName: "test" },
         { themeName: "test2" }
       ],
-      content: "",
-      popup: false,
-      text: ""
+      popup: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
+    this.handleName = this.handleName.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handleSubject = this.handleSubject.bind(this);
+    this.handleCampaignName = this.handleCampaignName.bind(this);
   }
 
   handleChange(value) {
     this.setState({ text: value });
+  }
+  handleCampaignName(e) {
+    this.setState({
+      campaignName: e.target.value
+    });
+  }
+
+  handleName(e) {
+    this.setState({
+      nameInput: e.target.value
+    });
+  }
+  handleEmail(e) {
+    this.setState({
+      emailInput: e.target.value
+    });
+  }
+
+  handleSubject(e) {
+    this.setState({
+      subject: e.target.value
+    });
+  }
+
+  handleClick() {
+    this.setState({
+      contactInfo: [
+        ...this.state.contactInfo,
+        { name: this.state.nameInput, email: this.state.emailInput }
+      ],
+      sendgridEmails: [...this.state.sendgridEmails, this.state.emailInput],
+      emailInput: "",
+      nameInput: ""
+    });
+    console.log(this.state.item, "in onClick");
   }
 
   render() {
@@ -92,7 +137,23 @@ class CreateCampaign extends Component {
                     label="Campaign Name"
                     style={{ width: "70%", height: "70%" }}
                   >
-                    <TextInput />
+                    <TextInput
+                      placeHolder={this.state.campaignName}
+                      onDOMChange={e => {
+                        this.handleCampaignName(e);
+                      }}
+                    />
+                  </FormField>
+                  <FormField
+                    label="Subject"
+                    style={{ width: "70%", height: "70%" }}
+                  >
+                    <TextInput
+                      placeHolder={this.state.subject}
+                      onDOMChange={e => {
+                        this.handleSubject(e);
+                      }}
+                    />
                   </FormField>
                   <FormField
                     label="Campaign Subject"
@@ -105,20 +166,31 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-                      onKeyPress={event => {
-                        if (event.key === "Enter")
-                          this.state.contactInfo.push({
-                            name: "test",
-                            email: "testing"
-                          });
+                      // placeHolder={this.state.nameInput}
+                      onDOMChange={e => {
+                        this.handleName(e);
                       }}
+                      placeHolder={this.state.nameInput}
+                      // onKeyPress={event => {
+                      //   if (event.key === "Enter")
+                      //     this.state.contactInfo.push({
+                      //       name: "test",
+                      //       email: "testing"
+                      //     });
+                      // }}
                     />
                   </FormField>
                   <FormField
                     label="Add Contact Email"
                     style={{ width: "70%", height: "70%" }}
                   >
-                    <TextInput />
+                    <TextInput
+                      // placeHolder={this.state.emailInput}
+                      onDOMChange={e => {
+                        this.handleEmail(e);
+                      }}
+                      defaultValue={this.state.emailInput}
+                    />
                   </FormField>
                   <p />
 
@@ -131,6 +203,16 @@ class CreateCampaign extends Component {
                 </FormField>*/}
                 </Form>
                 <Box align="start">
+                  <Button
+                    label="Save Contact"
+                    type="submit"
+                    primary={true}
+                    style={{ marginRight: "15%" }}
+                    onClick={() => {
+                      this.handleClick();
+                    }}
+                  />
+                  <p />
                   <Button
                     label="Save Campaign"
                     type="submit"
@@ -187,12 +269,12 @@ class CreateCampaign extends Component {
               </Section>
             </Article>
             <div style={{ borderStyle: "solid", borderRadius: "1%" }}>
-              {/*        <ReactQuill 
+              {/*        <ReactQuill
 
             value={this.state.text}
-            onChange={this.handleChange} 
+            onChange={this.handleChange}
             theme="snow"
-            style={{width: '50%', height: '600px', position: 'absolute', marginRight: '70px', 
+            style={{width: '50%', height: '600px', position: 'absolute', marginRight: '70px',
                     marginBottom: '100px', top: '0px', right: '0px', marginTop: '10%'
 
             }}
@@ -206,7 +288,7 @@ class CreateCampaign extends Component {
               </div>
 
               <div style={{ position: "absolute", right: "0px" }}>
-                <button onClick={this.exportHtml}>Export HTML</button>
+                <button onClick={this.exportHtml}>Send Email</button>
                 <button onClick={this.saveDesign}>Save Template</button>
               </div>
             </div>
@@ -218,7 +300,24 @@ class CreateCampaign extends Component {
   exportHtml = () => {
     this.editor.exportHtml(data => {
       const { design, html } = data;
-      console.log("exportHtml", html);
+      // console.log("exportHtml", html);
+      var a = html;
+      var result = a
+        .replace(/>\s+|\s+</g, function(m) {
+          return m.trim();
+        })
+        .replace(/(\r\n|\n|\r)/gm, " ");
+      console.log(result);
+      //minify, escape double quotes, and remove line breaks
+      // var b = a.replace(/\s{2,}/g, '').replace(/\'/g, '"').replace(/(\r\n|\n|\r)/gm,"")
+      // var escaper = b.replace(/\"/g,"\\\"");
+      // console.log(escaper)
+
+      axios.post("/exportHTML", {
+        data: a,
+        sendgridEmails: this.state.sendgridEmails,
+        subject: this.state.subject
+      });
     });
   };
 
