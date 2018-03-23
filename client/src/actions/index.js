@@ -6,7 +6,6 @@ import axios from "axios";
 //export const deleteTodo = id => ({ type: types.DELETE_CAMPAIGN, id, //other info })
 
 export function addCampaign(name, status, subject, userID) {
-  console.log("sent to new campaign", name, status, subject, userID);
   return function(dispatch) {
     axios
       .post("/newCampaign", {

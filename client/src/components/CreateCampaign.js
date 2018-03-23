@@ -74,7 +74,6 @@ class CreateCampaign extends Component {
   }
 
   handleClick(value) {
-    console.log("When is this run?", this.props.user.user.id);
     this.props.dispatch(
       addCampaign(
         this.state.campaignName,
