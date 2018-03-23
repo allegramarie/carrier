@@ -57,6 +57,7 @@ class Campaigns extends Component {
     //   "getting props within contacts",
     //   nextProps.contacts.contacts
     // );
+    this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
   componentDidMount() {
@@ -65,7 +66,6 @@ class Campaigns extends Component {
   }
 
   handleClick() {
-    console.log("clicked!");
     this.props.dispatch(
       addContact(
         this.state.nameInput,
@@ -73,14 +73,18 @@ class Campaigns extends Component {
         this.props.match.params.id
       )
     );
-    this.setState({
-      // this.state.item.concat({name: this.state.nameInput,email: this.state.emailInput})
-      // [...this.state.myArray, ...[1,2,3] ]
-      emailInput: "",
-      nameInput: ""
-      // show: true
-    });
-    console.log(this.state.nameInput, "in onClick");
+    this.setState(
+      {
+        // this.state.item.concat({name: this.state.nameInput,email: this.state.emailInput})
+        // [...this.state.myArray, ...[1,2,3] ]
+        emailInput: "",
+        nameInput: ""
+        // show: true
+      },
+      function() {
+        // console.log('reached!', this.state)
+      }
+    );
   }
   handleName(e) {
     this.setState({
@@ -184,12 +188,14 @@ class Campaigns extends Component {
             </Header>
             <FormFields>
               <TextInput
+                value={this.state.nameInput}
                 onDOMChange={e => {
                   this.handleName(e);
                 }}
                 placeHolder="Name"
               />
               <TextInput
+                value={this.state.emailInput}
                 onDOMChange={e => {
                   this.handleEmail(e);
                 }}

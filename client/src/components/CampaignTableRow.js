@@ -4,7 +4,7 @@ import { TableRow } from "grommet";
 const CampaignTableRow = props => (
   <TableRow
     onClick={() => {
-      props.handleClick(props.campaign.id);
+      props.handleClick(props.campaign.id, props.campaign.status);
     }}
   >
     <td>{props.campaign.status}</td>

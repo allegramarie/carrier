@@ -107,7 +107,7 @@ const addNewCampaign = function(input, callback) {
 const campaignContacts = function(input, callback) {
   console.log(input);
   pool.query(
-    `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = campaignContacts.id WHERE campaignContacts.campaignid = '${input}'`,
+    `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);

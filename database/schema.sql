@@ -24,8 +24,7 @@ userID integer REFERENCES users(id)
 CREATE TABLE contacts (
 id SERIAL PRIMARY KEY,
 name varchar(100) NOT NULL,
-email varchar(100) NOT NULL,
-UNIQUE (EMAIL)
+email varchar(100) NOT NULL
 );
 
 CREATE TABLE campaignContacts (

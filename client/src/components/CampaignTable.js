@@ -24,11 +24,13 @@ class CampaignTable extends React.Component {
     // );
   }
 
-  handleClick(id) {
-    this.setState({
-      show: true,
-      id: id
-    });
+  handleClick(id, status) {
+    if (status !== "Sent") {
+      this.setState({
+        show: true,
+        id: id
+      });
+    }
     // this.props.history.push("path/to/push");
     // return (<Redirect to="/campaigns"/>)
   }

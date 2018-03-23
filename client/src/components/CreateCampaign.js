@@ -24,12 +24,15 @@ import EmailEditor from "react-email-editor";
 import test from "./test.json";
 import test2 from "./test2.json";
 import custom from "./custom.json";
+import thunk from "redux-thunk";
+import { connect } from "react-redux";
 
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
       campaignName: null,
+      campaignSubject: null,
       contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
       contactEmail: [
         "eric@eric.com",
@@ -87,6 +90,12 @@ class CreateCampaign extends Component {
                 <Form>
                   <FormField
                     label="Campaign Name"
+                    style={{ width: "70%", height: "70%" }}
+                  >
+                    <TextInput />
+                  </FormField>
+                  <FormField
+                    label="Campaign Subject"
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput />
@@ -252,4 +261,11 @@ class CreateCampaign extends Component {
   // setTimeout(function(){this.onLoad()}, 3000)
 }
 
-export default CreateCampaign;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    contacts: state.contacts
+  };
+}
+
+export default connect(mapStateToProps)(CreateCampaign);
