@@ -121,27 +121,7 @@ class CreateCampaign extends Component {
                     <TextInput />
                   </FormField>
                   <p />
-                  <Select
-                    placeHolder="All Contacts"
-                    inline={false}
-                    multiple={false}
-                    onSearch={false}
-                    options={this.state.contactInfo.map(function(info, key) {
-                      return {
-                        value: info.name,
-                        sub: info.email,
-                        label: (
-                          <Box direction="row" justify="start">
-                            <span>{info.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="secondary">
-                              {info.email}
-                            </span>
-                          </Box>
-                        )
-                      };
-                    })}
-                    value={undefined}
-                    onChange={() => {}}
-                  />
+
                   <p />
                   {/*                <FormField
                   label="Email Content"
