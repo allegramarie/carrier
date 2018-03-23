@@ -58,7 +58,7 @@ class Campaigns extends Component {
     //   "getting props within contacts",
     //   nextProps.contacts.contacts
     // );
-    this.props.dispatch(getContacts(this.props.match.params.id));
+    // this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
   componentDidMount() {

@@ -2,13 +2,21 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
+// const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
+
 const pool = new Pool({
-  host: config.host,
-  //   // connectionString: process.env.DATABASE_URL,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database
+  host: "localhost",
+  // connectionString: process.env.DATABASE_URL,
+  user: "",
+  password: "",
+  database: "mail"
 });
 
 const addNewUser = function(input, callback) {
@@ -53,11 +61,8 @@ const getUserCampaigns = function(input, callback) {
 };
 
 const addNewContact = function(name, email, callback) {
-  console.log("inside new contact", name, email);
   pool.query(
-    `insert into contacts (name, email) values ('${input.name}', '${
-      input.email
-    }');`,
+    `insert into contacts (name, email) values ('${name}', '${email}') returning id;`,
     (err, results) => {
       if (err) {
         console.log(err);

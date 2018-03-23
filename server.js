@@ -85,7 +85,6 @@ app.get("/campaignContacts", (request, response) => {
 });
 
 app.post("/newContact", (request, response) => {
-  console.log("adding a new contact", request.body);
   var campaign = request.body.campaign;
   db.addNewContact(request.body.name, request.body.email, data => {
     console.log("contact id", data.rows[0].id, "campaign", campaign);

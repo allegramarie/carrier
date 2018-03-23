@@ -92,6 +92,7 @@ export function getContacts(id) {
 }
 
 export function addContact(name, email, campaign) {
+  console.log("within add contact,", name, email, campaign);
   return function(dispatch) {
     axios
       .post("/newContact", {

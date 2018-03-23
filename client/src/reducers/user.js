@@ -3,8 +3,8 @@ import { ADD_USER } from "../constants";
 const initialState = {
   user: {
     id: 1,
-    name: "allegra",
-    email: "postgres"
+    email: "allegra",
+    password: "postgres"
   }
 };
 
