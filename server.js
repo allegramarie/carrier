@@ -61,10 +61,12 @@ app.get("/campaignContacts", (request, response) => {
 });
 
 app.post("/newContact", (request, response) => {
-  var campaign = request.body.campaignID;
-  db.addNewContact(request.body, data => {
-    db.createCampaignContact(campaign, data, res => {
-      console.log(res);
+  console.log("adding a new contact", request.body);
+  var campaign = request.body.campaign;
+  db.addNewContact(request.body.name, request.body.email, data => {
+    console.log("contact id", data.rows[0].id, "campaign", campaign);
+    db.createCampaignContact(campaign, data.rows[0].id, res => {
+      console.log("response from add", res);
       response.send(res);
     });
   });

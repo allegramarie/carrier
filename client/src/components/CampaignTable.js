@@ -11,34 +11,32 @@ class CampaignTable extends React.Component {
     super(props);
     this.state = {
       show: false,
-      campaigns: []
+      campaigns: [],
+      id: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(
-      "getting props within campaign table",
-      nextProps.campaigns.campaigns
-    );
-    this.setState({
-      campaigns: nextProps.campaigns.campaigns
-    });
+    // console.log(
+    //   "getting props within campaign table",
+    //   nextProps.campaigns.campaigns
+    // );
   }
 
-  handleClick() {
-    // console.log('here')
+  handleClick(id) {
     this.setState({
-      show: true
+      show: true,
+      id: id
     });
     // this.props.history.push("path/to/push");
     // return (<Redirect to="/campaigns"/>)
   }
   render() {
     if (this.state.show === true) {
-      return <Redirect to="/campaigns" />;
+      return <Redirect to={`/campaigns/${this.state.id}`} />;
     }
-    if (!this.state.campaigns[0]) {
+    if (!this.props.campaigns.campaigns[0]) {
       return <Spinning />;
     } else {
       return (
@@ -50,13 +48,13 @@ class CampaignTable extends React.Component {
               <th>Subject</th>
             </tr>
           </thead>
-          <tbody
-            onClick={() => {
-              this.handleClick();
-            }}
-          >
-            {this.state.campaigns.map((campaign, index) => (
-              <CampaignTableRow campaign={campaign} key={index} />
+          <tbody>
+            {this.props.campaigns.campaigns.map((campaign, index) => (
+              <CampaignTableRow
+                handleClick={this.handleClick}
+                campaign={campaign}
+                key={index}
+              />
             ))}
           </tbody>
         </Table>

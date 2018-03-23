@@ -72,7 +72,6 @@ export function getCampaigns(userID) {
 }
 
 export function getContacts(id) {
-  console.log("inside getContacts for user id:", id);
   return function(dispatch) {
     axios
       .get("/campaignContacts", {
@@ -89,11 +88,13 @@ export function getContacts(id) {
   };
 }
 
-export function addContact(data) {
+export function addContact(name, email, campaign) {
   return function(dispatch) {
     axios
       .post("/newContact", {
-        data: data
+        name: name,
+        email: email,
+        campaign: campaign
       })
       .then(response => {
         dispatch({ type: types.ADD_CONTACT, payload: response.data });

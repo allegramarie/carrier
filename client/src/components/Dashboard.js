@@ -4,24 +4,6 @@ import Sidebar from "./Sidebar";
 import CampaignTable from "./CampaignTable";
 import { connect } from "react-redux";
 
-const campaigns = [
-  {
-    status: "active",
-    name: "My Cooking Newsletter #4",
-    groups: ["PTA", "Baking Club"]
-  },
-  {
-    status: "draft",
-    name: "SaaS Platform Mailer",
-    groups: ["Tech Nerds", "MailChimp"]
-  },
-  {
-    status: "draft",
-    name: "CarrierPigeon Platform Advert",
-    groups: ["Impressed Recruiters"]
-  }
-];
-
 class Dashboard extends Component {
   constructor(props) {
     super(props);

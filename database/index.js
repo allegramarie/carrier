@@ -59,11 +59,10 @@ const getUserCampaigns = function(input, callback) {
   );
 };
 
-const addNewContact = function(input, callback) {
+const addNewContact = function(name, email, callback) {
+  console.log("inside new contact", name, email);
   pool.query(
-    `insert into contacts (name, email) values ('${input.name}', '${
-      input.email
-    }';`,
+    `insert into contacts (name, email) values ('${name}', '${email}') RETURNING id;`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -75,10 +74,9 @@ const addNewContact = function(input, callback) {
 };
 
 const createCampaignContact = function(campaign, contact, callback) {
+  console.log("Data for join,", campaign, contact);
   pool.query(
-    `insert into campaignContacts where campaignID = '${
-      input.id
-    }' (contactID) values ('${results.id}')`,
+    `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -107,13 +105,14 @@ const addNewCampaign = function(input, callback) {
 };
 
 const campaignContacts = function(input, callback) {
+  console.log(input);
   pool.query(
-    `select contactID from campaignContacts where campaignID ='${input}'`,
+    `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = campaignContacts.id WHERE campaignContacts.campaignid = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        callback(results);
+        callback(results.rows);
       }
     }
   );
@@ -139,5 +138,7 @@ module.exports = {
   addNewContact,
   getUserCampaigns,
   checkUserExists,
-  addNewUser
+  addNewUser,
+  campaignContacts,
+  createCampaignContact
 };

@@ -3,8 +3,8 @@ import { TableRow } from "grommet";
 
 const Recipients = props => (
   <TableRow>
-    <td>{props.items.name}</td>
-    <td>{props.items.email}</td>
+    <td>{props.contact.name}</td>
+    <td>{props.contact.email}</td>
   </TableRow>
 );
 

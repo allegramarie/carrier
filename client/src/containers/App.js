@@ -18,7 +18,6 @@ import { getCampaigns, getContacts } from "../actions";
 
 class App extends Component {
   componentDidMount() {
-    console.log("props in app", this.props);
     this.props.dispatch(getCampaigns(this.props.user.user.id));
   }
 
@@ -31,7 +30,7 @@ class App extends Component {
           <Route path="/signup" component={Signup} />
           <PrivateRoute path="/profile" component={Profile} />
           <Route path="/createCampaign" component={CreateCampaign} />
-          <Route path="/campaigns" component={Campaigns} />
+          <Route path="/campaigns/:id" component={Campaigns} />
           <Route path="/drop" component={Drop} />
           {/* about page -- default for unauthenticated arrivals */}
         </Switch>
@@ -40,10 +39,12 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  campaigns: state.campaigns,
-  user: state.user,
-  contacts: state.contacts
-});
+function mapStateToProps(state) {
+  return {
+    campaigns: state.campaigns,
+    user: state.user,
+    contacts: state.contacts
+  };
+}
 
 export default withRouter(connect(mapStateToProps)(App));
