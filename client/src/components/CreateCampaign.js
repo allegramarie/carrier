@@ -32,36 +32,64 @@ class CreateCampaign extends Component {
     super(props);
     this.state = {
       campaignName: null,
-      contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
-      contactEmail: [
-        "eric@eric.com",
-        "allegra@allegra.com",
-        "alex.com",
-        "yuyu@yuyu.com"
-      ],
-      contactInfo: [
-        { name: "Eric", email: "eric@eric.com" },
-        { name: "Allegra", email: "allegra@allegra.com" },
-        { name: "Alex", email: "alex@alex.com" },
-        { name: "Yuyu", email: "yuyu@yuyu.com" }
-      ],
+      subject: null,
+      nameInput: "",
+      emailInput: "",
+      contactInfo: [],
+      sendgridEmails: [],
       themes: [
         { themeName: "custom" },
         { themeName: "test" },
         { themeName: "test2" }
       ],
-      content: "",
-      popup: false,
-      text: ""
+      popup: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
+    this.handleName = this.handleName.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
   }
 
   handleChange(value) {
     this.setState({ text: value });
+  }
+  handleCampaignName(e) {
+    this.setState({
+      campaignName: e.target.value
+    });
+  }
+
+  handleName(e) {
+    this.setState({
+      nameInput: e.target.value
+    });
+  }
+  handleEmail(e) {
+    this.setState({
+      emailInput: e.target.value
+    });
+  }
+
+  handleSubject(e) {
+    this.setState({
+      subject: e.target.value
+    });
+  }
+
+  handleClick() {
+    this.setState({
+      contactInfo: [
+        ...this.state.contactInfo,
+        { name: this.state.nameInput, email: this.state.emailInput }
+      ],
+      sendgridEmails: [...this.state.sendgridEmails, this.state.emailInput],
+      emailInput: "",
+      nameInput: ""
+    });
+    console.log(this.state.item, "in onClick");
   }
 
   render() {
@@ -91,27 +119,52 @@ class CreateCampaign extends Component {
                     label="Campaign Name"
                     style={{ width: "70%", height: "70%" }}
                   >
-                    <TextInput />
+                    <TextInput
+                      placeHolder={this.state.campaignName}
+                      onDOMChange={e => {
+                        this.handleCampaignName(e);
+                      }}
+                    />
+                  </FormField>
+                  <FormField
+                    label="Subject"
+                    style={{ width: "70%", height: "70%" }}
+                  >
+                    <TextInput
+                      placeHolder={this.state.subject}
+                      onDOMChange={e => {
+                        this.handleSubject(e);
+                      }}
+                    />
                   </FormField>
                   <FormField
                     label="Add Contact Name"
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-                      onKeyPress={event => {
-                        if (event.key === "Enter")
-                          this.state.contactInfo.push({
-                            name: "test",
-                            email: "testing"
-                          });
+                      placeHolder={this.state.nameInput}
+                      onDOMChange={e => {
+                        this.handleName(e);
                       }}
+                      // onKeyPress={event => {
+                      //   if (event.key === "Enter")
+                      //     this.state.contactInfo.push({
+                      //       name: "test",
+                      //       email: "testing"
+                      //     });
+                      // }}
                     />
                   </FormField>
                   <FormField
                     label="Add Contact Email"
                     style={{ width: "70%", height: "70%" }}
                   >
-                    <TextInput />
+                    <TextInput
+                      placeHolder={this.state.emailInput}
+                      onDOMChange={e => {
+                        this.handleEmail(e);
+                      }}
+                    />
                   </FormField>
                   <p />
                   <Select
@@ -144,6 +197,16 @@ class CreateCampaign extends Component {
                 </FormField>*/}
                 </Form>
                 <Box align="start">
+                  <Button
+                    label="Save Contact"
+                    type="submit"
+                    primary={true}
+                    style={{ marginRight: "15%" }}
+                    onClick={() => {
+                      this.handleClick();
+                    }}
+                  />
+                  <p />
                   <Button
                     label="Save Campaign"
                     type="submit"
@@ -219,7 +282,7 @@ class CreateCampaign extends Component {
               </div>
 
               <div style={{ position: "absolute", right: "0px" }}>
-                <button onClick={this.exportHtml}>Export HTML</button>
+                <button onClick={this.exportHtml}>Send Email</button>
                 <button onClick={this.saveDesign}>Save Template</button>
               </div>
             </div>
@@ -244,7 +307,11 @@ class CreateCampaign extends Component {
       // var escaper = b.replace(/\"/g,"\\\"");
       // console.log(escaper)
 
-      axios.post("/exportHTML", { data: a });
+      axios.post("/exportHTML", {
+        data: a,
+        contactInfo: this.state.sendgridEmails,
+        subject: this.state.subject
+      });
     });
   };
 

@@ -25,6 +25,7 @@ app.use(express.static(__dirname + "/client/build"));
 app.post("/exportHTML", (req, res) => {
   console.log("getting frustrated");
   console.log(req.body.data);
+  var abc = req.body.data;
   // var b = req.body.data.replace(/\s{2,}/g, '').replace(/\'/g, '').replace(/(\r\n|\n|\r)/gm,"")
   // var escaper = b.replace(/\"/g,"\\\"");
   // console.log(escaper)
@@ -87,10 +88,10 @@ app.post("/exportHTML", (req, res) => {
 
   sgMail.setApiKey(`${config.TOKEN}`);
   const msg = {
-    to: ["eshum89@gmail.com", "yu_qing630@yahoo.com"],
+    to: req.body.contactInfo,
     from: "test@example.com",
-    subject: "Sending with SendGrid is Fun",
-    html: req.body.data
+    subject: req.body.subject,
+    html: abc
   };
   sgMail.sendMultiple(msg);
   res.send(req.data);
