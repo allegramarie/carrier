@@ -1,22 +1,22 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
 
-// const pool = new Pool({
-//   host: "thesis-project.coxryxwvinqh.us-east-1.rds.amazonaws.com",
-//   // connectionString: process.env.DATABASE_URL,
-//   port: 5432,
-//   user: "thesis",
-//   password: "thesis123",
-//   database: "mail"
-// });
-
 const pool = new Pool({
-  host: "localhost",
+  host: "thesis-project.coxryxwvinqh.us-east-1.rds.amazonaws.com",
   // connectionString: process.env.DATABASE_URL,
-  user: "",
-  password: "",
+  port: 5432,
+  user: "thesis",
+  password: "thesis123",
   database: "mail"
 });
+
+// const pool = new Pool({
+//   host: "localhost",
+//   // connectionString: process.env.DATABASE_URL,
+//   user: "",
+//   password: "",
+//   database: "mail"
+// });
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -64,7 +64,24 @@ const addNewContact = function(input, callback) {
   pool.query(
     `insert into contacts (name, email) values ('${input.name}', '${
       input.email
-    }';`,
+    }');`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewContactEmail = function(input, callback) {
+  console.log(input.name);
+  console.log(input.email);
+  pool.query(
+    `insert into contacts (name, email) values ('${input.name}', '${
+      input.email
+    }');`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -140,5 +157,6 @@ module.exports = {
   addNewContact,
   getUserCampaigns,
   checkUserExists,
-  addNewUser
+  addNewUser,
+  addNewContactEmail
 };

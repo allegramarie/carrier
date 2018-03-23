@@ -88,7 +88,7 @@ app.post("/exportHTML", (req, res) => {
 
   sgMail.setApiKey(`${config.TOKEN}`);
   const msg = {
-    to: req.body.contactInfo,
+    to: req.body.sendgridEmails,
     from: "test@example.com",
     subject: req.body.subject,
     html: abc
@@ -156,6 +156,15 @@ app.post("/newContact", (request, response) => {
       response.send(res);
     });
   });
+});
+
+app.post("/saveContactEmail", (request, response) => {
+  var email = request.body;
+  console.log("gooogoogaagaaa", email);
+  email.map(function(a) {
+    db.addNewContactEmail(a, data => {});
+  });
+  // response.send()
 });
 
 // AUTH ROUTES

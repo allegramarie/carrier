@@ -51,6 +51,8 @@ class CreateCampaign extends Component {
     this.handleName = this.handleName.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
+    this.handleSubject = this.handleSubject.bind(this);
+    this.handleCampaignName = this.handleCampaignName.bind(this);
   }
 
   handleChange(value) {
@@ -89,6 +91,9 @@ class CreateCampaign extends Component {
       emailInput: "",
       nameInput: ""
     });
+
+    axios.post("/saveContactEmail", this.state.contactInfo);
+
     console.log(this.state.item, "in onClick");
   }
 
@@ -142,10 +147,11 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-                      placeHolder={this.state.nameInput}
+                      // placeHolder={this.state.nameInput}
                       onDOMChange={e => {
                         this.handleName(e);
                       }}
+                      placeHolder={this.state.nameInput}
                       // onKeyPress={event => {
                       //   if (event.key === "Enter")
                       //     this.state.contactInfo.push({
@@ -160,10 +166,11 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-                      placeHolder={this.state.emailInput}
+                      // placeHolder={this.state.emailInput}
                       onDOMChange={e => {
                         this.handleEmail(e);
                       }}
+                      defaultValue={this.state.emailInput}
                     />
                   </FormField>
                   <p />
@@ -309,7 +316,7 @@ class CreateCampaign extends Component {
 
       axios.post("/exportHTML", {
         data: a,
-        contactInfo: this.state.sendgridEmails,
+        sendgridEmails: this.state.sendgridEmails,
         subject: this.state.subject
       });
     });
