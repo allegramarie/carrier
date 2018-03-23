@@ -18,6 +18,8 @@ status varchar(100) NOT NULL,
 templateURL varchar(1000) NOT NULL,
 subject varchar(500) NOT NULL,
 content varchar(500) NOT NULL,
+fromID varchar(100) NOT NULL,
+content json NOT NULL,
 userID integer REFERENCES users(id)
 );
 

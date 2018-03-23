@@ -27,27 +27,12 @@ import custom from "./custom.json";
 import thunk from "redux-thunk";
 import { connect } from "react-redux";
 import axios from "axios";
-// import config from "./config.js";
 
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
       campaignName: null,
-      campaignSubject: null,
-      contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
-      contactEmail: [
-        "eric@eric.com",
-        "allegra@allegra.com",
-        "alex.com",
-        "yuyu@yuyu.com"
-      ],
-      contactInfo: [
-        { name: "Eric", email: "eric@eric.com" },
-        { name: "Allegra", email: "allegra@allegra.com" },
-        { name: "Alex", email: "alex@alex.com" },
-        { name: "Yuyu", email: "yuyu@yuyu.com" }
-      ],
       subject: null,
       nameInput: "",
       emailInput: "",
@@ -107,6 +92,7 @@ class CreateCampaign extends Component {
       emailInput: "",
       nameInput: ""
     });
+    axios.post("/saveContactEmail", this.state.contactInfo);
     console.log(this.state.item, "in onClick");
   }
 
