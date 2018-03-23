@@ -8,6 +8,7 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const config = require("./config.js");
 const sgMail = require("@sendgrid/mail");
+var minify = require("html-minifier").minify;
 const axios = require("axios");
 
 let app = express();
@@ -20,6 +21,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(auth.attachSession);
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
+
+app.post("/exportHTML", (req, res) => {
+  console.log("getting frustrated");
+  console.log(req.body.data);
+  var abc = req.body.data;
+
+  sgMail.setApiKey(`${config.TOKEN}`);
+  const msg = {
+    to: req.body.sendgridEmails,
+    from: "test@example.com",
+    subject: req.body.subject,
+    html: abc
+  };
+  sgMail.sendMultiple(msg);
+  res.send(req.data);
+});
+
+app.get("/", (request, response) => {
+  response.send("Hello");
+});
 
 app.get("/checkUser", (request, response) => {
   db.checkUserExists(request.body, data => {
@@ -215,6 +236,16 @@ app.post("/exportHTML", (req, res) => {
   sgMail.sendMultiple(msg);
   res.send(req.data);
 });
+
+app.post("/saveContactEmail", (request, response) => {
+  var email = request.body;
+  console.log("gooogoogaagaaa", email);
+  email.map(function(a) {
+    db.addNewContactEmail(a, data => {});
+  });
+  // response.send()
+});
+
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;

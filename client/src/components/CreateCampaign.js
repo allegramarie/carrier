@@ -27,42 +27,25 @@ import custom from "./custom.json";
 import thunk from "redux-thunk";
 import { connect } from "react-redux";
 import axios from "axios";
-// import config from "./config.js";
-import { addCampaign } from "../actions";
 
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      campaignName: "",
-      campaignSubject: "",
-      campaignStatus: "Draft",
-      contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
-      contactEmail: [
-        "eric@eric.com",
-        "allegra@allegra.com",
-        "alex.com",
-        "yuyu@yuyu.com"
-      ],
-      contactInfo: [
-        { name: "Eric", email: "eric@eric.com" },
-        { name: "Allegra", email: "allegra@allegra.com" },
-        { name: "Alex", email: "alex@alex.com" },
-        { name: "Yuyu", email: "yuyu@yuyu.com" }
-      ],
+      campaignName: null,
       subject: null,
       nameInput: "",
       emailInput: "",
       contactInfo: [],
       sendgridEmails: [],
       themes: [
-        { themeName: "Newsletter" },
-        { themeName: "Personal Note" },
-        { themeName: "Event Flyer" }
+        { themeName: "custom" },
+        { themeName: "test" },
+        { themeName: "test2" }
       ],
       popup: false
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
@@ -73,35 +56,8 @@ class CreateCampaign extends Component {
     this.handleCampaignName = this.handleCampaignName.bind(this);
   }
 
-  handleClick(value) {
-    this.props.dispatch(
-      addCampaign(
-        this.state.campaignName,
-        this.state.campaignStatus,
-        this.state.campaignSubject,
-        this.props.user.user.id
-      )
-    );
-    this.setState(
-      {
-        campaignName: "",
-        campaignSubject: ""
-      },
-      function() {
-        console.log("added campaign!", this.state);
-      }
-    );
-  }
-
-  handleName(e) {
-    this.setState({
-      campaignName: e.target.value
-    });
-  }
-  handleSubject(e) {
-    this.setState({
-      campaignSubject: e.target.value
-    });
+  handleChange(value) {
+    this.setState({ text: value });
   }
   handleCampaignName(e) {
     this.setState({
@@ -136,6 +92,7 @@ class CreateCampaign extends Component {
       emailInput: "",
       nameInput: ""
     });
+    axios.post("/saveContactEmail", this.state.contactInfo);
     console.log(this.state.item, "in onClick");
   }
 
@@ -167,7 +124,6 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-<<<<<<< HEAD
                       placeHolder={this.state.campaignName}
                       onDOMChange={e => {
                         this.handleCampaignName(e);
@@ -182,11 +138,6 @@ class CreateCampaign extends Component {
                       placeHolder={this.state.subject}
                       onDOMChange={e => {
                         this.handleSubject(e);
-=======
-                      value={this.state.campaignName}
-                      onDOMChange={e => {
-                        this.handleName(e);
->>>>>>> Create new campaigns works
                       }}
                     />
                   </FormField>
@@ -194,10 +145,16 @@ class CreateCampaign extends Component {
                     label="Campaign Subject"
                     style={{ width: "70%", height: "70%" }}
                   >
+                    <TextInput />
+                  </FormField>
+                  <FormField
+                    label="Add Contact Name"
+                    style={{ width: "70%", height: "70%" }}
+                  >
                     <TextInput
-                      value={this.state.campaignSubject}
+                      // placeHolder={this.state.nameInput}
                       onDOMChange={e => {
-                        this.handleSubject(e);
+                        this.handleName(e);
                       }}
                       placeHolder={this.state.nameInput}
                       // onKeyPress={event => {
@@ -207,6 +164,18 @@ class CreateCampaign extends Component {
                       //       email: "testing"
                       //     });
                       // }}
+                    />
+                  </FormField>
+                  <FormField
+                    label="Add Contact Email"
+                    style={{ width: "70%", height: "70%" }}
+                  >
+                    <TextInput
+                      // placeHolder={this.state.emailInput}
+                      onDOMChange={e => {
+                        this.handleEmail(e);
+                      }}
+                      defaultValue={this.state.emailInput}
                     />
                   </FormField>
                   <p />
@@ -236,7 +205,6 @@ class CreateCampaign extends Component {
                     primary={true}
                     style={{ marginRight: "15%" }}
                     onClick={() => {
-                      this.handleClick();
                       this.setState({ popup: true });
                     }}
                   />

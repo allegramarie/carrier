@@ -17,7 +17,7 @@ name varchar(500) NOT NULL,
 status varchar(100) NOT NULL,
 templateURL varchar(1000),
 subject varchar(500) NOT NULL,
-content varchar(500),
+content json,
 userID integer REFERENCES users(id)
 );
 

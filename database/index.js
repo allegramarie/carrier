@@ -11,15 +11,6 @@ const pool = new Pool({
   database: config.database
 });
 
-// const pool = new Pool({
-//   host: "localhost",
-//   // connectionString: process.env.DATABASE_URL,
-//   user: "yuqingdong",
-//   password: "Gold2424",
-//   port:5432,
-//   database: "mail"
-// });
-
 const addNewUser = function(input, callback) {
   pool.query(
     `insert into users (email, password) values ('${input.email}', '${
@@ -63,6 +54,23 @@ const getUserCampaigns = function(input, callback) {
 
 const addNewContact = function(name, email, callback) {
   console.log("inside new contact", name, email);
+  pool.query(
+    `insert into contacts (name, email) values ('${input.name}', '${
+      input.email
+    }');`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewContactEmail = function(input, callback) {
+  console.log(input.name);
+  console.log(input.email);
   pool.query(
     `insert into contacts (name, email) values ('${input.name}', '${
       input.email
@@ -170,5 +178,6 @@ module.exports = {
   addNewUser,
   campaignContacts,
   createCampaignContact,
-  addContact
+  addContact,
+  addNewContactEmail
 };
