@@ -92,12 +92,11 @@ const createCampaignContact = function(campaign, contact, callback) {
 };
 
 const addNewCampaign = function(input, callback) {
+  console.log("inside new campaign", input);
   pool.query(
-    `insert into campaigns (name, subject, fromID, content, userID) values ('${
+    `insert into campaigns (name, status, subject, userID) values ('${
       input.name
-    }', '${input.subject}', '${input.fromID}', '${input.content}', '${
-      input.userID
-    }');`,
+    }', '${input.status}', '${input.subject}', '${input.userID}');`,
     (err, results) => {
       if (err) {
         console.log(err);

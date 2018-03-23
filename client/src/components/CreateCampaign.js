@@ -28,13 +28,15 @@ import thunk from "redux-thunk";
 import { connect } from "react-redux";
 import axios from "axios";
 // import config from "./config.js";
+import { addCampaign } from "../actions";
 
 class CreateCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      campaignName: null,
-      campaignSubject: null,
+      campaignName: "",
+      campaignSubject: "",
+      campaignStatus: "Draft",
       contactName: ["Eric", "Allegra", "Alex", "Yuyu"],
       contactEmail: [
         "eric@eric.com",
@@ -54,13 +56,13 @@ class CreateCampaign extends Component {
       contactInfo: [],
       sendgridEmails: [],
       themes: [
-        { themeName: "custom" },
-        { themeName: "test" },
-        { themeName: "test2" }
+        { themeName: "Newsletter" },
+        { themeName: "Personal Note" },
+        { themeName: "Event Flyer" }
       ],
       popup: false
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
@@ -71,8 +73,36 @@ class CreateCampaign extends Component {
     this.handleCampaignName = this.handleCampaignName.bind(this);
   }
 
-  handleChange(value) {
-    this.setState({ text: value });
+  handleClick(value) {
+    console.log("When is this run?", this.props.user.user.id);
+    this.props.dispatch(
+      addCampaign(
+        this.state.campaignName,
+        this.state.campaignStatus,
+        this.state.campaignSubject,
+        this.props.user.user.id
+      )
+    );
+    this.setState(
+      {
+        campaignName: "",
+        campaignSubject: ""
+      },
+      function() {
+        console.log("added campaign!", this.state);
+      }
+    );
+  }
+
+  handleName(e) {
+    this.setState({
+      campaignName: e.target.value
+    });
+  }
+  handleSubject(e) {
+    this.setState({
+      campaignSubject: e.target.value
+    });
   }
   handleCampaignName(e) {
     this.setState({
@@ -138,6 +168,7 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
+<<<<<<< HEAD
                       placeHolder={this.state.campaignName}
                       onDOMChange={e => {
                         this.handleCampaignName(e);
@@ -152,6 +183,11 @@ class CreateCampaign extends Component {
                       placeHolder={this.state.subject}
                       onDOMChange={e => {
                         this.handleSubject(e);
+=======
+                      value={this.state.campaignName}
+                      onDOMChange={e => {
+                        this.handleName(e);
+>>>>>>> Create new campaigns works
                       }}
                     />
                   </FormField>
@@ -159,16 +195,10 @@ class CreateCampaign extends Component {
                     label="Campaign Subject"
                     style={{ width: "70%", height: "70%" }}
                   >
-                    <TextInput />
-                  </FormField>
-                  <FormField
-                    label="Add Contact Name"
-                    style={{ width: "70%", height: "70%" }}
-                  >
                     <TextInput
-                      // placeHolder={this.state.nameInput}
+                      value={this.state.campaignSubject}
                       onDOMChange={e => {
-                        this.handleName(e);
+                        this.handleSubject(e);
                       }}
                       placeHolder={this.state.nameInput}
                       // onKeyPress={event => {
@@ -178,18 +208,6 @@ class CreateCampaign extends Component {
                       //       email: "testing"
                       //     });
                       // }}
-                    />
-                  </FormField>
-                  <FormField
-                    label="Add Contact Email"
-                    style={{ width: "70%", height: "70%" }}
-                  >
-                    <TextInput
-                      // placeHolder={this.state.emailInput}
-                      onDOMChange={e => {
-                        this.handleEmail(e);
-                      }}
-                      defaultValue={this.state.emailInput}
                     />
                   </FormField>
                   <p />
@@ -219,6 +237,7 @@ class CreateCampaign extends Component {
                     primary={true}
                     style={{ marginRight: "15%" }}
                     onClick={() => {
+                      this.handleClick();
                       this.setState({ popup: true });
                     }}
                   />

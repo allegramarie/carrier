@@ -51,6 +51,7 @@ app.get("/campaigns", (request, response) => {
 });
 
 app.post("/newCampaign", (request, response) => {
+  console.log("adding a new campaign", request.body);
   db.addNewCampaign(request.body, data => {
     response.send(data);
   });
