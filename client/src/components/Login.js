@@ -10,7 +10,7 @@ class Login extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    this.state = { redirect: false };
+    this.state = { redirect: false, errors: [] };
   }
 
   handleSubmit(event) {
@@ -27,7 +27,9 @@ class Login extends Component {
         this.setState({ redirect: true });
       })
       .catch(error => {
-        throw error;
+        this.setState({
+          errors: ["Something went wrong. Try again?"]
+        });
       });
   }
 
@@ -35,7 +37,11 @@ class Login extends Component {
     return this.state.redirect ? (
       <Redirect to="/" />
     ) : (
-      <LoginForm onSubmit={this.handleSubmit} title="Sample Title" />
+      <LoginForm
+        errors={this.state.errors}
+        onSubmit={this.handleSubmit}
+        title="Sample Title"
+      />
     );
   }
 }
