@@ -3,6 +3,11 @@ const bodyParser = require("body-parser");
 const sendgrid = require("./sendgrid.js");
 const db = require("./database");
 const auth = require("./auth");
+var minify = require("html-minifier").minify;
+const axios = require("axios");
+const config = require("./config.js");
+
+const sgMail = require("@sendgrid/mail");
 
 let app = express();
 
@@ -16,6 +21,80 @@ app.use(auth.attachSession);
 
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
+
+app.post("/exportHTML", (req, res) => {
+  console.log("getting frustrated");
+  console.log(req.body.data);
+  // var b = req.body.data.replace(/\s{2,}/g, '').replace(/\'/g, '').replace(/(\r\n|\n|\r)/gm,"")
+  // var escaper = b.replace(/\"/g,"\\\"");
+  // console.log(escaper)
+  // var temp = JSON.parse(JSON.stringify(req.body.data))
+  // console.log('hello world', req.body)
+  // console.log('fuck',req.body[0])
+  // var obj = JSON.stringify(req.body)
+  // var html = obj.slice(1,-1)
+  // console.log(html)
+  // html.replace(/\s{2,}/g, '').replace(/\'/g, '"');
+  // console.log('this is the way', html)
+  // var var1 = html.replace(/\"/g,"\\\"")
+  // console.log(req.body) //this is the HTML
+  // var result = minify(`${req.body}`, {
+  //   removeAttributeQuotes: true
+  // });
+  // setTimeout(function(){console.log(JSON.parse(result))},3000)
+  // return axios({
+  //   method: "post",
+  //   url: "https://api.sendgrid.com/v3/mail/send",
+  //   headers: {
+  //     Authorization: `Bearer ${config.TOKEN}`,
+  //     "Content-Type": "application/json"
+  //   },
+  //   data: {
+  //     personalizations: [
+  //       {
+  //         to: [
+  //           {
+  //             email: "eshum89@gmail.com",
+  //             name: "John Doe"
+  //           },
+  //         ],
+  //         subject: "Hello, World!"
+  //       }
+  //     ],
+  //     from: {
+  //       email: "allegra.berndt@gmail.com",
+  //       name: "Allegra"
+  //     },
+  //     reply_to: {
+  //       email: "allegra.berndt@gmail.com",
+  //       name: "Allegra"
+  //     },
+  //     subject: "Please Work!",
+  //     content: [
+  //       {
+  //         type: "text/html",
+  //         value: `${escaper}`
+  //       }
+  //     ]
+  //   }
+  // })
+  //   .then(response => {
+  //     console.log("success");
+  //   })
+  //   .catch(error => {
+  //     console.log("Within sendgrid error", error);
+  //   });
+
+  sgMail.setApiKey(`${config.TOKEN}`);
+  const msg = {
+    to: ["eshum89@gmail.com", "yu_qing630@yahoo.com"],
+    from: "test@example.com",
+    subject: "Sending with SendGrid is Fun",
+    html: req.body.data
+  };
+  sgMail.sendMultiple(msg);
+  res.send(req.data);
+});
 
 app.get("/", (request, response) => {
   response.send("Hello");
@@ -38,7 +117,7 @@ app.post("/newUser", (request, response) => {
 app.post("/send", (request, response) => {
   sendgrid(request, response)
     .then(data => {
-      console.log("Response", data);
+      // console.log("Response", data);
       response.send();
     })
     .catch(err => {

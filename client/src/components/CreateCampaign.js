@@ -24,6 +24,8 @@ import EmailEditor from "react-email-editor";
 import test from "./test.json";
 import test2 from "./test2.json";
 import custom from "./custom.json";
+import axios from "axios";
+import config from "./config.js";
 
 class CreateCampaign extends Component {
   constructor(props) {
@@ -229,7 +231,20 @@ class CreateCampaign extends Component {
   exportHtml = () => {
     this.editor.exportHtml(data => {
       const { design, html } = data;
-      console.log("exportHtml", html);
+      // console.log("exportHtml", html);
+      var a = html;
+      var result = a
+        .replace(/>\s+|\s+</g, function(m) {
+          return m.trim();
+        })
+        .replace(/(\r\n|\n|\r)/gm, " ");
+      console.log(result);
+      //minify, escape double quotes, and remove line breaks
+      // var b = a.replace(/\s{2,}/g, '').replace(/\'/g, '"').replace(/(\r\n|\n|\r)/gm,"")
+      // var escaper = b.replace(/\"/g,"\\\"");
+      // console.log(escaper)
+
+      axios.post("/exportHTML", { data: a });
     });
   };
 
