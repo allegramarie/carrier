@@ -2,22 +2,11 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-// const pool = new Pool({
-//   host: config.host,
-//   //   // connectionString: process.env.DATABASE_URL,
-//   port: config.port,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// });
-
-const pool = new Pool({
-  host: "localhost",
-  // connectionString: process.env.DATABASE_URL,
-  user: "",
-  password: "",
-  database: "mail"
-});
+const pool = process.env.PROD
+  ? // If prod is set, use prod config
+    new Pool(...config)
+  : // Else, use localhost
+    new Pool({ host: "localhost", user: "", password: "", database: "mail" });
 
 const addNewUser = function(input, callback) {
   pool.query(

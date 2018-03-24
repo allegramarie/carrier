@@ -9,6 +9,8 @@
     "dev": "concurrently \"yarn run dev:server\" \"yarn run dev:client\"",
     "dev:client": "cd client && yarn run start",
     "dev:server": "nodemon server.js",
+    "dev:database":
+      "brew services start postgresql && psql postgres -f database/schema.sql",
     "install": "yarn run install:client",
     "install:client": "pwd && ls && cd client && yarn install && yarn build",
     "start": "node server.js",
