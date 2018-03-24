@@ -18,6 +18,7 @@ import PrivateRoute from "../PrivateRoute";
 import { getCampaigns, getContacts } from "../actions";
 import Sidebar from "../components/Sidebar";
 import NewCampaign from "../components/NewCampaign";
+import Editor from "../components/Editor.js";
 
 class App extends Component {
   componentDidMount() {
@@ -38,6 +39,8 @@ class App extends Component {
               <Route path="/createCampaign" component={NewCampaign} />
               <Route path="/campaigns/:id" component={Campaigns} />
               <Route path="/drop" component={Drop} />
+              <Route path="/Editor" component={Editor} />
+
               {/* about page -- default for unauthenticated arrivals */}
             </Switch>
           </Box>
