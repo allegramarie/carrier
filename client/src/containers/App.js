@@ -19,6 +19,7 @@ import { getCampaigns, getContacts } from "../actions";
 import Sidebar from "../components/Sidebar";
 import NewCampaign from "../components/NewCampaign";
 import Editor from "../components/Editor.js";
+import LandingPage from "../components/LandingPage.js";
 
 class App extends Component {
   componentDidMount() {
@@ -28,6 +29,8 @@ class App extends Component {
   render() {
     return (
       <Grommet.App centered={false}>
+        <Route path="/LandingPage" component={LandingPage} />
+
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box justify="center" align="start" pad="medium">
@@ -40,6 +43,7 @@ class App extends Component {
               <Route path="/campaigns/:id" component={Campaigns} />
               <Route path="/drop" component={Drop} />
               <Route path="/Editor" component={Editor} />
+              {/*   <Route path="/LandingPage" component={LandingPage}/>*/}
 
               {/* about page -- default for unauthenticated arrivals */}
             </Switch>

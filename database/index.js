@@ -7,6 +7,7 @@ const config = require("../config.js");
 //     new Pool(...config)
 //   : // Else, use localhost
 //     new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+
 const pool = new Pool({
   host: config.host,
   //   // connectionString: process.env.DATABASE_URL,
@@ -15,6 +16,14 @@ const pool = new Pool({
   password: config.password,
   database: config.database
 });
+// const pool = new Pool({
+//   host: "localhost",
+//   // connectionString: process.env.DATABASE_URL,
+//   user: "",
+//   password: "",
+//   database: "mail"
+// });
+
 // const pool = new Pool({
 //   host: "localhost",
 //   // connectionString: process.env.DATABASE_URL,

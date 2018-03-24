@@ -108,7 +108,7 @@ const upload = multer({
     s3: s3,
     bucket: "targ-templates",
     key: function(req, file, cb) {
-      cb(null, `${new Date()}-${file.originalname}`);
+      cb(null, `file`);
     }
   })
 });
