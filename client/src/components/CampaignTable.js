@@ -19,11 +19,11 @@ class CampaignTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(
-      "getting props within campaign table",
-      nextProps.campaigns.campaigns,
-      this.props
-    );
+    // console.log(
+    //   "getting props within campaign table",
+    //   nextProps.campaigns.campaigns,
+    //   this.props
+    // );
   }
 
   handleClick(id, status) {

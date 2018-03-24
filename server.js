@@ -3,13 +3,14 @@ const bodyParser = require("body-parser");
 const sendgrid = require("./sendgrid.js");
 const db = require("./database");
 const auth = require("./auth");
-const aws = require("aws-sdk");
+const AWS = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const config = require("./config.js");
 const sgMail = require("@sendgrid/mail");
 var minify = require("html-minifier").minify;
 const axios = require("axios");
+const Busboy = require("busboy");
 
 let app = express();
 
@@ -97,25 +98,42 @@ app.post("/newContact", (request, response) => {
   });
 });
 
-aws.config.update({
-  secretAccessKey: config.secretAccessKey,
-  accessKeyId: config.accessKeyId,
-  region: "us-east-1"
-});
-const s3 = new aws.S3();
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "targ-templates",
-    key: function(req, file, cb) {
-      cb(null, `file`);
-    }
-  })
-});
+const BUCKET_NAME = "targ-templates";
 
-app.post("/dropTemp", upload.any(), (request, response) => {
-  response.send("send");
+app.post("/dropTemp", function(req, res, next) {
+  const BUCKET_NAME = "targ-templates";
+  console.log(JSON.stringify(req.body));
+  var file = JSON.stringify(req.body);
+  uploadToS3(file);
+  res.send("sends");
 });
+function uploadToS3(file) {
+  let s3bucket = new AWS.S3({
+    accessKeyId: config.accessKeyId,
+    secretAccessKey: config.secretAccessKey,
+    Bucket: BUCKET_NAME
+  });
+  s3bucket.createBucket(function() {
+    const name = "Testjh Name";
+    const data = file;
+    var params = {
+      Bucket: BUCKET_NAME,
+      Key: name,
+      Body: data
+    };
+
+    s3bucket.upload(params, function(err, data) {
+      if (err) {
+        console.log("error in callback");
+        console.log(err);
+      }
+      console.log("success");
+      console.log(BUCKET_NAME);
+      console.log(data);
+    });
+  });
+}
+
 app.post("/drop", (request, response) => {
   // console.log(request.body,"inserver")
   const campaign = request.body.campaign;

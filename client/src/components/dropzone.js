@@ -38,7 +38,7 @@ class Drop extends React.Component {
           // alert("duplicate email");
           // else{
           // }
-          console.log("after drop");
+          // console.log("after drop");
           that.props.dispatch(getContacts(that.props.campaign));
         })
         .catch(err => {
@@ -49,7 +49,7 @@ class Drop extends React.Component {
     // console.log('heeh')
   }
   render() {
-    console.log(this.props, "here");
+    // console.log(this.props, "here");
     return (
       <div>
         <section>
