@@ -3,14 +3,9 @@ import React from "react";
 import ReactFileReader from "react-file-reader";
 import axios from "axios";
 
-// const reader
-
 const drop = files => {
-  // console.log(files)
   var reader = new FileReader();
   reader.onload = function(e) {
-    // Use reader.result
-    // console.log(reader.result);
     axios
       .post("/drop", {
         params: {
@@ -18,7 +13,6 @@ const drop = files => {
         }
       })
       .then(response => {
-        // console.log('data send',response.data.name)
         if (response.data.name === "error") {
           alert("duplicate email");
         } else {
@@ -31,10 +25,7 @@ const drop = files => {
   };
   reader.readAsText(files[0]);
 };
-
 const Drop = props => (
-  // console.log()
-
   <section>
     <div className="dropzone">
       <Dropzone
@@ -50,6 +41,4 @@ const Drop = props => (
     <aside />
   </section>
 );
-
-// <Basic />
 export default Drop;

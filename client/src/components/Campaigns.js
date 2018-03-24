@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 // import C3Chart from 'react-c3js';
 // import 'c3/c3.css';
-import c3 from "c3";
-import d3 from "d3";
+
 import thunk from "redux-thunk";
 import { connect } from "react-redux";
 // import FormField from 'grommet/components/FormField';
@@ -33,36 +32,25 @@ class Campaigns extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // item:[{name:['Alex', 'Eric']},{email:['Alex@hackreactor.com','Eric@hackreactor.com']}],
       contacts: [],
       nameInput: "",
       emailInput: "",
-      show: false,
-      send: 144,
-      open: 10,
-      unsubscribe: 2
+      show: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
-    this.pieGraph = this.pieGraph.bind(this);
-    // this.handleBack = this.handleBack.bind(this);
   }
-  // handleBack(){
-  //   // console.log(this.props.router,'router')
-  //   this.props.router.goBack()
+  // componentWillReceiveProps(nextProps) {
+  //   // console.log(
+  //   //   "getting props within contacts",
+  //   //   nextProps.contacts.contacts
+  //   // );
+  //   this.props.dispatch(getContacts(this.props.match.params.id));
   // }
-  componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   "getting props within contacts",
-    //   nextProps.contacts.contacts
-    // );
-    // this.props.dispatch(getContacts(this.props.match.params.id));
-  }
 
   componentDidMount() {
-    this.pieGraph();
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
@@ -76,11 +64,8 @@ class Campaigns extends Component {
     );
     this.setState(
       {
-        // this.state.item.concat({name: this.state.nameInput,email: this.state.emailInput})
-        // [...this.state.myArray, ...[1,2,3] ]
         emailInput: "",
         nameInput: ""
-        // show: true
       },
       function() {
         // console.log('reached!', this.state)
@@ -112,55 +97,7 @@ class Campaigns extends Component {
     //   });
   }
 
-  pieGraph() {
-    const chart = c3.generate({
-      bindto: "#chart",
-      data: {
-        columns: [
-          ["send", this.state.send],
-          ["open", this.state.open],
-          ["unsubscribe", this.state.unsubscribe]
-        ],
-        type: "pie"
-      },
-      pie: {
-        label: {
-          format: function(value, ratio, id) {
-            return value;
-          }
-        }
-      }
-    });
-  }
-
   render() {
-    //   var currentdate = new Date();
-    // var datetime = "Last Sync: "
-    //                 + (currentdate.getMonth()+1)  + "/"
-    //                 + (currentdate.getDate()-7) + "/"
-    //                 + currentdate.getFullYear()
-    //                 // + currentdate.getHours() + ":"
-    //                 // + currentdate.getMinutes() + ":"
-    //                 // + currentdate.getSeconds();
-    //                 console.log(datetime)
-    //   const time = function Last7Days() {
-    //     var result = [];
-    //     for (var i=0; i<7; i++) {
-    //         var d = new Date();
-    //         d.setDate(d.getDate() - i);
-    //         result.push( formatDate(d) )
-    //     }
-    //
-    //     return(result.join(','));
-    // }
-    // console.log(time)
-
-    // console.log('here campaigns',this.props.router)
-    // console.log(this.state.nameInput,"name")
-    // console.log(this.state.emailInput,"email")
-
-    // console.log(this.state.item);
-    // console.log(this.state);
     return (
       // console.log(this.state.item)
       <div>
@@ -211,7 +148,6 @@ class Campaigns extends Component {
                 }}
               />
             </Footer>
-            <div id="chart" />
           </Form>
           <Box align="end">
             {this.state.show === false ? (

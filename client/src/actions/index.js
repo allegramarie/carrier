@@ -101,6 +101,7 @@ export function addContact(name, email, campaign) {
         campaign: campaign
       })
       .then(response => {
+        console.log("hereinaction");
         dispatch({ type: types.ADD_CONTACT, payload: response.data });
       })
       .catch(err => {
