@@ -72,6 +72,8 @@ app.get("/campaigns", (request, response) => {
 });
 
 app.post("/newCampaign", (request, response) => {
+  console.log("hit new campgiang");
+  console.log(request.body);
   db.addNewCampaign(request.body, data => {
     response.send(data);
   });
@@ -172,8 +174,9 @@ app.post("/login", (request, response) => {
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
+      const userID = 1;
       auth.setSession(token, username);
-      response.send({ token });
+      response.send({ token, userID });
     } else {
       response.status(401).send({ err: "Bad Credentials: Access Denied" });
     }

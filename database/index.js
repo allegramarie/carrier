@@ -104,11 +104,11 @@ const createCampaignContact = function(campaign, contact, callback) {
   );
 };
 
-const addNewCampaign = function(input, callback) {
+const addNewCampaign = function({ nameInput, subjectInput, userID }, callback) {
+  console.log("made it to the db");
+  console.log(nameInput, subjectInput, userID);
   pool.query(
-    `insert into campaigns (name, status, subject, userID) values ('${
-      input.name
-    }', '${input.status}', '${input.subject}', '${input.userID}');`,
+    `insert into campaigns (name, status, subject, userID) values ('${nameInput}', 'draft', '${subjectInput}', '${userID}');`,
     (err, results) => {
       if (err) {
         console.log(err);

@@ -12,22 +12,18 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div>
-        <Split flex="right" separator={false} fixed={false}>
-          <Box justify="center" align="start" pad="medium">
-            <Article ref="content" pad="none">
-              <Section key="utilization" pad="medium" full="horizontal">
-                <Header justify="between">
-                  <Heading tag="h2" margin="none">
-                    Campaigns
-                  </Heading>
-                </Header>
-                <CampaignTable />
-              </Section>
-            </Article>
-          </Box>
-        </Split>
-      </div>
+      <Box justify="center" align="start" pad="medium">
+        <Article ref="content" pad="none">
+          <Section key="utilization" pad="medium" full="horizontal">
+            <Header justify="between">
+              <Heading tag="h2" margin="none">
+                Campaigns
+              </Heading>
+            </Header>
+            <CampaignTable />
+          </Section>
+        </Article>
+      </Box>
     );
   }
 }

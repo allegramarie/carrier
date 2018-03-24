@@ -108,7 +108,7 @@ class CreateCampaign extends Component {
                 onClick={() => {
                   return <Redirect to="/" />;
                 }}
-                href="localhost:3000/"
+                href="/"
               />
             </Link>
             <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>

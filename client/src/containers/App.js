@@ -17,6 +17,7 @@ import Drop from "../components/dropzone";
 import PrivateRoute from "../PrivateRoute";
 import { getCampaigns, getContacts } from "../actions";
 import Sidebar from "../components/Sidebar";
+import NewCampaign from "../components/NewCampaign";
 
 class App extends Component {
   componentDidMount() {
@@ -34,7 +35,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <PrivateRoute path="/profile" component={Profile} />
-              <Route path="/createCampaign" component={CreateCampaign} />
+              <Route path="/createCampaign" component={NewCampaign} />
               <Route path="/campaigns/:id" component={Campaigns} />
               <Route path="/drop" component={Drop} />
               {/* about page -- default for unauthenticated arrivals */}

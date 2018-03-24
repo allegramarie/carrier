@@ -19,7 +19,7 @@ class Login extends Component {
     axios
       .post("/login", { username, password })
       .then(response => {
-        const { token } = response.data;
+        const { token, userID } = response.data;
         console.log(`Logged in and recieved: ${token}`);
         Auth.token = token;
         Auth.isAuthenticated = true;
