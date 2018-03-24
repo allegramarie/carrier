@@ -6,7 +6,6 @@ class DataGraph {
   constructor(props) {
     super(props);
     this.state = {
-      // show: false,
       send: 144,
       open: 10,
       unsubscribe: 2

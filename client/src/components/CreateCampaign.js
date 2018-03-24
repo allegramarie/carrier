@@ -181,12 +181,6 @@ class CreateCampaign extends Component {
                   <p />
 
                   <p />
-                  {/*                <FormField
-                  label="Email Content"
-                  style={{ width: "800px", height: "400px" }}
-                >
-                  <TextInput />
-                </FormField>*/}
                 </Form>
                 <Box align="start">
                   <Button
@@ -255,16 +249,6 @@ class CreateCampaign extends Component {
               </Section>
             </Article>
             <div style={{ borderStyle: "solid", borderRadius: "1%" }}>
-              {/*        <ReactQuill
-
-            value={this.state.text}
-            onChange={this.handleChange}
-            theme="snow"
-            style={{width: '50%', height: '600px', position: 'absolute', marginRight: '70px',
-                    marginBottom: '100px', top: '0px', right: '0px', marginTop: '10%'
-
-            }}
-            />*/}
               <div style={{ width: "50%" }}>
                 <EmailEditor
                   ref={editor => (this.editor = editor)}
@@ -286,7 +270,6 @@ class CreateCampaign extends Component {
   exportHtml = () => {
     this.editor.exportHtml(data => {
       const { design, html } = data;
-      // console.log("exportHtml", html);
       var a = html;
       var result = a
         .replace(/>\s+|\s+</g, function(m) {
@@ -294,11 +277,6 @@ class CreateCampaign extends Component {
         })
         .replace(/(\r\n|\n|\r)/gm, " ");
       console.log(result);
-      //minify, escape double quotes, and remove line breaks
-      // var b = a.replace(/\s{2,}/g, '').replace(/\'/g, '"').replace(/(\r\n|\n|\r)/gm,"")
-      // var escaper = b.replace(/\"/g,"\\\"");
-      // console.log(escaper)
-
       axios.post("/exportHTML", {
         data: a,
         sendgridEmails: this.state.sendgridEmails,
@@ -314,16 +292,9 @@ class CreateCampaign extends Component {
   };
 
   onLoad = theme => {
-    console.log("fuck");
-    // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
     return;
     this.editor.loadDesign(theme);
   };
-
-  // onDesignLoad = (data) => {
-  //   console.log('onDesignLoad', data)
-  // }
-  // setTimeout(function(){this.onLoad()}, 3000)
 }
 
 function mapStateToProps(state) {

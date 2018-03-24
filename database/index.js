@@ -2,22 +2,22 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-// const pool = new Pool({
-//   host: config.host,
-//   //   // connectionString: process.env.DATABASE_URL,
-//   port: config.port,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// });
-
 const pool = new Pool({
-  host: "localhost",
-  // connectionString: process.env.DATABASE_URL,
-  user: "",
-  password: "",
-  database: "mail"
+  host: config.host,
+  //   // connectionString: process.env.DATABASE_URL,
+  port: config.port,
+  user: config.user,
+  password: config.password,
+  database: config.database
 });
+
+// const pool = new Pool({
+//   host: "localhost",
+//   // connectionString: process.env.DATABASE_URL,
+//   // user: "",
+//   // password: "",
+//   // database: "mail"
+// });
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -134,15 +134,8 @@ const campaignContacts = function(input, callback) {
 };
 
 const addContact = function(input, callback) {
-  // console.log(input, "input")
-  // console.log(input.name,"inadd")
-  // console.log(input.email,"email")
-  // for(var i = 0;i < input.name.length;i++){
-  // UNNEST(ARRAY['10', '22', '33']),
   return Promise.all(
     input.name.map((data, i) => {
-      // console.log(data,'in map')
-      // return Promise.all
       return pool.query(
         `insert into contacts (name, email) values ('${data}', '${
           input.email[i]
@@ -156,8 +149,6 @@ const addContact = function(input, callback) {
     .catch(err => {
       callback(err);
     });
-
-  // }
 };
 
 pool.connect((err, client, done) => {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Drop from "./dropzone";
 // import C3Chart from 'react-c3js';
 // import 'c3/c3.css';
 
@@ -149,6 +150,7 @@ class Campaigns extends Component {
               />
             </Footer>
           </Form>
+          <Drop />
           <Box align="end">
             {this.state.show === false ? (
               <Button
