@@ -110,7 +110,7 @@ const addNewCampaign = function({ nameInput, subjectInput, userID }, callback) {
   console.log("made it to the db");
   console.log(nameInput, subjectInput, userID);
   pool.query(
-    `insert into campaigns (name, status, subject, userID) values ('${nameInput}', 'draft', '${subjectInput}', '${userID}');`,
+    `insert into campaigns (name, status, subject, userID) values ('${nameInput}', 'Draft', '${subjectInput}', '${userID}');`,
     (err, results) => {
       if (err) {
         console.log(err);
