@@ -10,7 +10,7 @@ export default function addContact(state = initialState, action) {
       console.log("payload", action.payload);
       return {
         //action.payload // Using this assumes a fully formed campaign object is the payload.
-        contacts: action.payload
+        contacts: [...state.contacts, action.payload]
         // Fill this in with a S3 URI later
       };
     case GET_CONTACTS:

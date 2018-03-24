@@ -67,7 +67,6 @@ app.post("/send", (request, response) => {
 app.get("/campaigns", (request, response) => {
   console.log("Getting user campaigns in the server", request.query.userID);
   db.getUserCampaigns(request.query.userID, data => {
-    console.log("response from campaigns,", data);
     response.send(data);
   });
 });
@@ -92,7 +91,6 @@ app.post("/newContact", (request, response) => {
   db.addNewContact(request.body.name, request.body.email, data => {
     console.log("contact id", data.rows[0].id, "campaign", campaign);
     db.createCampaignContact(campaign, data.rows[0].id, res => {
-      console.log("response from add", res);
       response.send(res);
     });
   });

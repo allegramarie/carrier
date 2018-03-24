@@ -44,10 +44,8 @@ class Campaigns extends Component {
     this.sendEmail = this.sendEmail.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    //   // console.log(
-    //   //   "getting props within contacts",
-    //   //   nextProps.contacts.contacts
-    //   // );
+    console.log("current contacts", this.props.contacts.contacts);
+    console.log("getting props within contacts", nextProps.contacts.contacts);
     //   this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
@@ -150,7 +148,7 @@ class Campaigns extends Component {
               />
             </Footer>
           </Form>
-          <Drop />
+          <Drop campaign={this.props.match.params.id} />
           <Box align="end">
             {this.state.show === false ? (
               <Button
@@ -171,6 +169,7 @@ class Campaigns extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log("map state to props was called", state.contacts.contacts);
   return {
     user: state.user,
     contacts: state.contacts

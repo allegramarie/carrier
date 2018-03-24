@@ -37,14 +37,12 @@ const checkUserExists = function(input, callback) {
 };
 
 const getUserCampaigns = function(input, callback) {
-  console.log("inside database for campaigns", input);
   pool.query(
     `select * from campaigns where userID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("results from the database", results);
         callback(results);
       }
     }
