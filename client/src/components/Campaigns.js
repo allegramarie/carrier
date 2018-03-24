@@ -43,13 +43,13 @@ class Campaigns extends Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // console.log(
-  //   //   "getting props within contacts",
-  //   //   nextProps.contacts.contacts
-  //   // );
-  //   this.props.dispatch(getContacts(this.props.match.params.id));
-  // }
+  componentWillReceiveProps(nextProps) {
+    //   // console.log(
+    //   //   "getting props within contacts",
+    //   //   nextProps.contacts.contacts
+    //   // );
+    //   this.props.dispatch(getContacts(this.props.match.params.id));
+  }
 
   componentDidMount() {
     this.props.dispatch(getContacts(this.props.match.params.id));

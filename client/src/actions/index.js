@@ -58,6 +58,7 @@ export function newUser(user) {
 }
 
 export function getCampaigns(userID) {
+  console.log("getting campaigns", userID);
   return function(dispatch) {
     axios
       .get("/campaigns", {
@@ -66,6 +67,7 @@ export function getCampaigns(userID) {
         }
       })
       .then(response => {
+        console.log("returned campaigns", response);
         dispatch({ type: types.GET_CAMPAIGNS, payload: response.data.rows });
       })
       .catch(err => {

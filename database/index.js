@@ -2,22 +2,22 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-const pool = new Pool({
-  host: config.host,
-  //   // connectionString: process.env.DATABASE_URL,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database
-});
-
 // const pool = new Pool({
-//   host: "localhost",
-//   // connectionString: process.env.DATABASE_URL,
-//   // user: "",
-//   // password: "",
-//   // database: "mail"
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
 // });
+
+const pool = new Pool({
+  host: "localhost",
+  // connectionString: process.env.DATABASE_URL,
+  user: "",
+  password: "",
+  database: "mail"
+});
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -48,12 +48,14 @@ const checkUserExists = function(input, callback) {
 };
 
 const getUserCampaigns = function(input, callback) {
+  console.log("inside database for campaigns", input);
   pool.query(
-    `Select * from campaigns where userID = '${input}'`,
+    `select * from campaigns where userID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
+        console.log("results from the database", results);
         callback(results);
       }
     }
