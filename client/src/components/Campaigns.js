@@ -105,19 +105,26 @@ class Campaigns extends Component {
           {!this.props.contacts.contacts[0] ? (
             <Spinning />
           ) : (
-            <Table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.contacts.contacts.map((contact, index) => (
-                  <Recipients contact={contact} key={index} />
-                ))}
-              </tbody>
-            </Table>
+            <Form>
+              <FormFields>
+                <Table
+                  scrollable={true}
+                  style={{ height: "250px", overflow: "auto" }}
+                >
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.props.contacts.contacts.map((contact, index) => (
+                      <Recipients contact={contact} key={index} />
+                    ))}
+                  </tbody>
+                </Table>
+              </FormFields>
+            </Form>
           )}
           <Form>
             <Header>
@@ -152,7 +159,7 @@ class Campaigns extends Component {
           <Box align="end">
             {this.state.show === false ? (
               <Button
-                label="Send"
+                label="Save"
                 primary={true}
                 onClick={() => {
                   this.sendEmail();

@@ -58,7 +58,7 @@ export function newUser(user) {
 }
 
 export function getCampaigns(userID) {
-  console.log("getting campaigns", userID);
+  // console.log("getting campaigns", userID);
   return function(dispatch) {
     axios
       .get("/campaigns", {
@@ -67,7 +67,7 @@ export function getCampaigns(userID) {
         }
       })
       .then(response => {
-        console.log("returned campaigns", response);
+        // console.log("returned campaigns", response);
         dispatch({ type: types.GET_CAMPAIGNS, payload: response.data.rows });
       })
       .catch(err => {
@@ -111,3 +111,19 @@ export function addContact(name, email, campaign) {
       });
   };
 }
+
+// export function dragDrop(file, campaign){
+//   console.log('dragDrop', file, campaign)
+//   return function(dispatch) {
+//     axios.post("/drop", {
+//       data: file,
+//       campaign: campaign
+//     })
+//     .then(response=>{
+//       dispatch({type: types.DRAG_DROP, payload: response.data})
+//     })
+//     .catch(err=>{
+//       console.log(err)
+//     })
+//   }
+// }

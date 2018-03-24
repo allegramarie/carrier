@@ -23,8 +23,8 @@ app.use(auth.attachSession);
 app.use(express.static(__dirname + "/client/build"));
 
 app.post("/exportHTML", (req, res) => {
-  console.log("getting frustrated");
-  console.log(req.body.data);
+  // console.log("getting frustrated");
+  // console.log(req.body.data);
   var abc = req.body.data;
 
   sgMail.setApiKey(`${config.TOKEN}`);
@@ -65,15 +65,16 @@ app.post("/send", (request, response) => {
 });
 
 app.get("/campaigns", (request, response) => {
-  console.log("Getting user campaigns in the server", request.query.userID);
+  // console.log("Getting user campaigns in the server", request.query.userID);
   db.getUserCampaigns(request.query.userID, data => {
+    // console.log("response from campaigns,", data);
     response.send(data);
   });
 });
 
 app.post("/newCampaign", (request, response) => {
-  console.log("hit new campgiang");
-  console.log(request.body);
+  // console.log("hit new campgiang");
+  // console.log(request.body);
   db.addNewCampaign(request.body, data => {
     response.send(data);
   });
@@ -81,7 +82,7 @@ app.post("/newCampaign", (request, response) => {
 
 app.get("/campaignContacts", (request, response) => {
   db.campaignContacts(request.query.id, data => {
-    console.log(data);
+    // console.log(data);
     response.send(data);
   });
 });
@@ -89,7 +90,7 @@ app.get("/campaignContacts", (request, response) => {
 app.post("/newContact", (request, response) => {
   var campaign = request.body.campaign;
   db.addNewContact(request.body.name, request.body.email, data => {
-    console.log("contact id", data.rows[0].id, "campaign", campaign);
+    // console.log("contact id", data.rows[0].id, "campaign", campaign);
     db.createCampaignContact(campaign, data.rows[0].id, res => {
       response.send(res);
     });
@@ -116,7 +117,9 @@ app.post("/dropTemp", upload.any(), (request, response) => {
   response.send("send");
 });
 app.post("/drop", (request, response) => {
-  const newData = request.body.params.data.split("\n");
+  // console.log(request.body,"inserver")
+  const campaign = request.body.campaign;
+  const newData = request.body.data.split("\n");
   var newsplitData = [];
   const objData = { name: [], email: [] };
   for (let i = 0; i < newData.length; i++) {
@@ -135,14 +138,20 @@ app.post("/drop", (request, response) => {
       objData.email.push(newArray[j]);
     }
   }
+  // console.log(objData, campaign)
   db.addContact(objData, data => {
-    response.send(data);
+    // console.log(data[0].rows[0].id,'add contact')
+    // db.createCampaignContact(campaign, data.rows[0].id, res => {
+    //   console.log("response from add", res);
+    db.createMultiCampaignContact(campaign, data, res => {
+      response.send(data);
+    });
   });
 });
 //s3 drop
 app.post("/exportHTML", (req, res) => {
-  console.log("getting frustrated");
-  console.log(req.body.data);
+  // console.log("getting frustrated");
+  // console.log(req.body.data);
   var abc = req.body.data;
 
   sgMail.setApiKey(`${config.TOKEN}`);
@@ -158,7 +167,7 @@ app.post("/exportHTML", (req, res) => {
 
 app.post("/saveContactEmail", (request, response) => {
   var email = request.body;
-  console.log("gooogoogaagaaa", email);
+  // console.log("gooogoogaagaaa", email);
   email.map(function(a) {
     db.addNewContactEmail(a, data => {});
   });
