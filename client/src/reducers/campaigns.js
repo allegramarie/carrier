@@ -5,11 +5,14 @@ const initialState = {
 };
 
 export default function campaigns(state = initialState, action) {
+  console.log("looking at payload back from server");
+  console.log(action.payload);
+  console.log(state.campaigns);
   switch (action.type) {
     case ADD_CAMPAIGN:
       return {
         //action.payload // Using this assumes a fully formed campaign object is the payload.
-        campaigns: action.payload
+        campaigns: [...state.campaigns, action.payload]
         // id: 1,
         // name: 'This is a campaign name',
         // subject: 'Subject line for an email',

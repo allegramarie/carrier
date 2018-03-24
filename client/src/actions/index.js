@@ -6,14 +6,10 @@ import axios from "axios";
 //export const deleteTodo = id => ({ type: types.DELETE_CAMPAIGN, id, //other info })
 
 export function addCampaign(name, status, subject, userID) {
+  const payload = { name, status, subject, userID };
   return function(dispatch) {
     axios
-      .post("/newCampaign", {
-        name: name,
-        status: status,
-        subject: subject,
-        userID: userID
-      })
+      .post("/newCampaign", payload)
       .then(response => {
         dispatch({ type: types.ADD_CAMPAIGN, payload: response.data });
       })

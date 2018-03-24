@@ -119,16 +119,23 @@ const createCampaignContact = function(campaign, contact, callback) {
   );
 };
 
-const addNewCampaign = function({ nameInput, subjectInput, userID }, callback) {
-  // console.log("made it to the db");
-  // console.log(nameInput, subjectInput, userID);
+const addNewCampaign = function({ name, subject, userID }, callback) {
+  const status = "Draft";
+  console.log(name, subject, status, userID);
   pool.query(
-    `insert into campaigns (name, status, subject, userID) values ('${nameInput}', 'Draft', '${subjectInput}', '${userID}');`,
+    `insert into campaigns (name, status, subject, userID) values ('${name}', '${status}', '${subject}', '${userID}') returning id;`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        callback(results);
+        const campaignObj = {
+          name,
+          status,
+          subject,
+          userID,
+          id: results.rows[0].id
+        };
+        callback(campaignObj);
       }
     }
   );

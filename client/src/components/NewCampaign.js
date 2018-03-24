@@ -14,14 +14,15 @@ import {
 } from "grommet";
 import axios from "axios";
 import Auth from "../Auth";
+import { addCampaign } from "../actions";
+import { connect } from "react-redux";
 
 class NewCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
       nameInput: "",
-      subjectInput: "",
-      popup: false
+      subjectInput: ""
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,26 +33,21 @@ class NewCampaign extends Component {
   // differently.
   handleSubmit(e) {
     e.preventDefault();
-    console.log("running handleSubmit");
     const { nameInput, subjectInput } = this.state;
     const userID = Auth.userID;
-    axios
-      .post("/newCampaign", {
-        nameInput,
-        subjectInput,
-        userID
-      })
-      .then(result => {
-        console.log("Made a new compaign!");
-        console.log(result);
-      });
+    this.props.dispatch(
+      addCampaign(nameInput, "Draft", subjectInput, Auth.userID)
+    );
+    this.setState({
+      nameInput: "",
+      subjectInput: ""
+    });
   }
 
   handleInputChange(event) {
     const target = event.target;
     // Get the name of the inputfield
     const { name, value } = target;
-    console.log(name, value);
 
     // This assigns the changed value to state using the name of the changed
     // input field
@@ -94,4 +90,10 @@ class NewCampaign extends Component {
   }
 }
 
-export default NewCampaign;
+const mapStateToProps = state => {
+  return {
+    campaigns: state.campaigns
+  };
+};
+
+export default connect(mapStateToProps)(NewCampaign);
