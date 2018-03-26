@@ -72,6 +72,25 @@ export function getCampaigns(userID) {
   };
 }
 
+export function updateCampaign(id) {
+  // console.log("getting campaigns", userID);
+  return function(dispatch) {
+    axios
+      .get("/updateCampaign", {
+        params: {
+          id: id
+        }
+      })
+      .then(response => {
+        // console.log("returned campaigns", response);
+        dispatch({ type: types.UPDATE_CAMPAIGN, payload: response.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
 export function getContacts(id) {
   return function(dispatch) {
     axios

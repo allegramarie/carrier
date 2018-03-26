@@ -1,13 +1,10 @@
-import { ADD_CAMPAIGN, GET_CAMPAIGNS } from "../constants";
+import { ADD_CAMPAIGN, GET_CAMPAIGNS, UPDATE_CAMPAIGN } from "../constants";
 
 const initialState = {
   campaigns: []
 };
 
 export default function campaigns(state = initialState, action) {
-  console.log("looking at payload back from server");
-  console.log(action.payload);
-  console.log(state.campaigns);
   switch (action.type) {
     case ADD_CAMPAIGN:
       return {
@@ -30,7 +27,16 @@ export default function campaigns(state = initialState, action) {
         // content: action.payload.content,
         // userID: action.payload.userID
       };
-
+    case UPDATE_CAMPAIGN:
+      return {
+        campaigns: [...state.campaigns, action.payload]
+        // id: action.payload.id,
+        // name: action.payload.name,
+        // subject: action.payload.subject,
+        // fromID: action.payload.fromID,
+        // content: action.payload.content,
+        // userID: action.payload.userID
+      };
     default:
       return state;
   }

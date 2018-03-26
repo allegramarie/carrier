@@ -126,6 +126,36 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
   );
 };
 
+const updateCampaignStatus = function(campaign, callback) {
+  console.log("Campaign to be updated,", campaign);
+  pool.query(
+    `update campaigns set (status) values ('Active') where id = '${campaign}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("campaign should be updated,", results);
+        callback(results);
+      }
+    }
+  );
+};
+
+const checkCampaignTemplate = function(campaign, callback) {
+  console.log("Campaign to be checked for template,", campaign);
+  pool.query(
+    `SELECT exists (SELECT '${campaign}' FROM campaigns WHERE column = templateURL);`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("campaign has a templateURL,", results);
+        callback(results);
+      }
+    }
+  );
+};
+
 const campaignContacts = function(input, callback) {
   // console.log(input);
   pool.query(
@@ -229,6 +259,7 @@ module.exports = {
   addNewUser,
   campaignContacts,
   createCampaignContact,
+  updateCampaignStatus,
   addContact,
   addNewContactEmail,
   createMultiCampaignContact,

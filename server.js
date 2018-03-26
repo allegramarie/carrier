@@ -82,6 +82,12 @@ app.post("/newCampaign", (request, response) => {
   });
 });
 
+app.post("/updateCampaign", (request, response) => {
+  db.updateCampaignStatus(request.body, data => {
+    response.send(data);
+  });
+});
+
 app.get("/campaignContacts", (request, response) => {
   db.campaignContacts(request.query.id, data => {
     // console.log(data);
