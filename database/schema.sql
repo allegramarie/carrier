@@ -53,5 +53,5 @@ insert into contacts (name, email) values ('Jake', 'jake@statefarm.com');
 insert into campaignContacts (campaignID, contactID) values ('3', '1');
 insert into contacts (name, email) values ('Alex', 'alex@gmail.com');
 insert into campaignContacts (campaignID, contactID) values ('3', '2');
-insert into campaignContacts (campaignID, contactID) values ('4', '1');
-insert into campaignContacts (campaignID, contactID) values ('4', '2');
+-- insert into campaignContacts (campaignID, contactID) values ('4', '1');
+-- insert into campaignContacts (campaignID, contactID) values ('4', '2');

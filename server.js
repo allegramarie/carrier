@@ -193,6 +193,14 @@ app.post("/saveContactEmail", (request, response) => {
   // response.send()
 });
 
+app.post("/deleteContact", (request, response) => {
+  // console.log('here', request.body)
+  db.deletecampaignsContact(request.body, data => {
+    db.deleteContact(request.body, data => {
+      response.send(data);
+    });
+  });
+});
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;

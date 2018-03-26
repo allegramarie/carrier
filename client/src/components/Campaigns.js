@@ -16,7 +16,7 @@ import Spinning from "grommet/components/icons/Spinning";
 import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
-import { getContacts, addContact } from "../actions";
+import { getContacts, addContact, deleteContact } from "../actions";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -31,6 +31,7 @@ class Campaigns extends Component {
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -60,6 +61,23 @@ class Campaigns extends Component {
       }
     );
   }
+  handleDelete(id, contactid, campaignid) {
+    // console.log('here', id, contactid, campaignid)
+    this.props.dispatch(deleteContact(id, contactid, campaignid));
+    this.props.dispatch(getContacts(this.props.match.params.id));
+
+    // axios.post('/heyhey',{
+    //   id:id,
+    //   contactid:contactid,
+    //   campaignid:campaignid
+    // })
+    // .then((response)=>{
+    //   console.log(response,"dlete")
+    // })
+    // .catch((err)=>{
+    //   console.log(err)
+    // })
+  }
   handleName(e) {
     this.setState({
       nameInput: e.target.value
@@ -75,19 +93,10 @@ class Campaigns extends Component {
     this.setState({
       show: true
     });
-    // axios
-    //   .post("/send")
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   }
 
   render() {
     return (
-      // console.log(this.state.item)
       <div>
         <Button icon={<RevertIcon />} path="/" />
         <div>
@@ -98,17 +107,22 @@ class Campaigns extends Component {
               <FormFields>
                 <Table
                   scrollable={true}
-                  style={{ height: "250px", overflow: "auto" }}
+                  style={{ height: "350px", overflow: "auto" }}
                 >
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
+                      <th />
                     </tr>
                   </thead>
                   <tbody>
                     {this.props.contacts.contacts.map((contact, index) => (
-                      <Recipients contact={contact} key={index} />
+                      <Recipients
+                        contact={contact}
+                        key={index}
+                        handleDelete={this.handleDelete}
+                      />
                     ))}
                   </tbody>
                 </Table>
@@ -165,7 +179,6 @@ class Campaigns extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("map state to props was called", state.contacts.contacts);
   return {
     user: state.user,
     contacts: state.contacts

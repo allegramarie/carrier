@@ -108,18 +108,23 @@ export function addContact(name, email, campaign) {
   };
 }
 
-// export function dragDrop(file, campaign){
-//   console.log('dragDrop', file, campaign)
-//   return function(dispatch) {
-//     axios.post("/drop", {
-//       data: file,
-//       campaign: campaign
-//     })
-//     .then(response=>{
-//       dispatch({type: types.DRAG_DROP, payload: response.data})
-//     })
-//     .catch(err=>{
-//       console.log(err)
-//     })
-//   }
-// }
+export function deleteContact(id, contactid, campaignid) {
+  // console.log('indelete', id, contactid, campaignid);
+  return function(dispatch) {
+    axios
+      .post("/deleteContact", {
+        id: id,
+        contactid: contactid,
+        campaignid: campaignid
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_CONTACT,
+          payload: { id, contactid, campaignid }
+        });
+      })
+      .catch(err => {
+        console.log(err, "indelete");
+      });
+  };
+}

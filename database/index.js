@@ -16,21 +16,6 @@ const pool = new Pool({
   password: config.password,
   database: config.database
 });
-// const pool = new Pool({
-//   host: "localhost",
-//   // connectionString: process.env.DATABASE_URL,
-//   user: "",
-//   password: "",
-//   database: "mail"
-// });
-
-// const pool = new Pool({
-//   host: "localhost",
-//   // connectionString: process.env.DATABASE_URL,
-//   user: "",
-//   password: "",
-//   database: "mail"
-// });
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -176,7 +161,7 @@ const addContact = function(input, callback) {
     });
 };
 const createMultiCampaignContact = function(campaign, contact, callback) {
-  // console.log("Data for join,", campaign, contact[0].rows[0].id);
+  console.log("Data for join,", campaign, contact[0].rows[0].id);
   return Promise.all(
     contact.map(data => {
       // console.log(data)
@@ -193,18 +178,32 @@ const createMultiCampaignContact = function(campaign, contact, callback) {
     .catch(err => {
       callback(err);
     });
-  // `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
-
-  // pool.query(
-  //   `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
-  //   (err, results) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       callback(results);
-  //     }
-  //   }
-  // );
+};
+const deletecampaignsContact = function(data, callback) {
+  // console.log(data)
+  pool.query(
+    `DELETE from campaignContacts where contactid = '${
+      data.contactid
+    }' and campaignid = '${data.campaignid}';`,
+    // `DELETE from Contacts where id = '${data.id}';`,
+    (err, result) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(result);
+      }
+    }
+  );
+};
+const deleteContact = function(data, callback) {
+  console.log(data);
+  pool.query(`DELETE from contacts where id = '${data.id}';`, (err, result) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(result);
+    }
+  });
 };
 
 pool.connect((err, client, done) => {
@@ -232,5 +231,7 @@ module.exports = {
   createCampaignContact,
   addContact,
   addNewContactEmail,
-  createMultiCampaignContact
+  createMultiCampaignContact,
+  deletecampaignsContact,
+  deleteContact
 };

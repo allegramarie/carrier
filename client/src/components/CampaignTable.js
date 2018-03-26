@@ -32,8 +32,6 @@ class CampaignTable extends React.Component {
         id: id
       });
     }
-    // this.props.history.push("path/to/push");
-    // return (<Redirect to="/campaigns"/>)
   }
   render() {
     if (this.state.show === true) {

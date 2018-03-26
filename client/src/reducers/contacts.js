@@ -1,4 +1,4 @@
-import { ADD_CONTACT, GET_CONTACTS } from "../constants";
+import { ADD_CONTACT, GET_CONTACTS, DELETE_CONTACT } from "../constants";
 
 const initialState = {
   contacts: []
@@ -16,6 +16,11 @@ export default function addContact(state = initialState, action) {
     case GET_CONTACTS:
       return {
         contacts: action.payload
+      };
+    case DELETE_CONTACT:
+      // console.log('in reducer')
+      return {
+        contacts: [...state.contacts, action.payload]
       };
 
     default:

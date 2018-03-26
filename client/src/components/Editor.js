@@ -150,11 +150,6 @@ class Editor extends Component {
         })
         .replace(/(\r\n|\n|\r)/gm, " ");
       console.log(result);
-      //minify, escape double quotes, and remove line breaks
-      // var b = a.replace(/\s{2,}/g, '').replace(/\'/g, '"').replace(/(\r\n|\n|\r)/gm,"")
-      // var escaper = b.replace(/\"/g,"\\\"");
-      // console.log(escaper)
-
       axios.post("/exportHTML", {
         data: a,
         sendgridEmails: this.state.sendgridEmails
@@ -173,12 +168,6 @@ class Editor extends Component {
         })
         .catch(err => {
           console.log("not send");
-          /*
-        .post("/jsonToS3", design)
-        .then(res => {})
-        .catch(err => {
-          return console.log(err);
-*/
         });
     });
   };
@@ -189,11 +178,6 @@ class Editor extends Component {
     return;
     this.editor.loadDesign(theme);
   };
-
-  // onDesignLoad = (data) => {
-  //   console.log('onDesignLoad', data)
-  // }
-  // setTimeout(function(){this.onLoad()}, 3000)
 }
 
 function mapStateToProps(state) {
