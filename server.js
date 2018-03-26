@@ -12,6 +12,7 @@ var minify = require("html-minifier").minify;
 const axios = require("axios");
 const Busboy = require("busboy");
 const fs = require("fs");
+const rateLimit = require("express-rate-limit");
 
 let app = express();
 
@@ -39,6 +40,14 @@ app.post("/exportHTML", (req, res) => {
   sgMail.sendMultiple(msg);
   res.send(req.data);
 });
+
+var apiLimiter = new rateLimit({
+  windowMs: 1440 * 60 * 1000,
+  max: 100,
+  delayMs: 0
+});
+
+app.use("/exportHTML", apiLimiter);
 
 app.get("/", (request, response) => {
   response.send("Hello");
