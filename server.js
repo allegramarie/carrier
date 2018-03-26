@@ -227,12 +227,12 @@ app.post("/deleteContact", (request, response) => {
 app.post("/login", (request, response) => {
   const { username, password } = request.body;
   // Change this function when database check is implemented
-  auth.validateUserLogin(username, password).then(isValid => {
+  auth.validateUserLogin(username, password).then(results => {
+    const { isValid, userID } = results;
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
-      const userID = 1;
-      auth.setSession(token, username);
+      auth.setSession(token, { username, userID });
       response.send({ token, userID });
     } else {
       response.status(401).send({ err: "Bad Credentials: Access Denied" });
@@ -240,8 +240,30 @@ app.post("/login", (request, response) => {
   });
 });
 
-app.post("/logout", (request, response) => {});
-app.post("/signup", (request, response) => {});
+app.post("/signup", (request, response) => {
+  const { username, password } = request.body;
+  db.addNewUser({ email: username, password }, (err, res) => {
+    if (err) {
+      console.log(err);
+      response.status(400).send({ error: "Bad Request" });
+    } else {
+      const userID = res.id;
+      const token = auth.genToken();
+      // TODO: Remove hard coded userID
+      auth.setSession(token, username);
+      response.send({ token, userID });
+    }
+  });
+});
+
+app.post("/logout", (request, response) => {
+  if (request.session) {
+    auth.deleteSession(request.session.token);
+    response.send({ msg: "User session destroyed" });
+  } else {
+    response.status(401).send({ msg: "Session not valid" });
+  }
+});
 
 app.post("/auth", (request, response) => {
   // If the session exists, check that it's valid.

@@ -8,35 +8,24 @@ const pool = process.env.PROD
   : // Else, use localhost
     new Pool({ host: "localhost", user: "", password: "", database: "mail" });
 
-// const pool = new Pool({
-//   host: config.host,
-//   //   // connectionString: process.env.DATABASE_URL,
-//   port: config.port,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// });
-// const pool = new Pool({
-//   host: config.host,
-//   //   // connectionString: process.env.DATABASE_URL,
-//   port: config.port,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// });
-
 const addNewUser = function(input, callback) {
   pool.query(
     `insert into users (email, password) values ('${input.email}', '${
       input.password
-    }');`,
+    }') returning id;`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
-        callback(results);
+        callback(null, results.rows[0]);
       }
     }
+  );
+};
+
+const getUserLoginInfo = function(email, password) {
+  return pool.query(
+    `select email, password, id from users where email = '${email}' and password = '${password}'`
   );
 };
 
@@ -273,5 +262,6 @@ module.exports = {
   addNewContactEmail,
   createMultiCampaignContact,
   deletecampaignsContact,
-  deleteContact
+  deleteContact,
+  getUserLoginInfo
 };
