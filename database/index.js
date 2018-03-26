@@ -2,20 +2,28 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-// const pool = process.env.PROD
-//   ? // If prod is set, use prod config
-//     new Pool(...config)
-//   : // Else, use localhost
-//     new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+const pool = process.env.PROD
+  ? // If prod is set, use prod config
+    new Pool(...config)
+  : // Else, use localhost
+    new Pool({ host: "localhost", user: "", password: "", database: "mail" });
 
-const pool = new Pool({
-  host: config.host,
-  //   // connectionString: process.env.DATABASE_URL,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database
-});
+// const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
+// const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -98,6 +106,7 @@ const createCampaignContact = function(campaign, contact, callback) {
       if (err) {
         console.log(err);
       } else {
+        console.log("inserted campaign contact", results);
         callback(results);
       }
     }
@@ -127,9 +136,9 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
 };
 
 const updateCampaignStatus = function(campaign, callback) {
-  console.log("Campaign to be updated,", campaign);
+  console.log("Campaign to be updated,", campaign.params.id);
   pool.query(
-    `update campaigns set (status) values ('Active') where id = '${campaign}'`,
+    `update campaigns set status = 'Active' where id = '${campaign.params.id}'`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -144,13 +153,13 @@ const updateCampaignStatus = function(campaign, callback) {
 const checkCampaignTemplate = function(campaign, callback) {
   console.log("Campaign to be checked for template,", campaign);
   pool.query(
-    `select exists (select templateURL from campaigns where id = '${campaign}');`,
+    `select * from campaigns where id = '${campaign}' AND templateURL is NULL;`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("campaign has a templateURL,", results);
-        callback(results);
+        console.log("campaign has a templateURL,", results.rows);
+        callback(results.rows);
       }
     }
   );
@@ -163,7 +172,7 @@ const campaignContacts = function(input, callback) {
     (err, results) => {
       if (err) {
       } else {
-        console.log("results where rows should be zero,", results);
+        console.log("results where rows should be zero,", results.rows);
         callback(results.rows);
       }
     }

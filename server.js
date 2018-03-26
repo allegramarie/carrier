@@ -83,6 +83,7 @@ app.post("/newCampaign", (request, response) => {
 });
 
 app.post("/updateCampaign", (request, response) => {
+  console.log("inside update campaign", request);
   db.updateCampaignStatus(request.body, data => {
     response.send(data);
   });
@@ -90,11 +91,11 @@ app.post("/updateCampaign", (request, response) => {
 
 app.get("/shouldCampaignUpdate", (request, response) => {
   console.log("should campaign update", request.query.id);
-  let campaign = request.query.id;
+  var campaign = request.query.id;
   db.checkCampaignTemplate(campaign, data => {
     db.campaignContacts(campaign, res => {
       // console.log('campaign status,', data.rows[0].exists === false, 'template', res.length === 0)
-      if (data.rows[0].exists === false && res.length === 0) {
+      if (data.length === 0 && res.length === 0) {
         response.send(false);
       } else {
         response.send(true);

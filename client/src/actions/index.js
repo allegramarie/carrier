@@ -73,10 +73,10 @@ export function getCampaigns(userID) {
 }
 
 export function updateCampaign(id) {
-  // console.log("getting campaigns", userID);
+  console.log("updating campaigns id", id);
   return function(dispatch) {
     axios
-      .get("/updateCampaign", {
+      .post("/updateCampaign", {
         params: {
           id: id
         }
