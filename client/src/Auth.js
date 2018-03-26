@@ -4,7 +4,7 @@ const Auth = {
   // token: returned by /login route, and must be set in the callback.
   token: "",
   // TODO: Remove hard coded value
-  userID: 1,
+  userID: null,
   isAuthenticated: false,
   authenticate(callback) {
     // Post to server with token to check if it's valid.
@@ -24,10 +24,17 @@ const Auth = {
       });
   },
   saveState() {
-    localStorage.setItem("auth", this.token);
+    const state = {
+      token: this.token,
+      userID: this.userID
+    };
+    localStorage.setItem("auth", JSON.stringify(state));
   },
   initialize() {
-    this.token = localStorage.getItem("auth");
+    const storage = localStorage.getItem("auth");
+    const state = storage !== "" ? JSON.parse(storage) : {};
+    this.token = state.token || "";
+    this.userID = state.userID || "";
     if (this.token && this.token !== "") {
       this.isAuthenticated = true;
     }
@@ -37,9 +44,13 @@ const Auth = {
       .post("/signup", { username, password })
       .then(response => {
         const { token, userID } = response.data;
+        console.log(`
+        token: ${token}
+        userID: ${userID}
+        `);
         this.token = token;
         this.userID = userID;
-        console.log(response.data);
+        this.saveState();
         return Promise.resolve(response.data);
       })
       .catch(error => {

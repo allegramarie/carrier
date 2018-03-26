@@ -12,12 +12,12 @@ const addNewUser = function(input, callback) {
   pool.query(
     `insert into users (email, password) values ('${input.email}', '${
       input.password
-    }');`,
+    }') returning id;`,
     (err, results) => {
       if (err) {
         callback(err, null);
       } else {
-        callback(null, results);
+        callback(null, results.rows[0]);
       }
     }
   );
@@ -25,7 +25,7 @@ const addNewUser = function(input, callback) {
 
 const getUserLoginInfo = function(email, password) {
   return pool.query(
-    `select email, password from users where email = '${email}' and password = '${password}'`
+    `select email, password, id from users where email = '${email}' and password = '${password}'`
   );
 };
 

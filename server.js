@@ -197,13 +197,12 @@ app.post("/saveContactEmail", (request, response) => {
 app.post("/login", (request, response) => {
   const { username, password } = request.body;
   // Change this function when database check is implemented
-  auth.validateUserLogin(username, password).then(isValid => {
+  auth.validateUserLogin(username, password).then(results => {
+    const { isValid, userID } = results;
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
-      // TODO: Remove hard coded userID
-      const userID = 1;
-      auth.setSession(token, username);
+      auth.setSession(token, { username, userID });
       response.send({ token, userID });
     } else {
       response.status(401).send({ err: "Bad Credentials: Access Denied" });
@@ -219,7 +218,6 @@ app.post("/signup", (request, response) => {
       response.status(400).send({ error: "Bad Request" });
     } else {
       const userID = res.id;
-      console.log(res);
       const token = auth.genToken();
       // TODO: Remove hard coded userID
       auth.setSession(token, username);
