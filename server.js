@@ -228,7 +228,14 @@ app.post("/signup", (request, response) => {
   });
 });
 
-app.post("/logout", (request, response) => {});
+app.post("/logout", (request, response) => {
+  if (request.session) {
+    auth.deleteSession(request.session.token);
+    response.send({ msg: "User session destroyed" });
+  } else {
+    response.status(401).send({ msg: "Session not valid" });
+  }
+});
 
 app.post("/auth", (request, response) => {
   // If the session exists, check that it's valid.

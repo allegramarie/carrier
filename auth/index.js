@@ -26,7 +26,7 @@ const setSession = (token, username) => {
 const validateUserLogin = (username, password) => {
   return db.getUserLoginInfo(username, password).then(results => {
     const userInfo = results.rows[0];
-    const isValid = userInfo.password === password;
+    const isValid = userInfo ? userInfo.password === password : false;
     return Promise.resolve(isValid);
   });
 };
@@ -52,6 +52,7 @@ const protect = (request, response, next) => {
 module.exports = {
   genToken,
   getSession,
+  deleteSession,
   sessions,
   attachSession,
   validateUserLogin,
