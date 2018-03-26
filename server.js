@@ -83,22 +83,22 @@ app.post("/newCampaign", (request, response) => {
 });
 
 app.post("/updateCampaign", (request, response) => {
-  console.log("inside update campaign", request);
+  // console.log("inside update campaign", request);
   db.updateCampaignStatus(request.body, data => {
     response.send(data);
   });
 });
 
 app.get("/shouldCampaignUpdate", (request, response) => {
-  console.log("should campaign update", request.query.id);
+  // console.log("should campaign update", request.query.id);
   var campaign = request.query.id;
   db.checkCampaignTemplate(campaign, data => {
     db.campaignContacts(campaign, res => {
-      // console.log('campaign status,', data.rows[0].exists === false, 'template', res.length === 0)
-      if (data.length === 0 && res.length === 0) {
-        response.send(false);
-      } else {
+      // console.log('campaign status,', data.length, 'template', res.length)
+      if (data.length === 0 && res.length !== 0) {
         response.send(true);
+      } else {
+        response.send(false);
       }
     });
   });

@@ -143,7 +143,7 @@ const updateCampaignStatus = function(campaign, callback) {
       if (err) {
         console.log(err);
       } else {
-        console.log("campaign should be updated,", results);
+        // console.log("campaign should be updated,", results);
         callback(results);
       }
     }
@@ -151,14 +151,14 @@ const updateCampaignStatus = function(campaign, callback) {
 };
 
 const checkCampaignTemplate = function(campaign, callback) {
-  console.log("Campaign to be checked for template,", campaign);
+  // console.log("Campaign to be checked for template,", campaign);
   pool.query(
     `select * from campaigns where id = '${campaign}' AND templateURL is NULL;`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("campaign has a templateURL,", results.rows);
+        // console.log("campaign has a templateURL,", results.rows);
         callback(results.rows);
       }
     }
@@ -172,7 +172,7 @@ const campaignContacts = function(input, callback) {
     (err, results) => {
       if (err) {
       } else {
-        console.log("results where rows should be zero,", results.rows);
+        // console.log("results where rows should be zero,", results.rows);
         callback(results.rows);
       }
     }

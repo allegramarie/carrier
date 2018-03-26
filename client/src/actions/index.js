@@ -73,7 +73,7 @@ export function getCampaigns(userID) {
 }
 
 export function updateCampaign(id) {
-  console.log("updating campaigns id", id);
+  // console.log("updating campaigns id", id);
   return function(dispatch) {
     axios
       .post("/updateCampaign", {
@@ -82,7 +82,7 @@ export function updateCampaign(id) {
         }
       })
       .then(response => {
-        console.log("update campaign,", response);
+        // console.log("update campaign,", response);
         dispatch({ type: types.UPDATE_CAMPAIGN, payload: response.data });
       })
       .catch(err => {
