@@ -3,6 +3,7 @@ import axios from "axios";
 const Auth = {
   // token: returned by /login route, and must be set in the callback.
   token: "",
+  // TODO: Remove hard coded value
   userID: 1,
   isAuthenticated: false,
   authenticate(callback) {
@@ -30,6 +31,33 @@ const Auth = {
     if (this.token && this.token !== "") {
       this.isAuthenticated = true;
     }
+  },
+  signup({ username, password }) {
+    return axios
+      .post("/signup", { username, password })
+      .then(response => {
+        const { token, userID } = response.data;
+        this.token = token;
+        this.userID = userID;
+        console.log(response.data);
+        return Promise.resolve(response.data);
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      });
+  },
+  login({ username, password }) {
+    return axios
+      .post("/login", { username, password })
+      .then(response => {
+        const { token, userID } = response.data;
+        this.token = token;
+        this.isAuthenticated = true;
+        this.userID = userID;
+        this.saveState();
+        return Promise.resolve(response.data);
+      })
+      .catch(Promise.reject);
   },
   logout() {
     axios.post("/logout", { token: this.token });

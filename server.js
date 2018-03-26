@@ -201,6 +201,7 @@ app.post("/login", (request, response) => {
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
+      // TODO: Remove hard coded userID
       const userID = 1;
       auth.setSession(token, username);
       response.send({ token, userID });
@@ -210,8 +211,24 @@ app.post("/login", (request, response) => {
   });
 });
 
+app.post("/signup", (request, response) => {
+  const { username, password } = request.body;
+  db.addNewUser({ email: username, password }, (err, res) => {
+    if (err) {
+      console.log(err);
+      response.status(400).send({ error: "Bad Request" });
+    } else {
+      const userID = res.id;
+      console.log(res);
+      const token = auth.genToken();
+      // TODO: Remove hard coded userID
+      auth.setSession(token, username);
+      response.send({ token, userID });
+    }
+  });
+});
+
 app.post("/logout", (request, response) => {});
-app.post("/signup", (request, response) => {});
 
 app.post("/auth", (request, response) => {
   // If the session exists, check that it's valid.

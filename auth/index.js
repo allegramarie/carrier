@@ -1,3 +1,5 @@
+const db = require("../database");
+
 // Token->SessionInfo pairs
 let sessions = {};
 
@@ -22,13 +24,10 @@ const setSession = (token, username) => {
 };
 
 const validateUserLogin = (username, password) => {
-  return new Promise((resolve, reject) => {
-    // Check in the database -- simulating delay
-    if (username === "alex" && password === "rawr") {
-      setTimeout(resolve, 100, true);
-    } else {
-      setTimeout(resolve, 100, false);
-    }
+  return db.getUserLoginInfo(username, password).then(results => {
+    const userInfo = results.rows[0];
+    const isValid = userInfo.password === password;
+    return Promise.resolve(isValid);
   });
 };
 

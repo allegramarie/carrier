@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import LoginForm from "grommet/components/LoginForm";
+import { LoginForm, Anchor } from "grommet";
 import axios from "axios";
 import Auth from "../Auth";
 
@@ -14,17 +14,9 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    console.log("submitted");
     const { username, password } = event;
-    axios
-      .post("/login", { username, password })
-      .then(response => {
-        const { token, userID } = response.data;
-        console.log(`Logged in and recieved: ${token}`);
-        Auth.token = token;
-        Auth.isAuthenticated = true;
-        Auth.userID = userID;
-        Auth.saveState();
+    Auth.login({ username, password })
+      .then(result => {
         this.setState({ redirect: true });
       })
       .catch(error => {
@@ -41,7 +33,8 @@ class Login extends Component {
       <LoginForm
         errors={this.state.errors}
         onSubmit={this.handleSubmit}
-        title="Sample Title"
+        title="Login"
+        forgotPassword={<Anchor path="/signup" label="First time here?" />}
       />
     );
   }
