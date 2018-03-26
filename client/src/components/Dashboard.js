@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Header, Article, Section, Heading, Split, Box } from "grommet";
-import Sidebar from "./Sidebar";
+import { Header, Article, Section, Heading, Box } from "grommet";
 import CampaignTable from "./CampaignTable";
 import { connect } from "react-redux";
 

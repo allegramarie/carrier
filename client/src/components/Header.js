@@ -3,8 +3,6 @@ import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
 import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
-import GrommetIcon from "grommet/components/icons/base/BrandGrommetOutline";
-import SearchIcon from "grommet/components/icons/base/Search";
 import MailIcon from "grommet/components/icons/base/Mail";
 import bird from "./bird.png";
 import birdred from "./birdred.png";

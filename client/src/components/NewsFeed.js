@@ -6,7 +6,6 @@ import Columns from "grommet/components/Columns";
 import Heading from "grommet/components/Heading";
 import SocialTwitterIcon from "grommet/components/icons/base/SocialTwitter";
 import SocialFacebookIcon from "grommet/components/icons/base/SocialFacebook";
-import SocialLinkedinIcon from "grommet/components/icons/base/SocialLinkedin";
 import SocialInstagramIcon from "grommet/components/icons/base/SocialInstagram";
 
 import LinkNextIcon from "grommet/components/icons/base/LinkNext";
@@ -142,27 +141,6 @@ export default class NewsFeed extends Component {
         }
       >
         <Heading tag="h2">Join Now!</Heading>
-      </Card>
-    );
-
-    const featuredPostCard3 = (
-      <Card
-        colorIndex="light-1"
-        margin="small"
-        contentPad="medium"
-        onClick={this._onClickCard.bind(this, grommetPath)}
-        thumbnail="https://scontent-sea1-1.cdninstagram.com/vp/f88286294fc87fd7f34f844a6e3a67b2/5B00643B/t51.2885-15/s480x480/e35/c135.0.809.809/16230225_651402525043606_7862890074390659072_n.jpg?ig_cache_key=MTQ0NDc0NzY3MTQzNzEwMTM5MA%3D%3D.2.c"
-        direction="column"
-        label="Featured"
-        link={
-          <Anchor
-            href={grommetPath}
-            label="Learn More"
-            icon={<LinkNextIcon />}
-          />
-        }
-      >
-        <Heading tag="h2">This Project was Created in HackReactor NYC</Heading>
       </Card>
     );
 

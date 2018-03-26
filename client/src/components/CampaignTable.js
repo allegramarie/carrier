@@ -4,7 +4,6 @@ import CampaignTableRow from "./CampaignTableRow";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinning from "grommet/components/icons/Spinning";
-import { getCampaigns } from "../actions";
 // import { createBrowserHistory } from "history";
 
 class CampaignTable extends React.Component {

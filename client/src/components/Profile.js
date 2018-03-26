@@ -1,6 +1,5 @@
 import React from "react";
 import { Header, Heading, Section, Article, Box } from "grommet";
-import Auth from "../Auth";
 
 const Profile = () => {
   console.log("This runs when profile is rendered");
