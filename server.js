@@ -10,6 +10,7 @@ const config = require("./config.js");
 const sgMail = require("@sendgrid/mail");
 var minify = require("html-minifier").minify;
 const axios = require("axios");
+const fs = require("fs");
 
 let app = express();
 
@@ -108,14 +109,23 @@ const upload = multer({
     s3: s3,
     bucket: "targ-templates",
     key: function(req, file, cb) {
-      cb(null, `file`);
+      cb(null, `${new Date()}`);
     }
   })
 });
 
-app.post("/dropTemp", upload.any(), (request, response) => {
+app.post("/jsonToS3", (request, response) => {
+  var file = JSON.stringify(request.body);
+  console.log("req.body for json template", file);
+  var toUpload = fs.writeFile(file);
+  console.log("upload to", toUpload);
+  // upload.any(toUpload)
+  setTimeout(function() {
+    upload.any(toUpload);
+  }, 5000);
   response.send("send");
 });
+
 app.post("/drop", (request, response) => {
   // console.log(request.body,"inserver")
   const campaign = request.body.campaign;
