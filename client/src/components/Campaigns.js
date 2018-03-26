@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import Drop from "./dropzone";
-// import C3Chart from 'react-c3js';
-// import 'c3/c3.css';
-
-import thunk from "redux-thunk";
 import { connect } from "react-redux";
-// import FormField from 'grommet/components/FormField';
 import {
   TextInput,
   Form,
@@ -17,15 +10,11 @@ import {
   Footer,
   Table,
   FormFields,
-  Box,
-  Select
+  Box
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
-// import List from 'grommet/components/List';
-// import ListItem from 'grommet/components/ListItem';
 import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
-import Toast from "grommet/components/Toast";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import { getContacts, addContact } from "../actions";
 

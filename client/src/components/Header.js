@@ -3,10 +3,7 @@ import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
 import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
-import MailIcon from "grommet/components/icons/base/Mail";
-import bird from "./bird.png";
 import birdred from "./birdred.png";
-import carrierpigeon from "./carrier-pigeon.png";
 import carrierpigeon2 from "./carrier-pigeon2.png";
 
 export default function AppHeader(props) {

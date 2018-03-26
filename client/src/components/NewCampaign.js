@@ -12,7 +12,6 @@ import {
   FormField,
   TextInput
 } from "grommet";
-import axios from "axios";
 import Auth from "../Auth";
 import { addCampaign } from "../actions";
 import { connect } from "react-redux";
@@ -34,7 +33,6 @@ class NewCampaign extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { nameInput, subjectInput } = this.state;
-    const userID = Auth.userID;
     this.props.dispatch(
       addCampaign(nameInput, "Draft", subjectInput, Auth.userID)
     );

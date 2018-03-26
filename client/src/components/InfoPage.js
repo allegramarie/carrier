@@ -7,9 +7,7 @@ import Button from "grommet/components/Button";
 import LinkNext from "grommet/components/icons/base/LinkNext";
 import people from "./people.svg";
 import Meter from "grommet/components/Meter";
-import Legend from "grommet/components/Legend";
 import Value from "grommet/components/Value";
-import FormFields from "grommet/components/FormFields";
 // import iMap from './iMap.js'
 import WorldMap from "grommet/components/WorldMap";
 

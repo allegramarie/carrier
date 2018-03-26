@@ -23,6 +23,7 @@ class Login extends Component {
         console.log(`Logged in and recieved: ${token}`);
         Auth.token = token;
         Auth.isAuthenticated = true;
+        Auth.userID = userID;
         Auth.saveState();
         this.setState({ redirect: true });
       })

@@ -1,6 +1,5 @@
 import Dropzone from "react-dropzone";
 import React from "react";
-import ReactFileReader from "react-file-reader";
 import axios from "axios";
 import { getContacts } from "../actions";
 import { connect } from "react-redux";

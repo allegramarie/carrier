@@ -1,7 +1,6 @@
 import React from "react";
 import { Menu, Anchor } from "grommet";
 import Auth from "../Auth";
-import { Link } from "react-router-dom";
 
 const SidebarMenu = () => (
   <Menu primary={true}>

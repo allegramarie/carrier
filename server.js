@@ -135,35 +135,6 @@ function uploadToS3(file) {
   });
 }
 
-aws.config.update({
-  secretAccessKey: config.secretAccessKey,
-  accessKeyId: config.accessKeyId,
-  region: "us-east-1"
-});
-const s3 = new aws.S3();
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "targ-templates",
-    key: function(req, file, cb) {
-      cb(null, `${new Date()}`);
-    }
-  })
-});
-
-// app.post("/jsonToS3", (request, response) => {
-//   var file = JSON.stringify(request.body);
-//   console.log("req.body for json template", file);
-//   var toUpload = fs.writeFile(file);
-//   console.log("upload to", toUpload);
-//   // upload.any(toUpload)
-//   setTimeout(function() {
-//     upload.any(toUpload);
-//   }, 5000);
-//   response.send("send");
-// });
-// >>>>>>> ericshum
-
 app.post("/drop", (request, response) => {
   // console.log(request.body,"inserver")
   const campaign = request.body.campaign;

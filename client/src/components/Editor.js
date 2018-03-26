@@ -1,30 +1,10 @@
 import React, { Component } from "react";
-import {
-  Header,
-  Heading,
-  Split,
-  Box,
-  Paragraph,
-  Button,
-  Select,
-  Section,
-  Article,
-  Headline,
-  Form,
-  FormField,
-  TextInput
-} from "grommet";
+import { Box, Button, Select } from "grommet";
 import Toast from "grommet/components/Toast";
-import { Redirect } from "react-router-dom";
-import FormPreviousIcon from "grommet/components/icons/base/FormPrevious";
-import RevertIcon from "grommet/components/icons/base/Revert";
-import { Link } from "react-router-dom";
-import { render } from "react-dom";
 import EmailEditor from "react-email-editor";
 import test from "./test.json";
 import test2 from "./test2.json";
 import custom from "./custom.json";
-import thunk from "redux-thunk";
 import { connect } from "react-redux";
 import axios from "axios";
 
@@ -161,7 +141,7 @@ class Editor extends Component {
   exportHtml = () => {
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
-      const { design, html } = data;
+      const { html } = data;
       // console.log("exportHtml", html);
       var a = html;
       var result = a
