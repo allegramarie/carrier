@@ -120,8 +120,8 @@ class Editor extends Component {
         <div>
           <EmailEditor
             style={{
-              height: "870px",
-              width: "1400px",
+              height: "900px",
+              width: "1300px",
               borderStyle: "solid",
               borderRadius: "1%"
             }}
@@ -193,14 +193,21 @@ class Editor extends Component {
         })
         .catch(err => {
           console.log("not send");
+          /*
+        .post("/jsonToS3", design)
+        .then(res => {})
+        .catch(err => {
+          return console.log(err);
+*/
         });
     });
   };
 
   onLoad = theme => {
+    console.log("fuck");
     // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
     return;
-    this.editor.loadDesign();
+    this.editor.loadDesign(theme);
   };
 
   // onDesignLoad = (data) => {

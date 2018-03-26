@@ -11,6 +11,7 @@ import NewsFeed from "./NewsFeed";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import SendIcon from "grommet/components/icons/base/Send";
+import InfoPage from "./InfoPage.js";
 
 export default class LandingPage extends Component {
   render() {
@@ -20,17 +21,28 @@ export default class LandingPage extends Component {
         <Box>
           <Hero
             size="large"
-            backgroundImage="https://www.colourflutter.com/images/email-marketing-colour-flutter.jpg?crc=232461541"
+            backgroundImage="https://www.emailvendorselection.com/wp-content/uploads/2015/05/personalised-campaign.png"
+            // backgroundImage="https://www.colourflutter.com/images/email-marketing-colour-flutter.jpg?crc=232461541"
             colorIndex="light-1"
           >
             <Card
+              style={{
+                color: "orange",
+                position: "absolute",
+                left: "0px",
+                bottom: "0px"
+              }}
               heading={
                 <Heading strong={true}>
-                  Sending eMails Faster, Easier for Free
+                  Sending eMails Faster, Easier, for Free
                 </Heading>
               }
-              description="Sign Up for a free acount for a full User experience"
-              label="Allegra Come Up With a Name"
+              description={
+                <p style={{ color: "orange" }}>
+                  Sign Up for a free acount for a full User experience
+                </p>
+              }
+              label={<p style={{ color: "orange" }}>Thesis Name</p>}
               size="large"
               link={<Anchor href="#" primary={true} label="Learn More" />}
             />
@@ -44,7 +56,7 @@ export default class LandingPage extends Component {
             size={{ width: { max: "xxlarge" } }}
           >
             <Heading tag="h1" strong={true} margin="none">
-              There's MailChimp, than there's Us.
+              There's MailChimp, then there's Us.
             </Heading>
             <Paragraph size="xlarge" width="large">
               Lorem ipsum dolor sit amet, dicat sonet congue ei mei, est summo
@@ -65,6 +77,7 @@ export default class LandingPage extends Component {
           </Box>
           <NewsFeed />
         </Box>
+        <InfoPage />
         <Footer justify="between" colorIndex="grey-1" size="large">
           <Title>
             <SendIcon style={{ marginLeft: "50px" }} />
