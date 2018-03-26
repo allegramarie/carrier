@@ -88,6 +88,21 @@ app.post("/updateCampaign", (request, response) => {
   });
 });
 
+app.get("/shouldCampaignUpdate", (request, response) => {
+  console.log("should campaign update", request.query.id);
+  let campaign = request.query.id;
+  db.checkCampaignTemplate(campaign, data => {
+    db.campaignContacts(campaign, res => {
+      // console.log('campaign status,', data.rows[0].exists === false, 'template', res.length === 0)
+      if (data.rows[0].exists === false && res.length === 0) {
+        response.send(false);
+      } else {
+        response.send(true);
+      }
+    });
+  });
+});
+
 app.get("/campaignContacts", (request, response) => {
   db.campaignContacts(request.query.id, data => {
     // console.log(data);

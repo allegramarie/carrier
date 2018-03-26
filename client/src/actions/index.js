@@ -82,7 +82,7 @@ export function updateCampaign(id) {
         }
       })
       .then(response => {
-        // console.log("returned campaigns", response);
+        console.log("update campaign,", response);
         dispatch({ type: types.UPDATE_CAMPAIGN, payload: response.data });
       })
       .catch(err => {

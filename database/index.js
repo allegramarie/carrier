@@ -144,7 +144,7 @@ const updateCampaignStatus = function(campaign, callback) {
 const checkCampaignTemplate = function(campaign, callback) {
   console.log("Campaign to be checked for template,", campaign);
   pool.query(
-    `SELECT exists (SELECT '${campaign}' FROM campaigns WHERE column = templateURL);`,
+    `select exists (select templateURL from campaigns where id = '${campaign}');`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -162,9 +162,8 @@ const campaignContacts = function(input, callback) {
     `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
     (err, results) => {
       if (err) {
-        console.log(err, "here");
       } else {
-        // console.log(results)
+        console.log("results where rows should be zero,", results);
         callback(results.rows);
       }
     }
@@ -260,6 +259,7 @@ module.exports = {
   campaignContacts,
   createCampaignContact,
   updateCampaignStatus,
+  checkCampaignTemplate,
   addContact,
   addNewContactEmail,
   createMultiCampaignContact,
