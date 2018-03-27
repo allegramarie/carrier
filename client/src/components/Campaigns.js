@@ -67,9 +67,9 @@ class Campaigns extends Component {
         // console.log('reached!', this.state)
       }
     );
-    if (this.props.contacts.contacts[0]) {
-      this.shouldCampaignUpdate();
-    }
+    // if (this.props.contacts.contacts[0]) {
+    this.shouldCampaignUpdate();
+    // }
   }
 
   shouldCampaignUpdate() {
