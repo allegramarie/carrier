@@ -47,6 +47,10 @@ var apiLimiter = new rateLimit({
   delayMs: 0
 });
 
+var apiLimiter = function() {
+  db.returnConnectionsCount();
+};
+
 app.use("/exportHTML", apiLimiter);
 
 app.get("/", (request, response) => {

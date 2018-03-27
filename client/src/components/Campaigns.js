@@ -17,7 +17,12 @@ import Spinning from "grommet/components/icons/Spinning";
 import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
-import { getContacts, addContact, deleteContact, updateCampaign } from "../actions";
+import {
+  getContacts,
+  addContact,
+  deleteContact,
+  updateCampaign
+} from "../actions";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -33,6 +38,7 @@ class Campaigns extends Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -61,6 +67,13 @@ class Campaigns extends Component {
         // console.log('reached!', this.state)
       }
     );
+    if (this.props.contacts.contacts[0]) {
+      this.shouldCampaignUpdate();
+    }
+  }
+
+  shouldCampaignUpdate() {
+    console.log("Campaign update is running");
     axios
       .get("/shouldCampaignUpdate", {
         params: {
@@ -77,6 +90,7 @@ class Campaigns extends Component {
         console.log(error);
       });
   }
+
   handleDelete(id, contactid, campaignid) {
     // console.log('here', id, contactid, campaignid)
     this.props.dispatch(deleteContact(id, contactid, campaignid));

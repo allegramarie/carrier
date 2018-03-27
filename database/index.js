@@ -1,6 +1,7 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
+var connections = require("./connections.js");
 
 // const pool = process.env.PROD
 // ? // If prod is set, use prod config
