@@ -78,6 +78,7 @@ app.post("/newCampaign", (request, response) => {
   // console.log("hit new campgiang");
   // console.log(request.body);
   db.addNewCampaign(request.body, data => {
+    // console.log(data,"here")
     response.send(data);
   });
 });
@@ -85,7 +86,7 @@ app.post("/newCampaign", (request, response) => {
 app.post("/updateCampaign", (request, response) => {
   // console.log("inside update campaign", request);
   db.updateCampaignStatus(request.body, data => {
-    response.send(data);
+    response.send(data.id);
   });
 });
 
@@ -125,7 +126,7 @@ const BUCKET_NAME = "targ-templates";
 
 app.post("/dropTemp", function(req, res, next) {
   const BUCKET_NAME = "targ-templates";
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   var file = JSON.stringify(req.body);
   uploadToS3(file);
   res.send("sends");

@@ -38,7 +38,8 @@ class CreateCampaign extends Component {
         { themeName: "test" },
         { themeName: "test2" }
       ],
-      popup: false
+      popup: false,
+      show: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
@@ -85,14 +86,20 @@ class CreateCampaign extends Component {
       ],
       sendgridEmails: [...this.state.sendgridEmails, this.state.emailInput],
       emailInput: "",
-      nameInput: ""
+      nameInput: "",
+      show: true
     });
-    axios.post("/saveContactEmail", this.state.contactInfo);
-    console.log(this.state.item, "in onClick");
+    // axios.post("/saveContactEmail", this.state.contactInfo);
+    // console.log(this.state.item, "in onClick");
+    // return <Redirect to="/" />
+    // console.log(this.state)
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
+    if (this.state.show === true) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <Split>
@@ -147,18 +154,10 @@ class CreateCampaign extends Component {
                     style={{ width: "70%", height: "70%" }}
                   >
                     <TextInput
-                      // placeHolder={this.state.nameInput}
                       onDOMChange={e => {
                         this.handleName(e);
                       }}
                       placeHolder={this.state.nameInput}
-                      // onKeyPress={event => {
-                      //   if (event.key === "Enter")
-                      //     this.state.contactInfo.push({
-                      //       name: "test",
-                      //       email: "testing"
-                      //     });
-                      // }}
                     />
                   </FormField>
                   <FormField
@@ -189,7 +188,7 @@ class CreateCampaign extends Component {
                   />
                   <p />
                   <Button
-                    label="Save Campaign"
+                    label=" Campaign"
                     type="submit"
                     primary={true}
                     style={{ marginRight: "15%" }}

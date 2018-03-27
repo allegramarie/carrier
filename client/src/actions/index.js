@@ -11,10 +11,13 @@ export function addCampaign(name, status, subject, userID) {
     axios
       .post("/newCampaign", payload)
       .then(response => {
+        // console.log(response.data)
         dispatch({ type: types.ADD_CAMPAIGN, payload: response.data });
+        return response.data;
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
+        return err;
       });
   };
 }

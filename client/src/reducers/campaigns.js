@@ -7,6 +7,8 @@ const initialState = {
 export default function campaigns(state = initialState, action) {
   switch (action.type) {
     case ADD_CAMPAIGN:
+      // console.log(action.payload, 'payload')
+
       return {
         //action.payload // Using this assumes a fully formed campaign object is the payload.
         campaigns: [...state.campaigns, action.payload]
@@ -37,6 +39,7 @@ export default function campaigns(state = initialState, action) {
         // content: action.payload.content,
         // userID: action.payload.userID
       };
+
     default:
       return state;
   }

@@ -15,13 +15,16 @@ import {
 import Auth from "../Auth";
 import { addCampaign } from "../actions";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 class NewCampaign extends Component {
   constructor(props) {
     super(props);
     this.state = {
       nameInput: "",
-      subjectInput: ""
+      subjectInput: "",
+      cid: null,
+      show: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,16 +33,27 @@ class NewCampaign extends Component {
 
   // Action addCampaign is kind of specific; maybe you want to handle the data
   // differently.
+  // var cid = []
   handleSubmit(e) {
+    const that = this;
     e.preventDefault();
     const { nameInput, subjectInput } = this.state;
     this.props.dispatch(
       addCampaign(nameInput, "Draft", subjectInput, Auth.userID)
     );
-    this.setState({
-      nameInput: "",
-      subjectInput: ""
-    });
+    setTimeout(() => {
+      this.setState(
+        {
+          cid: this.props.campaigns.campaigns[
+            this.props.campaigns.campaigns.length - 1
+          ],
+          nameInput: "",
+          subjectInput: "",
+          show: true
+        },
+        function() {}
+      );
+    }, 500);
   }
 
   handleInputChange(event) {
@@ -48,13 +62,17 @@ class NewCampaign extends Component {
     const { name, value } = target;
 
     // This assigns the changed value to state using the name of the changed
-    // input field
+    // input fiel
     this.setState({
       [name]: value
     });
   }
 
   render() {
+    if (this.state.show === true) {
+      // console.log(this.state.cid.id)
+      return <Redirect to={`/campaigns/${this.state.cid.id}`} />;
+    }
     return (
       <Box justify="center" align="start" pad="medium">
         <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>

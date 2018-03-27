@@ -2,11 +2,28 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-const pool = process.env.PROD
-  ? // If prod is set, use prod config
-    new Pool(...config)
-  : // Else, use localhost
-    new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+// const pool = process.env.PROD
+// ? // If prod is set, use prod config
+// new Pool(...config)
+// : // Else, use localhost
+// new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+
+const pool = new Pool({
+  host: config.host,
+  //   // connectionString: process.env.DATABASE_URL,
+  port: config.port,
+  user: config.user,
+  password: config.password,
+  database: config.database
+});
+// const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -88,14 +105,14 @@ const addNewContactEmail = function(input, callback) {
 };
 
 const createCampaignContact = function(campaign, contact, callback) {
-  console.log("Data for join,", campaign, contact);
+  // console.log("Data for join,", campaign, contact);
   pool.query(
     `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("inserted campaign contact", results);
+        // console.log("inserted campaign contact", results);
         callback(results);
       }
     }
@@ -104,7 +121,7 @@ const createCampaignContact = function(campaign, contact, callback) {
 
 const addNewCampaign = function({ name, subject, userID }, callback) {
   const status = "Draft";
-  console.log(name, subject, status, userID);
+  // console.log(name, subject, status, userID);
   pool.query(
     `insert into campaigns (name, status, subject, userID) values ('${name}', '${status}', '${subject}', '${userID}') returning id;`,
     (err, results) => {
@@ -125,7 +142,7 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
 };
 
 const updateCampaignStatus = function(campaign, callback) {
-  console.log("Campaign to be updated,", campaign.params.id);
+  // console.log("Campaign to be updated,", campaign.params.id);
   pool.query(
     `update campaigns set status = 'Active' where id = '${campaign.params.id}'`,
     (err, results) => {
@@ -188,7 +205,7 @@ const addContact = function(input, callback) {
     });
 };
 const createMultiCampaignContact = function(campaign, contact, callback) {
-  console.log("Data for join,", campaign, contact[0].rows[0].id);
+  // console.log("Data for join,", campaign, contact[0].rows[0].id);
   return Promise.all(
     contact.map(data => {
       // console.log(data)
@@ -223,7 +240,7 @@ const deletecampaignsContact = function(data, callback) {
   );
 };
 const deleteContact = function(data, callback) {
-  console.log(data);
+  // console.log(data);
   pool.query(`DELETE from contacts where id = '${data.id}';`, (err, result) => {
     if (err) {
       callback(err);
