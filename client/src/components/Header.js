@@ -30,7 +30,7 @@ export default function AppHeader(props) {
         flex="grow"
       >
         <img
-          src={birdred}
+          src={bird}
           style={{
             position: "relative",
             float: "left",

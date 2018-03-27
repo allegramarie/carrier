@@ -12,6 +12,7 @@ var minify = require("html-minifier").minify;
 const axios = require("axios");
 const Busboy = require("busboy");
 const fs = require("fs");
+const fetch = require("node-fetch");
 
 let app = express();
 
@@ -25,15 +26,18 @@ app.use(auth.attachSession);
 app.use(express.static(__dirname + "/client/build"));
 
 app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
+  console.log("getting frustrated");
   // console.log(req.body.data);
   var abc = req.body.data;
+  console.log(req.body.data);
+  console.log(req.body.sendgridEmails);
+  console.log(req.body.subject);
 
   sgMail.setApiKey(`${config.TOKEN}`);
   const msg = {
     to: req.body.sendgridEmails,
     from: "test@example.com",
-    subject: req.body.subject,
+    subject: "Hello Allegra",
     html: abc
   };
   sgMail.sendMultiple(msg);
@@ -100,22 +104,27 @@ app.post("/newContact", (request, response) => {
 });
 
 const BUCKET_NAME = "targ-templates";
+var newdata;
 
 app.post("/dropTemp", function(req, res, next) {
   const BUCKET_NAME = "targ-templates";
   console.log(JSON.stringify(req.body));
   var file = JSON.stringify(req.body);
-  uploadToS3(file);
-  res.send("sends");
+  uploadToS3(file, data => {
+    console.log("this is the newdata");
+    res.send(data);
+  });
+  // res.send("sends");
+  // console.log(ehehe)
 });
-function uploadToS3(file) {
+function uploadToS3(file, cb) {
   let s3bucket = new AWS.S3({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
     Bucket: BUCKET_NAME
   });
   s3bucket.createBucket(function() {
-    const name = "Testjh Name";
+    const name = `${new Date()}`;
     const data = file;
     var params = {
       Bucket: BUCKET_NAME,
@@ -130,26 +139,67 @@ function uploadToS3(file) {
       }
       console.log("success");
       console.log(BUCKET_NAME);
-      console.log(data);
+      console.log(data.Location);
+      var templateURL = data.Location;
+      while (templateURL) {
+        db.saveTemplate(templateURL, res => {
+          console.log(res);
+          console.log("trying to save template into s3");
+          // newdata = res.rows[0].id
+          cb(res);
+          // res.send(res)
+        });
+        break;
+      }
+      // setTimeout(function(){
+      //   db.saveTemplate(templateURL, (res)=>{
+      //     console.log('trying to save template into s3')
+      //   })
+      // },3000)
     });
   });
 }
 
-aws.config.update({
-  secretAccessKey: config.secretAccessKey,
-  accessKeyId: config.accessKeyId,
-  region: "us-east-1"
+app.get("/getThatShit", function(req, res) {
+  // console.log()
+  console.log(req.query.fook);
+  axios.get(req.query.fook).then(data => {
+    var dataa = JSON.stringify(data.data);
+    res.send(dataa);
+  });
 });
-const s3 = new aws.S3();
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "targ-templates",
-    key: function(req, file, cb) {
-      cb(null, `${new Date()}`);
-    }
-  })
+
+app.get("/retrieveDraft", function(req, res) {
+  // var stuff
+  db.retrieveDraft(newdata, data => {
+    var link = data.rows[0].templateurl;
+    console.log("draftdata", data.rows[0].templateurl);
+    // axios.get(data.rows[0].templateurl, (dataa)=>{
+    //   console.log(dataa)
+    res.send(link);
+  });
+  // Promise.all(
+  //   fetch(data.rows[0].templateurl)
+  //   .then((resp)=>{ stuff = resp.text()})
+  //   .then(console.log(stuff)))
+  // })
 });
+
+// aws.config.update({
+//   secretAccessKey: config.secretAccessKey,
+//   accessKeyId: config.accessKeyId,
+//   region: "us-east-1"
+// });
+// const s3 = new aws.S3();
+// const upload = multer({}
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: "targ-templates",
+//     key: function(req, file, cb) {
+//       cb(null, `${new Date()}`);
+//     }
+//   })
+// });
 
 // app.post("/jsonToS3", (request, response) => {
 //   var file = JSON.stringify(request.body);
@@ -197,21 +247,24 @@ app.post("/drop", (request, response) => {
   });
 });
 //s3 drop
-app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
-  // console.log(req.body.data);
-  var abc = req.body.data;
+// app.post("/exportHTML", (req, res) => {
+//   console.log("getting frustrated");
+//   // console.log(req.body.data);
+//   var abc = req.body.data;
+//   console.log(abc)
+//   console.log('inside send email',req.body.sendgridEmails)
 
-  sgMail.setApiKey(`${config.TOKEN}`);
-  const msg = {
-    to: req.body.sendgridEmails,
-    from: "test@example.com",
-    subject: req.body.subject,
-    html: abc
-  };
-  sgMail.sendMultiple(msg);
-  res.send(req.data);
-});
+//   sgMail.setApiKey(`${config.TOKEN}`);
+//   const msg = {
+//     to: req.body.sendgridEmails,
+//     from: "test@example.com",
+//     subject: req.body.subject,
+//     html: abc
+//   };
+//   sgMail.sendMultiple(msg);
+//   console.log('sent')
+//   res.send(req.data);
+// });
 
 app.post("/saveContactEmail", (request, response) => {
   var email = request.body;

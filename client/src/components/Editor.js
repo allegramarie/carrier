@@ -27,25 +27,62 @@ import custom from "./custom.json";
 import thunk from "redux-thunk";
 import { connect } from "react-redux";
 import axios from "axios";
+import { $, jQuery } from "jquery";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendgridEmails: [],
+      sendgridEmails: ["eshum89@gmail.com"],
       themes: [
         { themeName: "custom" },
         { themeName: "Summer Events" },
-        { themeName: "HackReactor" }
+        { themeName: "HackReactor" },
+        { themeName: "Draft" }
       ],
       popup: false,
-      sendPopup: false
+      sendPopup: false,
+      draft: ""
     };
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
+
+  componentDidMount() {
+    var asdf;
+    axios
+      .get("/retrieveDraft")
+      .then(response => {
+        console.log(response.data);
+        axios
+          .get("/getThatShit", { params: { fook: response.data } })
+          .then(res => {
+            console.log("yoyoyoy", res.data);
+            this.state.draft = res.data;
+            // this.state.themes.push({themeName: ""})
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  //   componentDidMount(){
+  //     console.log('Fetch');
+  //     fetch("https://horizons-json-cors.s3.amazonaws.com/products.json")
+  //     .then((resp) => (resp.json()))
+  //     .then((json) => {
+  //       var productUrlArr = [];
+  //       for (var i = 0; i < json.length; i++) {
+  //         productUrlArr.push(json[i].url);
+  //       }
+  //       console.log(productUrlArr);
+  //     }).catch((err) => {
+  //       console.log('error', err);
+  //     });
+  // }
 
   handleClick() {
     this.setState({
@@ -62,7 +99,11 @@ class Editor extends Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log("doodoo", this.state.draft);
+    var draft;
+    if (this.state.draft) {
+      draft = this.state.draft;
+    }
     return (
       <div>
         {this.state.popup === true ? (
@@ -112,8 +153,10 @@ class Editor extends Component {
               return this.editor.loadDesign(test);
             } else if (e.option.value === "HackReactor") {
               return this.editor.loadDesign(test2);
-            } else {
-              this.editor.loadDesign(custom);
+            } else if (e.option.value == "custom") {
+              return this.editor.loadDesign(custom);
+            } else if (e.option.value === "Draft") {
+              return this.editor.loadDesign(this.state.draft);
             }
           }}
         />
@@ -189,7 +232,7 @@ class Editor extends Component {
       axios
         .post("/dropTemp", design)
         .then(response => {
-          console.log("send");
+          console.log("eugenes", response);
         })
         .catch(err => {
           console.log("not send");
