@@ -41,14 +41,21 @@ app.post("/exportHTML", (req, res) => {
   res.send(req.data);
 });
 
-var apiLimiter = new rateLimit({
-  windowMs: 1440 * 60 * 1000,
-  max: 100,
-  delayMs: 0
-});
-
-var apiLimiter = function() {
-  db.returnConnectionsCount();
+var apiLimiter = function(request, response, next) {
+  console.log("api limiter called", request);
+  let emails = request.data.personalizations[0].to.length;
+  //estimated request based on sendgrid format from api
+  let connections = db.returnConnectionsCount(resp => {
+    return resp;
+  });
+  let total = connections + emails;
+  if (total < 100) {
+    db.incrementConnections(emails, resp => {
+      return next(resp);
+    });
+  } else {
+    response.status(429).send("Too many requests");
+  }
 };
 
 app.use("/exportHTML", apiLimiter);

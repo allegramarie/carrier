@@ -2,12 +2,16 @@ var redis = require("redis"),
   client = redis.createClient();
 var expiration = 86400;
 
-const incrementConnections = function() {
+const incrementConnections = function(input, callback) {
   client.exists("connections", function(err, reply) {
     if (reply) {
-      client.incr("connections", (err, reply) => {
-        console.log("Incrementing the redis count", reply);
-      });
+      while (input > 0) {
+        client.incr("connections", (err, reply) => {
+          console.log("Incrementing the redis count", reply);
+          callback(reply);
+        });
+        input--;
+      }
     } else {
       client.set(["connections", 0, "EX", expiration], (err, response) => {
         if (err) {
@@ -18,11 +22,12 @@ const incrementConnections = function() {
   });
 };
 
-const returnConnectionsCount = function() {
+const returnConnectionsCount = function(callback) {
   client.exists("connections", function(err, reply) {
     if (reply) {
       client.get("connections", (err, reply) => {
         console.log("Returned the count from redis", reply);
+        callback(reply);
       });
     } else {
       console.log("Connections are expired", err);
