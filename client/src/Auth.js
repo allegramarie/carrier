@@ -33,8 +33,8 @@ const Auth = {
   initialize() {
     const storage = localStorage.getItem("auth");
     const state = storage !== "" ? JSON.parse(storage) : {};
-    this.token = state.token || "";
-    this.userID = state.userID || "";
+    this.token = state ? state.token : "";
+    this.userID = state ? state.userID : "";
     if (this.token && this.token !== "") {
       this.isAuthenticated = true;
     }
