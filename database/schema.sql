@@ -47,7 +47,7 @@ insert into campaigns (name, status, subject, templateURL, userID) values ('News
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Sent', 'Newsletter volume 2', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Active', 'Newsletter volume 3', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Active', 'Newsletter volume 4', 'google.com', '1');
-insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Draft', 'Newsletter volume 5', 'google.com', '1');
+insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Draft', 'Newsletter volume 5', 'https://s3.amazonaws.com/targ-templates/Testjh+Name', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Draft', 'Newsletter volume 6', 'google.com', '1');
 insert into contacts (name, email) values ('Jake', 'jake@statefarm.com');
 insert into campaignContacts (campaignID, contactID) values ('3', '1');
@@ -55,3 +55,4 @@ insert into contacts (name, email) values ('Alex', 'alex@gmail.com');
 insert into campaignContacts (campaignID, contactID) values ('3', '2');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '1');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '2');
+

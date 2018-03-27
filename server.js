@@ -26,8 +26,6 @@ app.use(auth.attachSession);
 app.use(express.static(__dirname + "/client/build"));
 
 app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
-  // console.log(req.body.data);
   var abc = req.body.data;
 
   sgMail.setApiKey(`${config.TOKEN}`);
@@ -144,21 +142,44 @@ app.post("/newContact", (request, response) => {
 
 const BUCKET_NAME = "targ-templates";
 
-app.post("/dropTemp", function(req, res, next) {
-  const BUCKET_NAME = "targ-templates";
-  // console.log(JSON.stringify(req.body));
-  var file = JSON.stringify(req.body);
-  uploadToS3(file);
-  res.send("sends");
+app.get("/templates/:campaignId", (request, response) => {
+  // Get the id from the route
+  const campaignId = request.params.campaignId;
+  console.log(campaignId);
+  // Load the URL from the database
+  db.retrieveDraft(campaignId, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    // {templateURL: "https://s3.awsamazon.com/..."}
+    console.log(results);
+    // Use the URL to get JSON from S3
+    axios.get(results.templateurl).then(results => {
+      // Send the JSON data back to the client
+      response.send({ templateJSON: JSON.stringify(results.data) });
+    });
+  });
 });
-function uploadToS3(file) {
+
+app.post("/templates", (request, response) => {
+  const BUCKET_NAME = "targ-templates";
+  console.log(JSON.stringify(request.body));
+  var file = JSON.stringify(request.body);
+  uploadToS3(file);
+  response.send("sends");
+});
+
+const uploadToS3 = file => {
   let s3bucket = new AWS.S3({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
     Bucket: BUCKET_NAME
   });
-  s3bucket.createBucket(function() {
-    const name = "Testjh Name";
+
+  s3bucket.createBucket(() => {
+    // TODO: Save each draft per user and dispaly it as an option in the
+    // dropdown on the frontend editor component
+    const name = `${auth.username}-draft.json`;
     const data = file;
     var params = {
       Bucket: BUCKET_NAME,
@@ -176,7 +197,7 @@ function uploadToS3(file) {
       console.log(data);
     });
   });
-}
+};
 
 app.post("/drop", (request, response) => {
   // console.log(request.body,"inserver")

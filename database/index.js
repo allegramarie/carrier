@@ -3,37 +3,18 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 var connections = require("./connections.js");
 
-// const pool = process.env.PROD
-// ? // If prod is set, use prod config
-// new Pool(...config)
-// : // Else, use localhost
-// new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+ const pool = process.env.PROD
+ ? // If prod is set, use prod config
+ new Pool(...config)
+ : // Else, use localhost
+ new Pool({ host: "localhost", user: "", password: "", database: "mail" });
 
-const pool = new Pool({
-  host: config.host,
-  //   // connectionString: process.env.DATABASE_URL,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database
-});
-// const pool = new Pool({
-//   host: config.host,
-//   //   // connectionString: process.env.DATABASE_URL,
-//   port: config.port,
-//   user: config.user,
-//   password: config.password,
-//   database: config.database
-// });
-
-const addNewUser = function(input, callback) {
+const retrieveDraft = function(campaignId, callback) {
   pool.query(
-    `insert into users (email, password) values ('${input.email}', '${
-      input.password
-    }') returning id;`,
+    `select templateURL from campaigns where id ='${campaignId}'`,
     (err, results) => {
       if (err) {
-        callback(err, null);
+        console.log(err, null);
       } else {
         callback(null, results.rows[0]);
       }
@@ -41,9 +22,33 @@ const addNewUser = function(input, callback) {
   );
 };
 
-const getUserLoginInfo = function(email, password) {
-  return pool.query(
-    `select email, password, id from users where email = '${email}' and password = '${password}'`
+const saveTemplateURL = function(input, callback) {
+  pool.query(
+    `INSERT into campaigns (name, status, subject, templateURL, userid) values ('testCampaign', 'draft', 'Testing', '${
+      input.templateURL
+    }', ${input.userID}) returning id`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
+const addNewUser = function(input, callback) {
+  pool.query(
+    `insert into users (email, password) values ('${input.email}', '${
+      input.password
+    }');`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
   );
 };
 
@@ -113,7 +118,6 @@ const createCampaignContact = function(campaign, contact, callback) {
       if (err) {
         console.log(err);
       } else {
-        // console.log("inserted campaign contact", results);
         callback(results);
       }
     }
@@ -178,8 +182,9 @@ const campaignContacts = function(input, callback) {
     `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
     (err, results) => {
       if (err) {
+        console.log(err, "here");
       } else {
-        // console.log("results where rows should be zero,", results.rows);
+        // console.log(results)
         callback(results.rows);
       }
     }
@@ -274,12 +279,9 @@ module.exports = {
   addNewUser,
   campaignContacts,
   createCampaignContact,
-  updateCampaignStatus,
-  checkCampaignTemplate,
   addContact,
   addNewContactEmail,
   createMultiCampaignContact,
-  deletecampaignsContact,
-  deleteContact,
-  getUserLoginInfo
+  saveTemplateURL,
+  retrieveDraft
 };
