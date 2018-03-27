@@ -150,7 +150,7 @@ const updateCampaignStatus = function(campaign, callback) {
       if (err) {
         console.log(err);
       } else {
-        console.log("campaign should be updated,", results);
+        // console.log("campaign should be updated,", results);
         callback(results);
       }
     }

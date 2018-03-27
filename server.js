@@ -116,7 +116,7 @@ app.get("/shouldCampaignUpdate", (request, response) => {
   db.checkCampaignTemplate(campaign, data => {
     db.campaignContacts(campaign, res => {
       // console.log('campaign status,', data.length, 'template', res.length)
-      if (data.length !== 0 && res.length !== 0) {
+      if (data.length === 0 && res.length !== 0) {
         response.send(true);
       } else {
         response.send(false);
