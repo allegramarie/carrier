@@ -40,7 +40,7 @@ client.on("error", function(err) {
 });
 
 client.on("connect", function() {
-  console.log("Connected to redis!");
+  console.log("🌎  Connected to redis!");
 });
 
 module.exports = {
