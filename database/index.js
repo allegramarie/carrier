@@ -3,20 +3,20 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 var connections = require("./connections.js");
 
-// const pool = process.env.PROD
-// ? // If prod is set, use prod config
-// new Pool(...config)
-// : // Else, use localhost
-// new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+const pool = process.env.PROD
+  ? // If prod is set, use prod config
+    new Pool(...config)
+  : // Else, use localhost
+    new Pool({ host: "localhost", user: "", password: "", database: "mail" });
 
-const pool = new Pool({
-  host: config.host,
-  //   // connectionString: process.env.DATABASE_URL,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database
-});
+// const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
 // const pool = new Pool({
 //   host: config.host,
 //   //   // connectionString: process.env.DATABASE_URL,
@@ -110,6 +110,19 @@ const createCampaignContact = function(campaign, contact, callback) {
         console.log(err);
       } else {
         // console.log("inserted campaign contact", results);
+        callback(results);
+      }
+    }
+  );
+};
+
+const unsubscribeContact = function(contact, callback) {
+  pool.query(
+    `update contacts set unsubscribe = 'true' where id = '${contact}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
         callback(results);
       }
     }
@@ -270,6 +283,7 @@ module.exports = {
   addNewUser,
   userOpenedEmail,
   campaignContacts,
+  unsubscribeContact,
   createCampaignContact,
   updateCampaignStatus,
   checkCampaignTemplate,

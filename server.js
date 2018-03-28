@@ -159,6 +159,13 @@ app.post("/newContact", (request, response) => {
   });
 });
 
+app.post("/unsubscribe/:id", (request, response) => {
+  var id = request.params.id;
+  db.unsubscribeContact(id, data => {
+    response.send(data);
+  });
+});
+
 const BUCKET_NAME = "targ-templates";
 
 app.post("/dropTemp", function(req, res, next) {

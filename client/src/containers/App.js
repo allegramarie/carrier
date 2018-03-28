@@ -15,6 +15,7 @@ import Sidebar from "../components/Sidebar";
 import NewCampaign from "../components/NewCampaign";
 import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
+import Unsubscribe from "../components/Unsubscribe.js";
 
 class App extends Component {
   componentDidMount() {
@@ -38,6 +39,7 @@ class App extends Component {
               <Route path="/campaigns/:id" component={Campaigns} />
               <Route path="/drop" component={Drop} />
               <Route path="/Editor" component={Editor} />
+              <Route path="/unsubscribe/:id" component={Unsubscribe} />
               {/*   <Route path="/LandingPage" component={LandingPage}/>*/}
 
               {/* about page -- default for unauthenticated arrivals */}
