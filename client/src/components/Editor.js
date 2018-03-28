@@ -8,11 +8,16 @@ import custom from "../email-templates/custom.json";
 import { connect } from "react-redux";
 import axios from "axios";
 import Auth from "../Auth";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
+import DateTimePicker from "react-datetime-picker";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDate: moment(),
       sendgridEmails: [],
       themes: [
         // Includes the base email templates
@@ -26,8 +31,8 @@ class Editor extends Component {
     };
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-
   componentWillMount() {
     var a;
     const campaignId = this.props.match.params.id;
@@ -49,7 +54,6 @@ class Editor extends Component {
         this.editor.loadDesign(a) || this.editor.loadDesign();
       });
   }
-
   loadTemplateByName = name => {
     const campaignId = this.props.match.params.id;
     console.log(`campaignId: ${campaignId}`);
@@ -66,6 +70,31 @@ class Editor extends Component {
     });
   };
 
+  handleChange(date) {
+    this.setState({
+      startDate: date,
+      date: parseInt(
+        moment
+          .unix(date)
+          .utc()
+          ._i.toString()
+          .slice(0, -6)
+      )
+    });
+    console.log("date", moment.unix(date).utc()._i);
+    // console.log('old date', this.state.startDate)
+    // console.log('this is the date', date)
+    console.log(
+      "moment test",
+      parseInt(
+        moment
+          .unix(date)
+          .utc()
+          ._i.toString()
+          .slice(0, -6)
+      )
+    );
+  }
   render() {
     // console.log(Auth.userID,"here")
     return (
@@ -94,6 +123,15 @@ class Editor extends Component {
         ) : (
           <p />
         )}
+        <DatePicker
+          selected={this.state.startDate}
+          onChange={this.handleChange}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={1}
+          dateFormat="LLL"
+          timeCaption="time"
+        />
         <Select
           style={{ width: "37%", float: "right" }}
           placeHolder="Select Theme"
@@ -138,17 +176,53 @@ class Editor extends Component {
           primary={true}
           onClick={this.saveDesign}
         />
+        <Button
+          style={{
+            position: "relative",
+            float: "right",
+            marginLeft: "10px",
+            marginTop: "5px"
+          }}
+          label="Send Scheduled Email"
+          type="submit"
+          primary={true}
+          onClick={this.exportHtml}
+        />
       </div>
     );
   }
 
+  //   exportHtml = () => {
+  //   var temp = this.state.date;
+  //   this.setState({ sendPopup: true });
+  //   this.editor.exportHtml(data => {
+  //     const { htmlString } = data;
+  //     axios.post("/exportHTML", {
+  //       htmlString,
+  //       sendgridEmails: this.state.sendgridEmails,
+  //       sendTime: temp
+  //     });
+  //   });
+  // };
+
+  //Need to Keep this here to test and for Regex reference
   exportHtml = () => {
+    var temp = this.state.date;
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
-      const { htmlString } = data;
+      const { html } = data;
+      // console.log("exportHtml", html);
+      var a = html;
+      var result = a
+        .replace(/>\s+|\s+</g, function(m) {
+          return m.trim();
+        })
+        .replace(/(\r\n|\n|\r)/gm, " ");
+      console.log(result);
       axios.post("/exportHTML", {
-        htmlString,
-        sendgridEmails: this.state.sendgridEmails
+        data: a,
+        sendgridEmails: this.state.sendgridEmails,
+        sendTime: temp
       });
     });
   };
@@ -156,7 +230,6 @@ class Editor extends Component {
   saveDesign = () => {
     const campaignId = this.props.match.params.id;
     const userID = Auth.userID;
-
     let data = { campaignId, userID };
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
@@ -172,12 +245,196 @@ class Editor extends Component {
     });
   };
 }
-
 function mapStateToProps(state) {
   return {
     user: state.user,
     contacts: state.contacts
   };
 }
-
 export default connect(mapStateToProps)(Editor);
+
+//OLDSTUFF INCASE I BREAK ANYTHING
+
+// import React, { Component } from "react";
+// import { Box, Button, Select } from "grommet";
+// import Toast from "grommet/components/Toast";
+// import EmailEditor from "react-email-editor";
+// import test from "../email-templates/test.json";
+// import test2 from "../email-templates/test2.json";
+// import custom from "../email-templates/custom.json";
+// import { connect } from "react-redux";
+// import axios from "axios";
+// import Auth from "../Auth";
+
+// class Editor extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       sendgridEmails: [],
+//       themes: [
+//         // Includes the base email templates
+//         // + one user saved draft campaign templates
+//         { name: "basic" },
+//         { name: "test2" },
+//         { name: "test" }
+//       ],
+//       popup: false,
+//       sendPopup: false
+//     };
+//     this.exportHtml = this.exportHtml.bind(this);
+//     this.saveDesign = this.saveDesign.bind(this);
+//   }
+
+//   componentWillMount() {
+//     var a;
+//     const campaignId = this.props.match.params.id;
+//     console.log(`campaignId: ${campaignId}`);
+//     // If the selected template is one of the base templates, load the JSON
+//     // into the Editor.
+//     // Else, load the user template from the server (via S3)
+//     axios
+//       .get(`/templates/${campaignId}`)
+//       .then(response => {
+//         const templateJSON = response.data.templateJSON;
+//         const parsedJSON = JSON.parse(templateJSON);
+//         a = parsedJSON;
+//         // this.setState({
+//         //   name2: parsedJSON
+//         // })
+//       })
+//       .then(res => {
+//         this.editor.loadDesign(a) || this.editor.loadDesign();
+//       });
+//   }
+
+//   loadTemplateByName = name => {
+//     const campaignId = this.props.match.params.id;
+//     console.log(`campaignId: ${campaignId}`);
+//     // If the selected template is one of the base templates, load the JSON
+//     // into the Editor.
+//     // Else, load the user template from the server (via S3)
+//     axios.get(`/templates/${campaignId}`).then(response => {
+//       const templateJSON = response.data.templateJSON;
+//       const parsedJSON = JSON.parse(templateJSON);
+//       this.editor.loadDesign(parsedJSON);
+//       // this.setState({
+//       //   name2: parsedJSON
+//       // })
+//     });
+//   };
+
+//   render() {
+//     // console.log(Auth.userID,"here")
+//     return (
+//       <div>
+//         {this.state.popup === true ? (
+//           <Toast
+//             status="ok"
+//             onClose={() => {
+//               this.setState({ popup: false });
+//             }}
+//           >
+//             Template Saved!
+//           </Toast>
+//         ) : (
+//           <p />
+//         )}
+//         {this.state.sendPopup === true ? (
+//           <Toast
+//             status="ok"
+//             onClose={() => {
+//               this.setState({ sendPopup: false });
+//             }}
+//           >
+//             Emails Sent!
+//           </Toast>
+//         ) : (
+//           <p />
+//         )}
+//         <Select
+//           style={{ width: "37%", float: "right" }}
+//           placeHolder="Select Theme"
+//           inline={false}
+//           multiple={false}
+//           onSearch={false}
+//           options={this.state.themes.map(function(info, key) {
+//             return {
+//               value: info.name,
+//               sub: info,
+//               label: (
+//                 <Box direction="row" justify="center">
+//                   <span>{info.name}</span>
+//                 </Box>
+//               )
+//             };
+//           })}
+//           value={undefined}
+//           onChange={e => this.loadTemplateByName(e.option.value)}
+//         />
+//         <div>
+//           <EmailEditor
+//             style={{
+//               height: "900px",
+//               width: "1300px",
+//               borderStyle: "solid",
+//               borderRadius: "1%"
+//             }}
+//             ref={editor => (this.editor = editor)}
+//             onDesignLoad={this.onDesignLoad}
+//           />
+//         </div>
+//         <Button
+//           style={{
+//             position: "relative",
+//             float: "right",
+//             marginLeft: "10px",
+//             marginTop: "5px"
+//           }}
+//           label="Save Template"
+//           type="submit"
+//           primary={true}
+//           onClick={this.saveDesign}
+//         />
+//       </div>
+//     );
+//   }
+
+//   exportHtml = () => {
+//     this.setState({ sendPopup: true });
+//     this.editor.exportHtml(data => {
+//       const { htmlString } = data;
+//       axios.post("/exportHTML", {
+//         htmlString,
+//         sendgridEmails: this.state.sendgridEmails
+//       });
+//     });
+//   };
+
+//   saveDesign = () => {
+//     const campaignId = this.props.match.params.id;
+//     const userID = Auth.userID;
+
+//     let data = { campaignId, userID };
+//     this.editor.saveDesign(designJSON => {
+//       data.designJSON = designJSON;
+//       this.setState({ popup: true });
+//       axios
+//         .post("/templates", data)
+//         .then(response => {
+//           console.log("send");
+//         })
+//         .catch(err => {
+//           console.log("not send");
+//         });
+//     });
+//   };
+// }
+
+// function mapStateToProps(state) {
+//   return {
+//     user: state.user,
+//     contacts: state.contacts
+//   };
+// }
+
+// export default connect(mapStateToProps)(Editor);

@@ -25,15 +25,41 @@ app.use(auth.attachSession);
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
 
+// app.post("/exportHTML", (req, res) => {
+//   var abc = req.body.data;
+
+//   sgMail.setApiKey(`${config.TOKEN}`);
+//   const msg = {
+//     to: req.body.sendgridEmails,
+//     from: "test@example.com",
+//     subject: req.body.subject,
+//     html: abc
+//   };
+//   sgMail.sendMultiple(msg);
+//   res.send(req.data);
+// });
+
 app.post("/exportHTML", (req, res) => {
+  console.log("getting frustrated");
+  // console.log(req.body.data);
   var abc = req.body.data;
+  console.log(req.body.data);
+  console.log(req.body.sendgridEmails);
+  console.log(req.body.subject);
+  console.log(req.body.sendTime);
 
   sgMail.setApiKey(`${config.TOKEN}`);
   const msg = {
-    to: req.body.sendgridEmails,
+    to:
+      [
+        "eshum89@gmail.com",
+        "yu_qing630@yahoo.com",
+        "allegra.berndt@gmail.com"
+      ] || req.body.sendgridEmails,
     from: "test@example.com",
-    subject: req.body.subject,
-    html: abc
+    subject: "Hello Allegra",
+    html: req.body.data,
+    sendAt: req.body.sendTime
   };
   sgMail.sendMultiple(msg);
   res.send(req.data);
