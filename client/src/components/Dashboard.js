@@ -9,6 +9,8 @@ class Dashboard extends Component {
     this.state = {};
   }
 
+  componentWillReceiveProps() {}
+
   render() {
     return (
       <Box justify="center" align="start" pad="medium">
