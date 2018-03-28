@@ -101,23 +101,6 @@ const addNewContact = function(name, email, callback) {
   );
 };
 
-const addNewContactEmail = function(input, callback) {
-  // console.log(input.name);
-  // console.log(input.email);
-  pool.query(
-    `insert into contacts (name, email, unsubscribe) values ('${
-      input.name
-    }', '${input.email}', false);`,
-    (err, results) => {
-      if (err) {
-        console.log(err);
-      } else {
-        callback(results);
-      }
-    }
-  );
-};
-
 const createCampaignContact = function(campaign, contact, callback) {
   // console.log("Data for join,", campaign, contact);
   pool.query(
@@ -291,7 +274,6 @@ module.exports = {
   updateCampaignStatus,
   checkCampaignTemplate,
   addContact,
-  addNewContactEmail,
   createMultiCampaignContact,
   deletecampaignsContact,
   deleteContact,

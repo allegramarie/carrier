@@ -244,15 +244,6 @@ app.post("/exportHTML", (req, res) => {
   res.send(req.data);
 });
 
-app.post("/saveContactEmail", (request, response) => {
-  var email = request.body;
-  // console.log("gooogoogaagaaa", email);
-  email.map(function(a) {
-    db.addNewContactEmail(a, data => {});
-  });
-  // response.send()
-});
-
 app.post("/deleteContact", (request, response) => {
   // console.log('here', request.body)
   db.deletecampaignsContact(request.body, data => {
