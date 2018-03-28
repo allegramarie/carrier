@@ -321,7 +321,7 @@ app.post("/signup", (request, response) => {
       console.log("How is this happening?");
       response.status(400).send({ error: "Bad Request" });
     } else {
-      const userID = res.id;
+      const userID = res.rows[0].id;
       const token = auth.genToken();
       // TODO: Remove hard coded userID
       auth.setSession(token, username);

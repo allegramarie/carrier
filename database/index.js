@@ -66,7 +66,7 @@ const addNewUser = function(input, callback) {
   pool.query(
     `insert into users (email, password) values ('${input.email}', '${
       input.password
-    }');`,
+    }') returning id;`,
     (err, results) => {
       if (err) {
         console.log("Error saving new user", err, null);
