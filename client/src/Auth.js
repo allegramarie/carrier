@@ -3,7 +3,6 @@ import axios from "axios";
 const Auth = {
   // token: returned by /login route, and must be set in the callback.
   token: "",
-  // TODO: Remove hard coded value
   userID: null,
   isAuthenticated: false,
   authenticate(callback) {
