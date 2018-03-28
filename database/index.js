@@ -21,7 +21,7 @@ const updateCampaignS3URL = (url, campaignId, callback) => {
     `UPDATE campaigns SET templateURL = '${url}' WHERE id = '${campaignId}'`,
     (err, result) => {
       if (err) {
-        callback(err, null);
+        callback("Update campaign s3", err, null);
       }
       callback(null, result);
     }
@@ -39,7 +39,7 @@ const retrieveDraft = function(campaignId, callback) {
     `select templateURL from campaigns where id ='${campaignId}'`,
     (err, results) => {
       if (err) {
-        console.log(err, null);
+        console.log("Error in draft", err, null);
       } else {
         callback(null, results.rows[0]);
       }
@@ -54,7 +54,7 @@ const saveTemplateURL = function(input, callback) {
     }', ${input.userID}) returning id`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error saving template", err);
       } else {
         callback(results);
       }
@@ -69,7 +69,7 @@ const addNewUser = function(input, callback) {
     }');`,
     (err, results) => {
       if (err) {
-        console.log(err, null);
+        console.log("Error saving new user", err, null);
       } else {
         callback(null, results);
       }
@@ -82,7 +82,7 @@ const checkUserExists = function(input, callback) {
     `Select id from users where email = '${input}'`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error checking if user exists", err);
       } else {
         callback(results);
       }
@@ -96,7 +96,7 @@ const getUserCampaigns = function(input, callback) {
     `select * from campaigns where userID = '${input}'`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error getting user campaigns", err);
       } else {
         // console.log("results from the database", results);
         callback(results);
@@ -123,7 +123,7 @@ const addNewContact = function(name, email, callback) {
     `insert into contacts (name, email, unsubscribe) values ('${name}', '${email}', false) returning id;`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error adding new contacts", err);
       } else {
         callback(results);
       }
@@ -137,7 +137,7 @@ const createCampaignContact = function(campaign, contact, callback) {
     `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error creating campaign contacts", err);
       } else {
         callback(results);
       }
@@ -150,7 +150,7 @@ const unsubscribeContact = function(contact, callback) {
     `update contacts set unsubscribe = 'true' where id = '${contact}'`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error in unsubscribe", err);
       } else {
         callback(results);
       }
@@ -165,7 +165,7 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
     `insert into campaigns (name, status, subject, userID) values ('${name}', '${status}', '${subject}', '${userID}') returning id;`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error adding a new campaign", err);
       } else {
         const campaignObj = {
           name,
@@ -186,7 +186,7 @@ const updateCampaignStatus = function(campaign, callback) {
     `update campaigns set status = 'Active' where id = '${campaign.params.id}'`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error updating the campaign status", err);
       } else {
         // console.log("campaign should be updated,", results);
         callback(results);
@@ -201,7 +201,7 @@ const checkCampaignTemplate = function(campaign, callback) {
     `select * from campaigns where id = '${campaign}' AND templateURL is NULL;`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("Error checking the campaign template", err);
       } else {
         // console.log("campaign has a templateURL,", results.rows);
         callback(results.rows);
@@ -216,7 +216,7 @@ const campaignContacts = function(input, callback) {
     `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
     (err, results) => {
       if (err) {
-        console.log(err, "here");
+        console.log(err, "here in campaign contacts");
       } else {
         // console.log(results)
         callback(results.rows);
@@ -283,7 +283,7 @@ const deleteContact = function(data, callback) {
   // console.log(data);
   pool.query(`DELETE from contacts where id = '${data.id}';`, (err, result) => {
     if (err) {
-      callback(err);
+      console.log("Error deleting a contact", err);
     } else {
       callback(result);
     }
@@ -297,7 +297,7 @@ pool.connect((err, client, done) => {
     client.query("SELECT * FROM campaigns WHERE id = $1", [2], (err, res) => {
       done();
       if (err) {
-        console.log(err.stack);
+        console.log("Cannot select from campaigns", err.stack);
       } else {
         // console.log(res.rows);
       }
