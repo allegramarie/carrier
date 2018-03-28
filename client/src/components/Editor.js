@@ -28,6 +28,28 @@ class Editor extends Component {
     this.saveDesign = this.saveDesign.bind(this);
   }
 
+  componentWillMount() {
+    var a;
+    const campaignId = this.props.match.params.id;
+    console.log(`campaignId: ${campaignId}`);
+    // If the selected template is one of the base templates, load the JSON
+    // into the Editor.
+    // Else, load the user template from the server (via S3)
+    axios
+      .get(`/templates/${campaignId}`)
+      .then(response => {
+        const templateJSON = response.data.templateJSON;
+        const parsedJSON = JSON.parse(templateJSON);
+        a = parsedJSON;
+        // this.setState({
+        //   name2: parsedJSON
+        // })
+      })
+      .then(res => {
+        this.editor.loadDesign(a) || this.editor.loadDesign();
+      });
+  }
+
   loadTemplateByName = name => {
     const campaignId = this.props.match.params.id;
     console.log(`campaignId: ${campaignId}`);
@@ -38,6 +60,9 @@ class Editor extends Component {
       const templateJSON = response.data.templateJSON;
       const parsedJSON = JSON.parse(templateJSON);
       this.editor.loadDesign(parsedJSON);
+      // this.setState({
+      //   name2: parsedJSON
+      // })
     });
   };
 
