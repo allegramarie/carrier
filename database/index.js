@@ -303,5 +303,6 @@ module.exports = {
   saveTemplateURL,
   retrieveDraft,
   getUserLoginInfo,
-  updateCampaignS3URL
+  updateCampaignS3URL,
+  checkCampaignTemplate
 };

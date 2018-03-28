@@ -24,23 +24,19 @@ class App extends Component {
   render() {
     return (
       <Grommet.App centered={false}>
-        <Route path="/LandingPage" component={LandingPage} />
-
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box justify="center" align="start" pad="medium">
             <Switch>
-              <Route exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/" component={Dashboard} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <PrivateRoute path="/profile" component={Profile} />
-              <Route path="/createCampaign" component={NewCampaign} />
-              <Route path="/campaigns/:id" component={Campaigns} />
-              <Route path="/drop" component={Drop} />
-              <Route path="/Editor" component={Editor} />
-              {/*   <Route path="/LandingPage" component={LandingPage}/>*/}
-
-              {/* about page -- default for unauthenticated arrivals */}
+              <PrivateRoute path="/createCampaign" component={NewCampaign} />
+              <PrivateRoute path="/campaigns/:id" component={Campaigns} />
+              <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
+              <PrivateRoute path="/drop" component={Drop} />
+              <Route path="/LandingPage" component={LandingPage} />
             </Switch>
           </Box>
         </Split>

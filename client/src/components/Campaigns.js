@@ -7,6 +7,7 @@ import {
   Form,
   Button,
   Header,
+  Anchor,
   Heading,
   Footer,
   Table,
@@ -190,17 +191,10 @@ class Campaigns extends Component {
           </Form>
           <Drop campaign={this.props.match.params.id} />
           <Box align="end">
-            {this.state.show === false ? (
-              <Button
-                label="Save"
-                primary={true}
-                onClick={() => {
-                  this.sendEmail();
-                }}
-              />
-            ) : (
-              <Status value="ok" size="large" />
-            )}
+            <Button
+              label="Edit Tempalte"
+              path={`/campaigns/${this.props.match.params.id}/edit`}
+            />
           </Box>
         </div>
       </div>

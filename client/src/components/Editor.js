@@ -32,9 +32,7 @@ class Editor extends Component {
   }
 
   loadTemplateByName = name => {
-    //const campaignId = this.props.match.campaignId;
-    // TODO: DO NOT HARDCODE / SRY ERIC <3
-    const campaignId = 5;
+    const campaignId = this.props.match.campaignId;
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
     // Else, load the user template from the server (via S3)
@@ -43,10 +41,6 @@ class Editor extends Component {
       const parsedJSON = JSON.parse(templateJSON);
       this.editor.loadDesign(parsedJSON);
     });
-  };
-
-  saveTemplate = () => {
-    // TODO
   };
 
   render() {
@@ -149,9 +143,7 @@ class Editor extends Component {
   };
 
   saveDesign = () => {
-    // TODO: DO NOT HARDCODE
-    //const campaignId = this.props.match.campaignId;
-    const campaignId = 5;
+    const campaignId = this.props.match.campaignId;
     let data = { campaignId };
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
