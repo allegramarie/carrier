@@ -64,6 +64,23 @@ app.get("/", (request, response) => {
   response.send("Hello");
 });
 
+app.get("/:id/:cid/footer.png", (request, response) => {
+  var contactID = request.params.id;
+  var campaignID = request.params.cid;
+  //also need campaign id
+  response.set("Content-Type", "image/png");
+  res.sendFile("./footer.png", err => {
+    if (err) {
+      console.log("sending the file", err);
+    } else {
+      console.log("sent file");
+      db.userOpenedEmail(contactID, campaignID, results => {
+        console.log("response from user opened email", results);
+      });
+    }
+  });
+});
+
 app.get("/checkUser", (request, response) => {
   db.checkUserExists(request.body, data => {
     response.send(data);

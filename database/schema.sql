@@ -29,7 +29,8 @@ email varchar(100) NOT NULL
 CREATE TABLE campaignContacts (
 id SERIAL PRIMARY KEY,
 campaignID integer REFERENCES campaigns(id),
-contactID integer REFERENCES contacts(id)
+contactID integer REFERENCES contacts(id),
+opened integer
 );
 
 -- setting up postgreSQL:

@@ -75,6 +75,19 @@ const getUserCampaigns = function(input, callback) {
   );
 };
 
+const userOpenedEmail = function(contact, campaign, callback) {
+  pool.query(
+    `update campaignContacts opened = 'true' where campaignID ='${campaign}' and contactID = '${contact}';`,
+    (err, results) => {
+      if (err) {
+        console.log("error inserting open boolean", err);
+      } else {
+        callback(result);
+      }
+    }
+  );
+};
+
 const addNewContact = function(name, email, callback) {
   pool.query(
     `insert into contacts (name, email) values ('${name}', '${email}') returning id;`,
@@ -272,6 +285,7 @@ module.exports = {
   getUserCampaigns,
   checkUserExists,
   addNewUser,
+  userOpenedEmail,
   campaignContacts,
   createCampaignContact,
   updateCampaignStatus,
