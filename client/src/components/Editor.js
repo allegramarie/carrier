@@ -7,26 +7,100 @@ import test2 from "./test2.json";
 import custom from "./custom.json";
 import { connect } from "react-redux";
 import axios from "axios";
+import { $, jQuery } from "jquery";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
+// import DateTimePicker from 'react-datetime-picker';
 
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendgridEmails: [],
+      startDate: moment(),
+      sendgridEmails: ["eshum89@gmail.com"],
       themes: [
         { themeName: "custom" },
         { themeName: "Summer Events" },
-        { themeName: "HackReactor" }
+        { themeName: "HackReactor" },
+        { themeName: "Draft" }
       ],
       popup: false,
-      sendPopup: false
+      sendPopup: false,
+      draft: ""
     };
     this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.state.startDate);
+    var asdf;
+    axios
+      .get("/retrieveDraft")
+      .then(response => {
+        console.log(response.data);
+        axios
+          .get("/getThatShit", { params: { fook: response.data } })
+          .then(res => {
+            console.log("yoyoyoy", res.data);
+            this.state.draft = res.data;
+            // this.state.themes.push({themeName: ""})
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  //   componentDidMount(){
+  //     console.log('Fetch');
+  //     fetch("https://horizons-json-cors.s3.amazonaws.com/products.json")
+  //     .then((resp) => (resp.json()))
+  //     .then((json) => {
+  //       var productUrlArr = [];
+  //       for (var i = 0; i < json.length; i++) {
+  //         productUrlArr.push(json[i].url);
+  //       }
+  //       console.log(productUrlArr);
+  //     }).catch((err) => {
+  //       console.log('error', err);
+  //     });
+  // }
+
+  handleChange(date) {
+    // this.setState({
+    //   startDate: moment.unix(date).utc()._i.toString().slice(0,-6)
+    // });
+    // this.setState({startDate: 213})
+
+    this.setState({
+      startDate: date,
+      date: parseInt(
+        moment
+          .unix(date)
+          .utc()
+          ._i.toString()
+          .slice(0, -6)
+      )
+    });
+    console.log("date", moment.unix(date).utc()._i);
+    // console.log('old date', this.state.startDate)
+    // console.log('this is the date', date)
+    console.log(
+      "moment test",
+      parseInt(
+        moment
+          .unix(date)
+          .utc()
+          ._i.toString()
+          .slice(0, -6)
+      )
+    );
+  }
   handleClick() {
     this.setState({
       contactInfo: [
@@ -42,7 +116,11 @@ class Editor extends Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log("doodoo", this.state.draft);
+    var draft;
+    if (this.state.draft) {
+      draft = this.state.draft;
+    }
     return (
       <div>
         {this.state.popup === true ? (
@@ -69,6 +147,15 @@ class Editor extends Component {
         ) : (
           <p />
         )}
+        <DatePicker
+          selected={this.state.startDate}
+          onChange={this.handleChange}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={1}
+          dateFormat="LLL"
+          timeCaption="time"
+        />
         <Select
           style={{ width: "37%", float: "right" }}
           placeHolder="Select Theme"
@@ -92,8 +179,10 @@ class Editor extends Component {
               return this.editor.loadDesign(test);
             } else if (e.option.value === "HackReactor") {
               return this.editor.loadDesign(test2);
-            } else {
-              this.editor.loadDesign(custom);
+            } else if (e.option.value == "custom") {
+              return this.editor.loadDesign(custom);
+            } else if (e.option.value === "Draft") {
+              return this.editor.loadDesign(this.state.draft);
             }
           }}
         />
@@ -139,6 +228,7 @@ class Editor extends Component {
     );
   }
   exportHtml = () => {
+    var temp = this.state.date;
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
       const { html } = data;
@@ -152,7 +242,8 @@ class Editor extends Component {
       console.log(result);
       axios.post("/exportHTML", {
         data: a,
-        sendgridEmails: this.state.sendgridEmails
+        sendgridEmails: this.state.sendgridEmails,
+        sendTime: temp
       });
     });
   };
@@ -164,7 +255,7 @@ class Editor extends Component {
       axios
         .post("/dropTemp", design)
         .then(response => {
-          console.log("send");
+          console.log("eugenes", response);
         })
         .catch(err => {
           console.log("not send");

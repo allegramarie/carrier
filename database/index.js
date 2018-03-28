@@ -24,6 +24,33 @@ const pool = new Pool({
 //   password: config.password,
 //   database: config.database
 // });
+const retrieveDraft = function(input, callback) {
+  console.log(input);
+  pool.query(
+    `select templateURL from campaigns where id ='${input}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+const saveTemplate = function(input, callback) {
+  console.log("this is input in saveTemplate", input);
+  pool.query(
+    `INSERT into campaigns (name, status, subject, templateURL, userid) values ('testCampaign', 'draft', 'Testing', '${input}', 1) returning id`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // (SELECT id from users WHERE id = userID)
+        callback(results);
+      }
+    }
+  );
+};
 
 const addNewUser = function(input, callback) {
   pool.query(
@@ -280,5 +307,7 @@ module.exports = {
   createMultiCampaignContact,
   deletecampaignsContact,
   deleteContact,
-  getUserLoginInfo
+  getUserLoginInfo,
+  saveTemplate,
+  retrieveDraft
 };
