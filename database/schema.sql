@@ -23,14 +23,15 @@ userID integer REFERENCES users(id)
 CREATE TABLE contacts (
 id SERIAL PRIMARY KEY,
 name varchar(100) NOT NULL,
-email varchar(100) NOT NULL
+email varchar(100) NOT NULL, 
+unsubscribe boolean NOT NULL
 );
 
 CREATE TABLE campaignContacts (
 id SERIAL PRIMARY KEY,
 campaignID integer REFERENCES campaigns(id),
 contactID integer REFERENCES contacts(id),
-opened integer
+opened boolean
 );
 
 -- setting up postgreSQL:
@@ -50,9 +51,9 @@ insert into campaigns (name, status, subject, templateURL, userID) values ('News
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Active', 'Newsletter volume 4', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Draft', 'Newsletter volume 5', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Draft', 'Newsletter volume 6', 'google.com', '1');
-insert into contacts (name, email) values ('Jake', 'jake@statefarm.com');
+insert into contacts (name, email, unsubscribe) values ('Jake', 'jake@statefarm.com', false);
 insert into campaignContacts (campaignID, contactID) values ('3', '1');
-insert into contacts (name, email) values ('Alex', 'alex@gmail.com');
+insert into contacts (name, email, unsubscribe) values ('Alex', 'alex@gmail.com', false);
 insert into campaignContacts (campaignID, contactID) values ('3', '2');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '1');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '2');

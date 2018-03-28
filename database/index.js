@@ -90,7 +90,7 @@ const userOpenedEmail = function(contact, campaign, callback) {
 
 const addNewContact = function(name, email, callback) {
   pool.query(
-    `insert into contacts (name, email) values ('${name}', '${email}') returning id;`,
+    `insert into contacts (name, email, unsubscribe) values ('${name}', '${email}', false) returning id;`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -105,9 +105,9 @@ const addNewContactEmail = function(input, callback) {
   // console.log(input.name);
   // console.log(input.email);
   pool.query(
-    `insert into contacts (name, email) values ('${input.name}', '${
-      input.email
-    }');`,
+    `insert into contacts (name, email, unsubscribe) values ('${
+      input.name
+    }', '${input.email}', false);`,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -204,9 +204,9 @@ const addContact = function(input, callback) {
   return Promise.all(
     input.name.map((data, i) => {
       return pool.query(
-        `insert into contacts (name, email) values ('${data}', '${
+        `insert into contacts (name, email, unsubscribe) values ('${data}', '${
           input.email[i]
-        }') returning id;`
+        }', false) returning id;`
       );
     })
   )
