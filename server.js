@@ -143,7 +143,7 @@ app.post("/newContact", (request, response) => {
 app.get("/templates/:campaignId", (request, response) => {
   // Get the id from the route
   const campaignId = request.params.campaignId;
-  console.log(campaignId);
+  console.log(`campaignId: ${campaignId}`);
   // Load the URL from the database
   db.retrieveDraft(campaignId, (err, results) => {
     if (err) {
@@ -164,10 +164,11 @@ const BUCKET_NAME = "targ-templates";
 
 // TODO: this should be templates/:campaignId
 app.post("/templates", (request, response) => {
+  console.log(request.session);
   const { campaignId, designJSON } = request.body;
   var file = JSON.stringify(designJSON);
   console.log(designJSON);
-  uploadToS3(campaignId, file, (err, result) => {
+  uploadToS3(request.session.userId, campaignId, file, (err, result) => {
     if (err) {
       throw err;
     }
@@ -175,8 +176,8 @@ app.post("/templates", (request, response) => {
   });
 });
 
-const uploadToS3 = (campaignId, file, callback) => {
-  const fileName = `${auth.username}-${campaignId}-draft.json`;
+const uploadToS3 = (userId, campaignId, file, callback) => {
+  const fileName = `${userId}-${campaignId}-draft.json`;
   let s3bucket = new AWS.S3({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,

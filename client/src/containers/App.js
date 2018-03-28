@@ -33,8 +33,8 @@ class App extends Component {
               <Route path="/signup" component={Signup} />
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/createCampaign" component={NewCampaign} />
-              <PrivateRoute path="/campaigns/:id" component={Campaigns} />
               <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
+              <PrivateRoute path="/campaigns/:id" component={Campaigns} />
               <PrivateRoute path="/drop" component={Drop} />
               <Route path="/LandingPage" component={LandingPage} />
             </Switch>

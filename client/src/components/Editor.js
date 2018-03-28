@@ -27,12 +27,9 @@ class Editor extends Component {
     this.saveDesign = this.saveDesign.bind(this);
   }
 
-  componentWillMount() {
-    // TODO: Get the themes from server
-  }
-
   loadTemplateByName = name => {
-    const campaignId = this.props.match.campaignId;
+    const campaignId = this.props.match.params.id;
+    console.log(`campaignId: ${campaignId}`);
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
     // Else, load the user template from the server (via S3)
@@ -143,7 +140,7 @@ class Editor extends Component {
   };
 
   saveDesign = () => {
-    const campaignId = this.props.match.campaignId;
+    const campaignId = this.props.match.params.id;
     let data = { campaignId };
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
