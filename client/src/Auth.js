@@ -53,6 +53,7 @@ const Auth = {
         return Promise.resolve(response.data);
       })
       .catch(error => {
+        console.log("Returned a bad?");
         return Promise.reject(error);
       });
   },
