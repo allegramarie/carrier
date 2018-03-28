@@ -16,7 +16,7 @@ class Signup extends Component {
 
   handleSubmit(event) {
     const { username, password } = event;
-    console.log("Loggin in!");
+    console.log("Signing up!");
     Auth.signup({ username, password }).then(results => {
       console.log("Successfully created new account!");
       this.setState({ redirect: true });
@@ -25,13 +25,15 @@ class Signup extends Component {
 
   render() {
     return this.state.redirect ? (
-      <Redirect to="/" />
+      <Redirect to="/login" />
     ) : (
       <LoginForm
         errors={this.state.errors}
         onSubmit={this.handleSubmit}
         title="Signup"
-        forgotPassword={<Anchor path="/signup" label="First time here?" />}
+        forgotPassword={
+          <Anchor path="/login" label="Been here before? Log in." />
+        }
       />
     );
   }

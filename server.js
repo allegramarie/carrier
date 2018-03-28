@@ -318,6 +318,7 @@ app.post("/signup", (request, response) => {
   db.addNewUser({ email: username, password }, (err, res) => {
     if (err) {
       console.log(err);
+      console.log("How is this happening?");
       response.status(400).send({ error: "Bad Request" });
     } else {
       const userID = res.id;

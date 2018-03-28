@@ -69,9 +69,9 @@ const addNewUser = function(input, callback) {
     }');`,
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log(err, null);
       } else {
-        callback(results);
+        callback(null, results);
       }
     }
   );
