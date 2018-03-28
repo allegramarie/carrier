@@ -140,8 +140,6 @@ app.post("/newContact", (request, response) => {
   });
 });
 
-const BUCKET_NAME = "targ-templates";
-
 app.get("/templates/:campaignId", (request, response) => {
   // Get the id from the route
   const campaignId = request.params.campaignId;
@@ -151,7 +149,7 @@ app.get("/templates/:campaignId", (request, response) => {
     if (err) {
       throw err;
     }
-    // {templateURL: "https://s3.awsamazon.com/..."}
+    // {templateURL: "https://s3.amazonaws.com/..."}
     console.log(results);
     // Use the URL to get JSON from S3
     axios.get(results.templateurl).then(results => {
@@ -161,15 +159,24 @@ app.get("/templates/:campaignId", (request, response) => {
   });
 });
 
+// TODO: Refactor constants into their own file, or `config.js`
+const BUCKET_NAME = "targ-templates";
+
+// TODO: this should be templates/:campaignId
 app.post("/templates", (request, response) => {
-  const BUCKET_NAME = "targ-templates";
-  console.log(JSON.stringify(request.body));
-  var file = JSON.stringify(request.body);
-  uploadToS3(file);
-  response.send("sends");
+  const { campaignId, designJSON } = request.body;
+  var file = JSON.stringify(designJSON);
+  console.log(designJSON);
+  uploadToS3(campaignId, file, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    response.send({ msg: "Saved!" });
+  });
 });
 
-const uploadToS3 = file => {
+const uploadToS3 = (campaignId, file, callback) => {
+  const fileName = `${auth.username}-${campaignId}-draft.json`;
   let s3bucket = new AWS.S3({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
@@ -179,12 +186,10 @@ const uploadToS3 = file => {
   s3bucket.createBucket(() => {
     // TODO: Save each draft per user and dispaly it as an option in the
     // dropdown on the frontend editor component
-    const name = `${auth.username}-draft.json`;
-    const data = file;
     var params = {
       Bucket: BUCKET_NAME,
-      Key: name,
-      Body: data
+      Key: fileName,
+      Body: file
     };
 
     s3bucket.upload(params, function(err, data) {
@@ -192,9 +197,17 @@ const uploadToS3 = file => {
         console.log("error in callback");
         console.log(err);
       }
-      console.log("success");
+      console.log("Made it to s3bucket upload callback");
       console.log(BUCKET_NAME);
       console.log(data);
+      // TODO: save to postgres database
+      const url = `https://s3.amazonaws.com/${BUCKET_NAME}/${fileName}`;
+      db.updateCampaignS3URL(url, campaignId, (err, result) => {
+        if (err) {
+          callback(err, null);
+        }
+        callback(null, result);
+      });
     });
   });
 };

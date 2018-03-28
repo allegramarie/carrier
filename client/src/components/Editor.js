@@ -28,7 +28,7 @@ class Editor extends Component {
   }
 
   componentWillMount() {
-    // Get the themes from server
+    // TODO: Get the themes from server
   }
 
   loadTemplateByName = name => {
@@ -37,7 +37,6 @@ class Editor extends Component {
     const campaignId = 5;
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
-
     // Else, load the user template from the server (via S3)
     axios.get(`/templates/${campaignId}`).then(response => {
       const templateJSON = response.data.templateJSON;
@@ -150,11 +149,15 @@ class Editor extends Component {
   };
 
   saveDesign = () => {
-    this.editor.saveDesign(design => {
-      console.log("saveDesign", design);
+    // TODO: DO NOT HARDCODE
+    //const campaignId = this.props.match.campaignId;
+    const campaignId = 5;
+    let data = { campaignId };
+    this.editor.saveDesign(designJSON => {
+      data.designJSON = designJSON;
       this.setState({ popup: true });
       axios
-        .post("/templates", design)
+        .post("/templates", data)
         .then(response => {
           console.log("send");
         })

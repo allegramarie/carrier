@@ -3,11 +3,29 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 var connections = require("./connections.js");
 
- const pool = process.env.PROD
- ? // If prod is set, use prod config
- new Pool(...config)
- : // Else, use localhost
- new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+const pool = process.env.PROD
+  ? // If prod is set, use prod config
+    new Pool(...config)
+  : // Else, use localhost
+    new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+
+const updateCampaignS3URL = (url, campaignId, callback) => {
+  pool.query(
+    `UPDATE campaigns SET templateURL = '${url}' WHERE id = '${campaignId}'`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    }
+  );
+};
+
+const getUserLoginInfo = function(email, password) {
+  return pool.query(
+    `select email, password, id from users where email = '${email}' and password = '${password}'`
+  );
+};
 
 const retrieveDraft = function(campaignId, callback) {
   pool.query(
@@ -283,5 +301,7 @@ module.exports = {
   addNewContactEmail,
   createMultiCampaignContact,
   saveTemplateURL,
-  retrieveDraft
+  retrieveDraft,
+  getUserLoginInfo,
+  updateCampaignS3URL
 };
