@@ -16,33 +16,30 @@ import NewCampaign from "../components/NewCampaign";
 import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
 import Unsubscribe from "../components/Unsubscribe.js";
+import Auth from "../Auth";
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(getCampaigns(this.props.user.user.id));
+    this.props.dispatch(getCampaigns(Auth.userID));
   }
 
   render() {
     return (
       <Grommet.App centered={false}>
-        <Route path="/LandingPage" component={LandingPage} />
-
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box justify="center" align="start" pad="medium">
             <Switch>
-              <Route exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/" component={Dashboard} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <PrivateRoute path="/profile" component={Profile} />
-              <Route path="/createCampaign" component={NewCampaign} />
-              <Route path="/campaigns/:id" component={Campaigns} />
-              <Route path="/drop" component={Drop} />
-              <Route path="/Editor" component={Editor} />
+              <PrivateRoute path="/createCampaign" component={NewCampaign} />
+              <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
+              <PrivateRoute path="/campaigns/:id" component={Campaigns} />
+              <PrivateRoute path="/drop" component={Drop} />
+              <Route path="/LandingPage" component={LandingPage} />
               <Route path="/unsubscribe/:id" component={Unsubscribe} />
-              {/*   <Route path="/LandingPage" component={LandingPage}/>*/}
-
-              {/* about page -- default for unauthenticated arrivals */}
             </Switch>
           </Box>
         </Split>

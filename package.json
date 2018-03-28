@@ -12,7 +12,7 @@
     "dev:database":
       "brew services start postgresql && psql postgres -f database/schema.sql",
     "install": "yarn run install:client",
-    "install:client": "pwd && ls && cd client && yarn install && yarn build",
+    "install:client": "cd client && yarn install",
     "start": "node server.js",
     "precommit": "pretty-quick --staged"
   },

@@ -7,6 +7,7 @@ import {
   Form,
   Button,
   Header,
+  Anchor,
   Heading,
   Footer,
   Table,
@@ -23,6 +24,7 @@ import {
   deleteContact,
   updateCampaign
 } from "../actions";
+import Auth from "../Auth";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -47,6 +49,8 @@ class Campaigns extends Component {
   }
 
   componentDidMount() {
+    // console.log(Auth.userID,"here")
+
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
@@ -95,18 +99,6 @@ class Campaigns extends Component {
     // console.log('here', id, contactid, campaignid)
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
-
-    // axios.post('/heyhey',{
-    //   id:id,
-    //   contactid:contactid,
-    //   campaignid:campaignid
-    // })
-    // .then((response)=>{
-    //   console.log(response,"dlete")
-    // })
-    // .catch((err)=>{
-    //   console.log(err)
-    // })
   }
   handleName(e) {
     this.setState({
@@ -190,17 +182,10 @@ class Campaigns extends Component {
           </Form>
           <Drop campaign={this.props.match.params.id} />
           <Box align="end">
-            {this.state.show === false ? (
-              <Button
-                label="Save"
-                primary={true}
-                onClick={() => {
-                  this.sendEmail();
-                }}
-              />
-            ) : (
-              <Status value="ok" size="large" />
-            )}
+            <Button
+              label="Edit Tempalte"
+              path={`/campaigns/${this.props.match.params.id}/edit`}
+            />
           </Box>
         </div>
       </div>

@@ -26,8 +26,6 @@ app.use(auth.attachSession);
 app.use(express.static(__dirname + "/client/build"));
 
 app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
-  // console.log(req.body.data);
   var abc = req.body.data;
 
   sgMail.setApiKey(`${config.TOKEN}`);
@@ -166,28 +164,59 @@ app.post("/unsubscribe/:id", (request, response) => {
   });
 });
 
+app.get("/templates/:campaignId", (request, response) => {
+  // Get the id from the route
+  const campaignId = request.params.campaignId;
+  console.log(`campaignId: ${campaignId}`);
+  // Load the URL from the database
+  db.retrieveDraft(campaignId, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    // {templateURL: "https://s3.amazonaws.com/..."}
+    console.log(results);
+    // Use the URL to get JSON from S3
+    axios.get(results.templateurl).then(results => {
+      // Send the JSON data back to the client
+      response.send({ templateJSON: JSON.stringify(results.data) });
+    });
+  });
+});
+
+// TODO: Refactor constants into their own file, or `config.js`
 const BUCKET_NAME = "targ-templates";
 
-app.post("/dropTemp", function(req, res, next) {
-  const BUCKET_NAME = "targ-templates";
-  // console.log(JSON.stringify(req.body));
-  var file = JSON.stringify(req.body);
-  uploadToS3(file);
-  res.send("sends");
+// TODO: this should be templates/:campaignId
+app.post("/templates", (request, response) => {
+  // console.log(request.body)
+  // console.log(request.session);
+  const { campaignId, designJSON, userID } = request.body;
+  var file = JSON.stringify(designJSON);
+  // console.log(designJSON);
+  console.log(userID, "server");
+  uploadToS3(userID, campaignId, file, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    response.send({ msg: "Saved!" });
+  });
 });
-function uploadToS3(file) {
+
+const uploadToS3 = (userId, campaignId, file, callback) => {
+  const fileName = `${userId}-${campaignId}-draft.json`;
   let s3bucket = new AWS.S3({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
     Bucket: BUCKET_NAME
   });
-  s3bucket.createBucket(function() {
-    const name = "Testjh Name";
-    const data = file;
+
+  s3bucket.createBucket(() => {
+    // TODO: Save each draft per user and dispaly it as an option in the
+    // dropdown on the frontend editor component
     var params = {
       Bucket: BUCKET_NAME,
-      Key: name,
-      Body: data
+      Key: fileName,
+      Body: file
     };
 
     s3bucket.upload(params, function(err, data) {
@@ -195,12 +224,20 @@ function uploadToS3(file) {
         console.log("error in callback");
         console.log(err);
       }
-      console.log("success");
+      console.log("Made it to s3bucket upload callback");
       console.log(BUCKET_NAME);
       console.log(data);
+      // TODO: save to postgres database
+      const url = `https://s3.amazonaws.com/${BUCKET_NAME}/${fileName}`;
+      db.updateCampaignS3URL(url, campaignId, (err, result) => {
+        if (err) {
+          callback(err, null);
+        }
+        callback(null, result);
+      });
     });
   });
-}
+};
 
 app.post("/drop", (request, response) => {
   // console.log(request.body,"inserver")

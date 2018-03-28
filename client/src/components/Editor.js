@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { Box, Button, Select } from "grommet";
 import Toast from "grommet/components/Toast";
 import EmailEditor from "react-email-editor";
-import test from "./test.json";
-import test2 from "./test2.json";
-import custom from "./custom.json";
+import test from "../email-templates/test.json";
+import test2 from "../email-templates/test2.json";
+import custom from "../email-templates/custom.json";
 import { connect } from "react-redux";
 import axios from "axios";
+import Auth from "../Auth";
 
 class Editor extends Component {
   constructor(props) {
@@ -14,35 +15,59 @@ class Editor extends Component {
     this.state = {
       sendgridEmails: [],
       themes: [
-        { themeName: "custom" },
-        { themeName: "Summer Events" },
-        { themeName: "HackReactor" }
+        // Includes the base email templates
+        // + one user saved draft campaign templates
+        { name: "basic" },
+        { name: "test2" },
+        { name: "test" }
       ],
       popup: false,
       sendPopup: false
     };
-    this.onLoad = this.onLoad.bind(this);
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    this.setState({
-      contactInfo: [
-        ...this.state.contactInfo,
-        { name: this.state.nameInput, email: this.state.emailInput }
-      ],
-      sendgridEmails: [...this.state.sendgridEmails, this.state.emailInput],
-      emailInput: "",
-      nameInput: ""
-    });
-    axios.post("/saveContactEmail", this.state.contactInfo);
-    console.log(this.state.item, "in onClick");
+  componentWillMount() {
+    var a;
+    const campaignId = this.props.match.params.id;
+    console.log(`campaignId: ${campaignId}`);
+    // If the selected template is one of the base templates, load the JSON
+    // into the Editor.
+    // Else, load the user template from the server (via S3)
+    axios
+      .get(`/templates/${campaignId}`)
+      .then(response => {
+        const templateJSON = response.data.templateJSON;
+        const parsedJSON = JSON.parse(templateJSON);
+        a = parsedJSON;
+        // this.setState({
+        //   name2: parsedJSON
+        // })
+      })
+      .then(res => {
+        this.editor.loadDesign(a) || this.editor.loadDesign();
+      });
   }
+
+  loadTemplateByName = name => {
+    const campaignId = this.props.match.params.id;
+    console.log(`campaignId: ${campaignId}`);
+    // If the selected template is one of the base templates, load the JSON
+    // into the Editor.
+    // Else, load the user template from the server (via S3)
+    axios.get(`/templates/${campaignId}`).then(response => {
+      const templateJSON = response.data.templateJSON;
+      const parsedJSON = JSON.parse(templateJSON);
+      this.editor.loadDesign(parsedJSON);
+      // this.setState({
+      //   name2: parsedJSON
+      // })
+    });
+  };
 
   render() {
-    console.log(this.state);
+    // console.log(Auth.userID,"here")
     return (
       <div>
         {this.state.popup === true ? (
@@ -77,25 +102,17 @@ class Editor extends Component {
           onSearch={false}
           options={this.state.themes.map(function(info, key) {
             return {
-              value: info.themeName,
+              value: info.name,
               sub: info,
               label: (
                 <Box direction="row" justify="center">
-                  <span>{info.themeName}</span>
+                  <span>{info.name}</span>
                 </Box>
               )
             };
           })}
           value={undefined}
-          onChange={e => {
-            if (e.option.value === "Summer Events") {
-              return this.editor.loadDesign(test);
-            } else if (e.option.value === "HackReactor") {
-              return this.editor.loadDesign(test2);
-            } else {
-              this.editor.loadDesign(custom);
-            }
-          }}
+          onChange={e => this.loadTemplateByName(e.option.value)}
         />
         <div>
           <EmailEditor
@@ -106,23 +123,9 @@ class Editor extends Component {
               borderRadius: "1%"
             }}
             ref={editor => (this.editor = editor)}
-            onLoad={this.onLoad}
             onDesignLoad={this.onDesignLoad}
           />
         </div>
-        <Button
-          style={{
-            position: "relative",
-            float: "right",
-            marginLeft: "10px",
-            marginTop: "5px",
-            marginRight: "10px"
-          }}
-          label="Send Email"
-          type="submit"
-          primary={true}
-          onClick={this.exportHtml}
-        />
         <Button
           style={{
             position: "relative",
@@ -138,31 +141,28 @@ class Editor extends Component {
       </div>
     );
   }
+
   exportHtml = () => {
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
-      const { html } = data;
-      // console.log("exportHtml", html);
-      var a = html;
-      var result = a
-        .replace(/>\s+|\s+</g, function(m) {
-          return m.trim();
-        })
-        .replace(/(\r\n|\n|\r)/gm, " ");
-      console.log(result);
+      const { htmlString } = data;
       axios.post("/exportHTML", {
-        data: a,
+        htmlString,
         sendgridEmails: this.state.sendgridEmails
       });
     });
   };
 
   saveDesign = () => {
-    this.editor.saveDesign(design => {
-      console.log("saveDesign", design);
+    const campaignId = this.props.match.params.id;
+    const userID = Auth.userID;
+
+    let data = { campaignId, userID };
+    this.editor.saveDesign(designJSON => {
+      data.designJSON = designJSON;
       this.setState({ popup: true });
       axios
-        .post("/dropTemp", design)
+        .post("/templates", data)
         .then(response => {
           console.log("send");
         })
@@ -170,13 +170,6 @@ class Editor extends Component {
           console.log("not send");
         });
     });
-  };
-
-  onLoad = theme => {
-    console.log("fuck");
-    // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
-    return;
-    this.editor.loadDesign(theme);
   };
 }
 
