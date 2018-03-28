@@ -7,6 +7,7 @@ import test2 from "./test2.json";
 import custom from "./custom.json";
 import { connect } from "react-redux";
 import axios from "axios";
+import Auth from "../Auth";
 
 class Editor extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class Editor extends Component {
   };
 
   render() {
+    // console.log(Auth.userID,"here")
     return (
       <div>
         {this.state.popup === true ? (
@@ -141,7 +143,9 @@ class Editor extends Component {
 
   saveDesign = () => {
     const campaignId = this.props.match.params.id;
-    let data = { campaignId };
+    const userID = Auth.userID;
+
+    let data = { campaignId, userID };
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
       this.setState({ popup: true });

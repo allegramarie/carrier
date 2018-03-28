@@ -24,6 +24,7 @@ import {
   deleteContact,
   updateCampaign
 } from "../actions";
+import Auth from "../Auth";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -48,6 +49,8 @@ class Campaigns extends Component {
   }
 
   componentDidMount() {
+    // console.log(Auth.userID,"here")
+
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
 
@@ -96,18 +99,6 @@ class Campaigns extends Component {
     // console.log('here', id, contactid, campaignid)
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
-
-    // axios.post('/heyhey',{
-    //   id:id,
-    //   contactid:contactid,
-    //   campaignid:campaignid
-    // })
-    // .then((response)=>{
-    //   console.log(response,"dlete")
-    // })
-    // .catch((err)=>{
-    //   console.log(err)
-    // })
   }
   handleName(e) {
     this.setState({

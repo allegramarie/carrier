@@ -65,6 +65,7 @@ const Auth = {
         this.token = token;
         this.isAuthenticated = true;
         this.userID = userID;
+        // console.log(response.data)
         this.saveState();
         return Promise.resolve(response.data);
       })

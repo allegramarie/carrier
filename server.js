@@ -164,11 +164,13 @@ const BUCKET_NAME = "targ-templates";
 
 // TODO: this should be templates/:campaignId
 app.post("/templates", (request, response) => {
-  console.log(request.session);
-  const { campaignId, designJSON } = request.body;
+  // console.log(request.body)
+  // console.log(request.session);
+  const { campaignId, designJSON, userID } = request.body;
   var file = JSON.stringify(designJSON);
-  console.log(designJSON);
-  uploadToS3(request.session.userId, campaignId, file, (err, result) => {
+  // console.log(designJSON);
+  console.log(userID, "server");
+  uploadToS3(userID, campaignId, file, (err, result) => {
     if (err) {
       throw err;
     }

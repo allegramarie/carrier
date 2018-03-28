@@ -3,11 +3,27 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 var connections = require("./connections.js");
 
-const pool = process.env.PROD
+const pool = true
   ? // If prod is set, use prod config
-    new Pool(...config)
+    new Pool({
+      host: config.host,
+      //   // connectionString: process.env.DATABASE_URL,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database
+    })
   : // Else, use localhost
     new Pool({ host: "localhost", user: "", password: "", database: "mail" });
+
+//     const pool = new Pool({
+//   host: config.host,
+//   //   // connectionString: process.env.DATABASE_URL,
+//   port: config.port,
+//   user: config.user,
+//   password: config.password,
+//   database: config.database
+// });
 
 const updateCampaignS3URL = (url, campaignId, callback) => {
   pool.query(
