@@ -15,10 +15,11 @@ import Sidebar from "../components/Sidebar";
 import NewCampaign from "../components/NewCampaign";
 import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
+import Auth from "../Auth";
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(getCampaigns(this.props.user.user.id));
+    this.props.dispatch(getCampaigns(Auth.userID));
   }
 
   render() {

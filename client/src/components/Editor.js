@@ -106,19 +106,6 @@ class Editor extends Component {
             position: "relative",
             float: "right",
             marginLeft: "10px",
-            marginTop: "5px",
-            marginRight: "10px"
-          }}
-          label="Send Email"
-          type="submit"
-          primary={true}
-          onClick={this.exportHtml}
-        />
-        <Button
-          style={{
-            position: "relative",
-            float: "right",
-            marginLeft: "10px",
             marginTop: "5px"
           }}
           label="Save Template"
