@@ -25,46 +25,6 @@ app.use(auth.attachSession);
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
 
-// app.post("/exportHTML", (req, res) => {
-//   var abc = req.body.data;
-
-//   sgMail.setApiKey(`${config.TOKEN}`);
-//   const msg = {
-//     to: req.body.sendgridEmails,
-//     from: "test@example.com",
-//     subject: req.body.subject,
-//     html: abc
-//   };
-//   sgMail.sendMultiple(msg);
-//   res.send(req.data);
-// });
-
-app.post("/exportHTML", (req, res) => {
-  console.log("getting frustrated");
-  // console.log(req.body.data);
-  var abc = req.body.data;
-  console.log(req.body.data);
-  console.log(req.body.sendgridEmails);
-  console.log(req.body.subject);
-  console.log(req.body.sendTime);
-
-  sgMail.setApiKey(`${config.TOKEN}`);
-  const msg = {
-    to:
-      [
-        "eshum89@gmail.com",
-        "yu_qing630@yahoo.com",
-        "allegra.berndt@gmail.com"
-      ] || req.body.sendgridEmails,
-    from: "test@example.com",
-    subject: "Hello Allegra",
-    html: req.body.data,
-    sendAt: req.body.sendTime
-  };
-  sgMail.sendMultiple(msg);
-  res.send(req.data);
-});
-
 var apiLimiter = function(request, response, next) {
   console.log("api limiter called", request);
   let emails = request.data.personalizations[0].to.length;
@@ -83,6 +43,57 @@ var apiLimiter = function(request, response, next) {
 };
 
 app.use("/exportHTML", apiLimiter);
+
+// TODO: THis should really be `/send`
+app.post("/exportHTML", apiLimiter, (request, response) => {
+  console.log("We are sending an email!");
+  let { campaignId, htmlEmailContent, sendAt } = request.body;
+  console.log(htmlEmailContent);
+  sendAt = parseInt(sendAt);
+
+  // Get the list of email recipients
+  db.campaignContacts(campaignId, (error, results) => {
+    const contacts = results;
+    db.getCampaignSubject(campaignId, (error, results) => {
+      const subject = results.rows[0].subject;
+      console.log("This should be the email subject: ", subject);
+      sgMail.setApiKey(`${config.TOKEN}`);
+      sgMail.setSubstitutionWrappers("{{", "}}");
+      const emails = [];
+      //for each campaign contact, build their message object and add it to
+      //the emails array.
+      for (const contact of contacts) {
+        console.log(`Making message for ${JSON.stringify(contact)}`);
+        const msg = {
+          sendAt,
+          subject,
+          to: contact.email,
+          from: "thealex@umich.edu", // TODO: This should be `request.session.username`,
+          // TODO: Add substitution string to HTML email
+          content: [
+            {
+              type: "text/html",
+              value: htmlEmailContent
+            }
+          ],
+          // Assuming contact.id is userId
+          substitutions: {
+            trackingImageURL: `${contact.id}/${campaignId}/footer.png`,
+            foo: "BAR"
+          }
+        };
+        emails.push(msg);
+      }
+      const emailCount = emails.length;
+      sgMail
+        .send(emails)
+        .then(sgResponse => {
+          console.log(JSON.stringify(sgResponse, null, 2));
+        })
+        .catch(error => console.log(JSON.stringify(error, null, 2)));
+    });
+  });
+});
 
 app.get("/", (request, response) => {
   response.send("Hello");
@@ -118,6 +129,8 @@ app.post("/newUser", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
+  console.log("You're sending a message!");
+  console.log(request);
   sendgrid(request, response)
     .then(data => {
       response.send();
@@ -297,22 +310,6 @@ app.post("/drop", (request, response) => {
     });
   });
 });
-//s3 drop
-app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
-  // console.log(req.body.data);
-  var abc = req.body.data;
-
-  sgMail.setApiKey(`${config.TOKEN}`);
-  const msg = {
-    to: req.body.sendgridEmails,
-    from: "test@example.com",
-    subject: req.body.subject,
-    html: abc
-  };
-  sgMail.sendMultiple(msg);
-  res.send(req.data);
-});
 
 app.post("/deleteContact", (request, response) => {
   // console.log('here', request.body)
@@ -322,6 +319,7 @@ app.post("/deleteContact", (request, response) => {
     });
   });
 });
+
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;

@@ -227,9 +227,10 @@ const campaignContacts = function(input, callback) {
     (err, results) => {
       if (err) {
         console.log(err, "here in campaign contacts");
+        callback(err, null);
       } else {
-        // console.log(results)
-        callback(results.rows);
+        console.log(results);
+        callback(null, results.rows);
       }
     }
   );
@@ -315,6 +316,19 @@ pool.connect((err, client, done) => {
   }
 });
 
+const getCampaignSubject = (campaignId, callback) => {
+  pool.query(
+    `SELECT subject FROM campaigns WHERE id = '${campaignId}';`,
+    (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
 module.exports = {
   addNewCampaign,
   addNewContact,
@@ -331,5 +345,6 @@ module.exports = {
   retrieveDraft,
   getUserLoginInfo,
   updateCampaignS3URL,
-  checkCampaignTemplate
+  checkCampaignTemplate,
+  getCampaignSubject
 };

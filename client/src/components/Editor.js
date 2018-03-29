@@ -201,11 +201,11 @@ class Editor extends Component {
 
   //Need to Keep this here to test and for Regex reference
   exportHtml = () => {
-    var temp = this.state.date;
+    // TODO: Scheduling?
+    var sendAt = `${Date.now()}`.slice(0, 10);
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
       const { html } = data;
-      // console.log("exportHtml", html);
       var a = html;
       var result = a
         .replace(/>\s+|\s+</g, function(m) {
@@ -214,9 +214,9 @@ class Editor extends Component {
         .replace(/(\r\n|\n|\r)/gm, " ");
       console.log(result);
       axios.post("/exportHTML", {
-        data: a,
-        sendgridEmails: this.state.sendgridEmails,
-        sendTime: temp
+        sendAt,
+        htmlEmailContent: a,
+        campaignId: this.props.match.params.id
       });
     });
   };
