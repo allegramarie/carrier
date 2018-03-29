@@ -7,7 +7,6 @@ import {
   Form,
   Button,
   Header,
-  Anchor,
   Heading,
   Footer,
   Table,
@@ -16,7 +15,6 @@ import {
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
 import Recipients from "./Recipients.js";
-import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import {
   getContacts,
@@ -24,7 +22,6 @@ import {
   deleteContact,
   updateCampaign
 } from "../actions";
-import Auth from "../Auth";
 
 class Campaigns extends Component {
   constructor(props) {

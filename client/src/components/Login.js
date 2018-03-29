@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { LoginForm, Anchor } from "grommet";
-import axios from "axios";
 import Auth from "../Auth";
 
 class Login extends Component {

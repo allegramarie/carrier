@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Box,
-  Article,
-  Section,
-  Header,
-  Heading,
-  Form,
-  Paragraph
-} from "grommet";
+import { Box, Article, Section, Header, Heading, Paragraph } from "grommet";
 import axios from "axios";
 import { connect } from "react-redux";
 

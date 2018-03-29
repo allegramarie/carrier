@@ -35,7 +35,6 @@ class NewCampaign extends Component {
   // differently.
   // var cid = []
   handleSubmit(e) {
-    const that = this;
     e.preventDefault();
     const { nameInput, subjectInput } = this.state;
     this.props.dispatch(
