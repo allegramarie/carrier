@@ -30,14 +30,14 @@ class Campaigns extends Component {
       contacts: [],
       nameInput: "",
       emailInput: "",
-      show: false
+      validEmail: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
-    this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
+    this.checkValidEmail = this.checkValidEmail.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -104,14 +104,18 @@ class Campaigns extends Component {
   }
   handleEmail(e) {
     this.setState({
-      emailInput: e.target.value
+      emailInput: e.target.value,
+      validEmail: this.checkValidEmail(this.state.emailInput)
     });
   }
-  sendEmail() {
-    console.log("send");
-    this.setState({
-      show: true
-    });
+
+  checkValidEmail(email) {
+    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (checker.test(email)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   render() {
@@ -152,6 +156,11 @@ class Campaigns extends Component {
             <Header>
               <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
             </Header>
+            {this.state.emailInput !== "" && this.state.validEmail === false ? (
+              <p>
+                <Status value="warning" /> Email must be valid.
+              </p>
+            ) : null}
             <FormFields>
               <TextInput
                 value={this.state.nameInput}
@@ -180,7 +189,7 @@ class Campaigns extends Component {
           <Drop campaign={this.props.match.params.id} />
           <Box align="end">
             <Button
-              label="Edit Tempalte"
+              label="Edit Template"
               path={`/campaigns/${this.props.match.params.id}/edit`}
             />
           </Box>

@@ -71,6 +71,8 @@ const addNewUser = function(input, callback) {
     values,
     (err, results) => {
       if (err) {
+        callback(err);
+        //give a more detailed error message
         console.log("Error saving new user", err, null);
       } else {
         callback(null, results);

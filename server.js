@@ -185,7 +185,7 @@ app.post("/newContact", (request, response) => {
 
 app.post("/unsubscribe/:id", (request, response) => {
   var id = request.params.id;
-  db.unsubscribeContact(id, data => {
+  db.unsubscribnweeContact(id, data => {
     response.send(data);
   });
 });
