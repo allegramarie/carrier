@@ -29,8 +29,10 @@ const updateCampaignS3URL = (url, campaignId, callback) => {
 };
 
 const getUserLoginInfo = function(email, password) {
+  let values = [email, password];
   return pool.query(
-    `select email, password, id from users where email = '${email}' and password = '${password}'`
+    `select email, password, id from users where email = $1 and password = $2`,
+    values
   );
 };
 
@@ -63,10 +65,10 @@ const saveTemplateURL = function(input, callback) {
 };
 
 const addNewUser = function(input, callback) {
+  var values = [input.email, input.password];
   pool.query(
-    `insert into users (email, password) values ('${input.email}', '${
-      input.password
-    }') returning id;`,
+    `insert into users (email, password) values ($1, $2) returning id;`,
+    values,
     (err, results) => {
       if (err) {
         console.log("Error saving new user", err, null);
@@ -78,8 +80,10 @@ const addNewUser = function(input, callback) {
 };
 
 const checkUserExists = function(input, callback) {
+  let values = [input];
   pool.query(
-    `Select id from users where email = '${input}'`,
+    `Select id from users where email = $1`,
+    values,
     (err, results) => {
       if (err) {
         console.log("Error checking if user exists", err);
@@ -119,8 +123,10 @@ const userOpenedEmail = function(contact, campaign, callback) {
 };
 
 const addNewContact = function(name, email, callback) {
+  let values = [name, email];
   pool.query(
-    `insert into contacts (name, email, unsubscribe) values ('${name}', '${email}', false) returning id;`,
+    `insert into contacts (name, email, unsubscribe) values ($1, $2, false) returning id;`,
+    values,
     (err, results) => {
       if (err) {
         console.log("Error adding new contacts", err);
@@ -160,9 +166,11 @@ const unsubscribeContact = function(contact, callback) {
 
 const addNewCampaign = function({ name, subject, userID }, callback) {
   const status = "Draft";
+  let values = [name, status, subject, userID];
   // console.log(name, subject, status, userID);
   pool.query(
-    `insert into campaigns (name, status, subject, userID) values ('${name}', '${status}', '${subject}', '${userID}') returning id;`,
+    `insert into campaigns (name, status, subject, userID) values ($1, $2, $3, $4) returning id;`,
+    values,
     (err, results) => {
       if (err) {
         console.log("Error adding a new campaign", err);
