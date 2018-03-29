@@ -16,7 +16,6 @@ import {
 import Pulse from "grommet/components/icons/Pulse";
 import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
-import Recipients from "./Recipients.js";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import {
   getContacts,
