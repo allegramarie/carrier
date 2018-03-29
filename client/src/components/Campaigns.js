@@ -14,6 +14,7 @@ import {
   Box
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
+import Status from "grommet/components/icons/Status";
 import Recipients from "./Recipients.js";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import {
