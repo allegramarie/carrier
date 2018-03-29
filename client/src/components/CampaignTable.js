@@ -34,6 +34,9 @@ class CampaignTable extends React.Component {
     }
   }
   render() {
+    if (this.state.show === true) {
+      return <Redirect to={`/campaigns/${this.state.id}`} />;
+    }
     if (this.state.addCampaign === true) {
       return <Redirect to={"/createCampaign"} />;
     }
