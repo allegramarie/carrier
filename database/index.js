@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const config = require("../config.js");
 var connections = require("./connections.js");
 
-const pool = true
+const pool = false
   ? // If true, use production.
     new Pool({
       host: config.host,
