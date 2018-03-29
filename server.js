@@ -322,6 +322,21 @@ app.post("/deleteContact", (request, response) => {
     });
   });
 });
+app.get("/getProfile", (request, response) => {
+  // console.log(request.query.userID)
+  db.getProfile(request.query.userID, data => {
+    response.send(data.rows[0]);
+  });
+});
+
+app.post("/saveProfile", (request, response) => {
+  // console.log(request.body.data)
+  // console.log(request.body.user)
+  db.saveProfile(request.body, data => {
+    // console.log(data)
+    response.send(data);
+  });
+});
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;

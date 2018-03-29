@@ -8,6 +8,8 @@ CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 email varchar(100) NOT NULL,
 password varchar(50) NOT NULL,
+name varchar(100),
+bio varchar(250),
 UNIQUE (EMAIL)
 );
 
@@ -23,7 +25,7 @@ userID integer REFERENCES users(id)
 CREATE TABLE contacts (
 id SERIAL PRIMARY KEY,
 name varchar(100) NOT NULL,
-email varchar(100) NOT NULL, 
+email varchar(100) NOT NULL,
 unsubscribe boolean NOT NULL
 );
 
@@ -33,6 +35,7 @@ campaignID integer REFERENCES campaigns(id),
 contactID integer REFERENCES contacts(id),
 opened boolean
 );
+
 
 -- setting up postgreSQL:
 -- start postgres: pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
@@ -57,4 +60,3 @@ insert into contacts (name, email, unsubscribe) values ('Alex', 'alex@gmail.com'
 insert into campaignContacts (campaignID, contactID) values ('3', '2');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '1');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '2');
-

@@ -260,7 +260,7 @@ const createMultiCampaignContact = function(campaign, contact, callback) {
     contact.map(data => {
       // console.log(data)
       return pool.query(
-        `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${
+        `UPDATE campaignContacts (campaignID, contactID) values ('${campaign}', '${
           data.rows[0].id
         }')`
       );
@@ -300,6 +300,39 @@ const deleteContact = function(data, callback) {
   });
 };
 
+const getProfile = function(input, callback) {
+  console.log(input, "inquery");
+  // `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
+
+  pool.query(
+    `Select email, name, bio from users WHERE users.id = '${input}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err, "err in getting profile");
+      } else {
+        callback(result);
+      }
+    }
+  );
+};
+const saveProfile = function(input, callback) {
+  console.log(input);
+  // pool.query(`UPDATE users (email, name, bio) values ('${input.data.email}', '${input.data.name}',
+  // '${input.data.bio}') WHERE id = '${input.user}'`,
+  pool.query(
+    `update users set email='${input.data.email}', name='${
+      input.data.name
+    }', bio='${input.data.bio}' where id=${input.user}`,
+    (err, result) => {
+      if (err) {
+        console.log(err, "in insert");
+      } else {
+        callback(result);
+      }
+    }
+  );
+};
+
 pool.connect((err, client, done) => {
   if (err) {
     return console.error("connection error", err.stack);
@@ -331,5 +364,7 @@ module.exports = {
   retrieveDraft,
   getUserLoginInfo,
   updateCampaignS3URL,
-  checkCampaignTemplate
+  checkCampaignTemplate,
+  getProfile,
+  saveProfile
 };

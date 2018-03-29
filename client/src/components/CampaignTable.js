@@ -3,7 +3,7 @@ import { Table } from "grommet";
 import CampaignTableRow from "./CampaignTableRow";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import Spinning from "grommet/components/icons/Spinning";
+import Pulse from "grommet/components/icons/Pulse";
 // import { createBrowserHistory } from "history";
 
 class CampaignTable extends React.Component {
@@ -34,11 +34,17 @@ class CampaignTable extends React.Component {
     }
   }
   render() {
-    if (this.state.show === true) {
-      return <Redirect to={`/campaigns/${this.state.id}`} />;
+    if (this.state.addCampaign === true) {
+      return <Redirect to={"/createCampaign"} />;
     }
     if (!this.props.campaigns.campaigns[0]) {
-      return <Spinning />;
+      return (
+        <Pulse
+          onClick={() => {
+            this.setState({ addCampaign: true });
+          }}
+        />
+      );
     } else {
       return (
         <Table selectable={true}>

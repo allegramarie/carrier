@@ -13,7 +13,8 @@ import {
   FormFields,
   Box
 } from "grommet";
-import Spinning from "grommet/components/icons/Spinning";
+import Pulse from "grommet/components/icons/Pulse";
+import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
 import Recipients from "./Recipients.js";
 import RevertIcon from "grommet/components/icons/base/Revert";
@@ -125,7 +126,7 @@ class Campaigns extends Component {
         <Button icon={<RevertIcon />} path="/" />
         <div>
           {!this.props.contacts.contacts[0] ? (
-            <Spinning />
+            <Pulse />
           ) : (
             <Form>
               <FormFields>

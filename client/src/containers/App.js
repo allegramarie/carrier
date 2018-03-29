@@ -17,6 +17,7 @@ import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
 import Unsubscribe from "../components/Unsubscribe.js";
 import Auth from "../Auth";
+import Edit from "../components/Edit.js";
 
 class App extends Component {
   componentDidMount() {
@@ -33,11 +34,12 @@ class App extends Component {
               <PrivateRoute exact path="/" component={Dashboard} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
-              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/profile/:id" component={Profile} />
               <PrivateRoute path="/createCampaign" component={NewCampaign} />
               <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
               <PrivateRoute path="/campaigns/:id" component={Campaigns} />
               <PrivateRoute path="/drop" component={Drop} />
+              <PrivateRoute path="/edit/:id" component={Edit} />
               <Route path="/LandingPage" component={LandingPage} />
               <Route path="/unsubscribe/:id" component={Unsubscribe} />
             </Switch>
