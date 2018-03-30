@@ -155,6 +155,14 @@ app.get("/campaigns", (request, response) => {
   });
 });
 
+app.get("/groups", (request, response) => {
+  // console.log("Getting user campaigns in the server", request.query.userID);
+  db.getUserGroups(request.query.userID, data => {
+    // console.log("response from campaigns,", data);
+    response.send(data);
+  });
+});
+
 app.post("/newCampaign", (request, response) => {
   // console.log("hit new campgiang");
   // console.log(request.body);
@@ -164,7 +172,7 @@ app.post("/newCampaign", (request, response) => {
   });
 });
 
-app.post("/updateCampaign", (request, response) => {
+app.put("/updateCampaign", (request, response) => {
   // console.log("inside update campaign", request);
   db.updateCampaignStatus(request.body, data => {
     response.send(data.id);
@@ -188,6 +196,13 @@ app.get("/shouldCampaignUpdate", (request, response) => {
 
 app.get("/campaignContacts", (request, response) => {
   db.campaignContacts(request.query.id, data => {
+    // console.log(data);
+    response.send(data);
+  });
+});
+
+app.get("/groupContacts", (request, response) => {
+  db.groupContacts(request.query.id, data => {
     // console.log(data);
     response.send(data);
   });

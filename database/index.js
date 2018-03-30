@@ -2,7 +2,7 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-const pool = true
+const pool = false
   ? // If true, use production.
     new Pool({
       host: config.host,
@@ -99,6 +99,21 @@ const getUserCampaigns = function(input, callback) {
   // console.log("inside database for campaigns", input);
   pool.query(
     `select * from campaigns where userID = '${input}'`,
+    (err, results) => {
+      if (err) {
+        console.log("Error getting user campaigns", err);
+      } else {
+        // console.log("results from the database", results);
+        callback(results);
+      }
+    }
+  );
+};
+
+const getUserGroups = function(input, callback) {
+  // console.log("inside database for groups", input);
+  pool.query(
+    `select * from groups where userID = '${input}'`,
     (err, results) => {
       if (err) {
         console.log("Error getting user campaigns", err);
@@ -226,6 +241,24 @@ const campaignContacts = function(input, callback) {
     (err, results) => {
       if (err) {
         console.log(err, "here in campaign contacts");
+        callback(err, null);
+      } else {
+        console.log(results);
+        // TODO: There is some code which expects the first argument to be
+        // error, but it is instead results
+        callback(results.rows);
+      }
+    }
+  );
+};
+
+const groupContacts = function(input, callback) {
+  // console.log(input);
+  pool.query(
+    `SELECT * FROM contacts JOIN groupContacts ON contacts.id = contactid WHERE groupContacts.groupid = '${input}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err, "here in group contacts");
         callback(err, null);
       } else {
         console.log(results);
@@ -384,5 +417,7 @@ module.exports = {
   saveProfile,
   getCampaignSubject,
   deleteContact,
-  deletecampaignsContact
+  deletecampaignsContact,
+  groupContacts,
+  getUserGroups
 };

@@ -103,6 +103,42 @@ export function updateCampaign(id) {
   };
 }
 
+export function getGroups(userID) {
+  // console.log("getting groups", userID);
+  return function(dispatch) {
+    return axios
+      .get("/groups", {
+        params: {
+          userID: userID
+        }
+      })
+      .then(response => {
+        // console.log("returned campaigns", response);
+        dispatch({ type: types.GET_GROUPS, payload: response.data.rows });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
+export function getGroupContacts(id) {
+  return function(dispatch) {
+    return axios
+      .get("/groupContacts", {
+        params: {
+          id: id
+        }
+      })
+      .then(response => {
+        dispatch({ type: types.GET_CONTACTS, payload: response.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
 export function getContacts(id) {
   return function(dispatch) {
     return axios

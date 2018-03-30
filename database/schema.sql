@@ -36,6 +36,17 @@ contactID integer REFERENCES contacts(id),
 opened boolean
 );
 
+CREATE TABLE groups (
+id SERIAL PRIMARY KEY,
+name varchar(500) NOT NULL,
+userID integer REFERENCES users(id)
+);
+
+CREATE TABLE groupContacts (
+id SERIAL PRIMARY KEY,
+groupID integer REFERENCES groups(id),
+contactID integer REFERENCES contacts(id)
+);
 
 -- setting up postgreSQL:
 -- start postgres: pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
@@ -47,7 +58,7 @@ opened boolean
 -- stop postgres: pg_ctl -D /usr/local/var/postgres stop && brew services stop postgresql
 -- more commands: https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546
 
-insert into users (email, password) values ('alex', 'rawr');
+insert into users (email, password) values ('allegra.berndt@gmail.com', 'rawr');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Sent', 'Newsletter volume 1', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Sent', 'Newsletter volume 2', 'google.com', '1');
 insert into campaigns (name, status, subject, templateURL, userID) values ('Newsletter', 'Active', 'Newsletter volume 3', 'google.com', '1');
@@ -58,5 +69,8 @@ insert into contacts (name, email, unsubscribe) values ('Jake', 'jake@statefarm.
 insert into campaignContacts (campaignID, contactID) values ('3', '1');
 insert into contacts (name, email, unsubscribe) values ('Alex', 'alex@gmail.com', false);
 insert into campaignContacts (campaignID, contactID) values ('3', '2');
+insert into groups (name, userID) values ('Spring Emails', '1');
+insert into groupContacts (groupID, contactID) values ('1', '1');
+insert into groupContacts (groupID, contactID) values ('1', '2');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '1');
 -- insert into campaignContacts (campaignID, contactID) values ('4', '2');

@@ -10,19 +10,21 @@ import { Box, Split } from "grommet";
 import Campaigns from "../components/Campaigns";
 import Drop from "../components/dropzone";
 import PrivateRoute from "../PrivateRoute";
-import { getCampaigns } from "../actions";
+import { getGroups } from "../actions";
 import Sidebar from "../components/Sidebar";
 import NewCampaign from "../components/NewCampaign";
 import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
 import Unsubscribe from "../components/Unsubscribe.js";
+import Groups from "../components/Groups.js";
+import GroupDetails from "../components/GroupDetails.js";
 import Auth from "../Auth";
 import Edit from "../components/Edit.js";
 
 class App extends Component {
-  // componentDidMount() {
-  //   this.props.dispatch(getCampaigns(Auth.userID))
-  // }
+  componentDidMount() {
+    this.props.dispatch(getGroups(Auth.userID));
+  }
 
   render() {
     return (
@@ -38,6 +40,8 @@ class App extends Component {
               <PrivateRoute path="/createCampaign" component={NewCampaign} />
               <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
               <PrivateRoute path="/campaigns/:id" component={Campaigns} />
+              <PrivateRoute path="/groups" component={Groups} />
+              <PrivateRoute path="/groups/:id" component={GroupDetails} />
               <PrivateRoute path="/drop" component={Drop} />
               <PrivateRoute path="/edit/:id" component={Edit} />
               <Route path="/LandingPage" component={LandingPage} />
@@ -54,7 +58,8 @@ function mapStateToProps(state) {
   return {
     campaigns: state.campaigns,
     user: state.user,
-    contacts: state.contacts
+    contacts: state.contacts,
+    groups: state.groups
   };
 }
 
