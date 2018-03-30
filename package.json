@@ -20,6 +20,7 @@
     "@sendgrid/mail": "^6.2.1",
     "aws-sdk": "^2.212.1",
     "axios": "^0.18.0",
+    "bcrypt": "^1.0.3",
     "busboy": "^0.2.14",
     "c3": "^0.4.22",
     "concurrently": "^3.5.1",

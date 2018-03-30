@@ -7,12 +7,14 @@ import {
   Form,
   Button,
   Header,
+  Anchor,
   Heading,
   Footer,
   Table,
   FormFields,
   Box
 } from "grommet";
+import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
 import Recipients from "./Recipients.js";
 import Status from "grommet/components/icons/Status";
@@ -23,6 +25,10 @@ import {
   deleteContact,
   updateCampaign
 } from "../actions";
+import Auth from "../Auth";
+import Notification from "grommet/components/Notification";
+import Split from "grommet/components/Split";
+import Sidebar from "./Sidebar";
 
 class Campaigns extends Component {
   constructor(props) {
@@ -31,14 +37,15 @@ class Campaigns extends Component {
       contacts: [],
       nameInput: "",
       emailInput: "",
-      validEmail: false
+      show: false,
+      badInputs: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
+    this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
-    this.checkValidEmail = this.checkValidEmail.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -53,24 +60,31 @@ class Campaigns extends Component {
   }
 
   handleClick() {
-    this.props.dispatch(
-      addContact(
-        this.state.nameInput,
-        this.state.emailInput,
-        this.props.match.params.id
-      )
-    );
-    this.setState(
-      {
-        emailInput: "",
-        nameInput: ""
-      },
-      function() {
-        // console.log('reached!', this.state)
+    if (
+      this.state.emailInput.indexOf("@") !== -1 &&
+      this.state.nameInput.length > 0
+    ) {
+      this.props.dispatch(
+        addContact(
+          this.state.nameInput,
+          this.state.emailInput,
+          this.props.match.params.id
+        )
+      );
+      this.setState(
+        {
+          emailInput: "",
+          nameInput: ""
+        },
+        function() {
+          // console.log('reached!', this.state)
+        }
+      );
+      if (this.props.contacts.contacts.length === 0) {
+        this.shouldCampaignUpdate();
       }
-    );
-    if (this.props.contacts.contacts.length === 0) {
-      this.shouldCampaignUpdate();
+    } else {
+      this.setState({ badInputs: true });
     }
   }
 
@@ -94,7 +108,7 @@ class Campaigns extends Component {
   }
 
   handleDelete(id, contactid, campaignid) {
-    // console.log('here', id, contactid, campaignid)
+    console.log("here", id, contactid, campaignid);
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
@@ -105,33 +119,83 @@ class Campaigns extends Component {
   }
   handleEmail(e) {
     this.setState({
-      emailInput: e.target.value,
-      validEmail: this.checkValidEmail(this.state.emailInput)
+      emailInput: e.target.value
     });
   }
-
-  checkValidEmail(email) {
-    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (checker.test(email)) {
-      return true;
-    } else {
-      return false;
-    }
+  sendEmail() {
+    console.log("send");
+    this.setState({
+      show: true
+    });
   }
 
   render() {
     return (
       <div>
         <Button icon={<RevertIcon />} path="/" />
-        <div>
+
+        <Form>
+          <Header>
+            <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
+          </Header>
+          <FormFields>
+            <TextInput
+              value={this.state.nameInput}
+              onDOMChange={e => {
+                this.handleName(e);
+              }}
+              placeHolder="Name"
+            />
+            <TextInput
+              value={this.state.emailInput}
+              onDOMChange={e => {
+                this.handleEmail(e);
+              }}
+              placeHolder="Email"
+            />
+          </FormFields>
+          {this.state.badInputs === true ? (
+            <Notification
+              style={{ width: "100%" }}
+              message="Please Enter a Valid Email"
+              size="small"
+              status="critical"
+            />
+          ) : (
+            <p />
+          )}
+
+          <Footer pad={{ vertical: "medium" }}>
+            <Button
+              label="Add"
+              onClick={() => {
+                this.handleClick();
+              }}
+            />
+          </Footer>
+        </Form>
+        <Drop campaign={this.props.match.params.id} />
+        <Box align="end">
+          <Button
+            label="Edit Template"
+            path={`/campaigns/${this.props.match.params.id}/edit`}
+          />
+        </Box>
+        <div style={{ borderLeft: "thickSolid" }} />
+        <div style={{ position: "absolute", right: 70, top: 60 }}>
           {!this.props.contacts.contacts[0] ? (
             <Pulse />
           ) : (
-            <Form>
+            <Form style={{ width: "500px" }}>
               <FormFields>
                 <Table
                   scrollable={true}
-                  style={{ height: "350px", overflow: "auto" }}
+                  style={{
+                    height: "700px",
+                    overflow: "auto",
+                    border: "solid",
+                    borderRadius: "1%"
+                  }}
                 >
                   <thead>
                     <tr>
@@ -153,47 +217,6 @@ class Campaigns extends Component {
               </FormFields>
             </Form>
           )}
-          <Form>
-            <Header>
-              <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
-            </Header>
-            {this.state.emailInput !== "" && this.state.validEmail === false ? (
-              <p>
-                <Status value="warning" /> Email must be valid.
-              </p>
-            ) : null}
-            <FormFields>
-              <TextInput
-                value={this.state.nameInput}
-                onDOMChange={e => {
-                  this.handleName(e);
-                }}
-                placeHolder="Name"
-              />
-              <TextInput
-                value={this.state.emailInput}
-                onDOMChange={e => {
-                  this.handleEmail(e);
-                }}
-                placeHolder="Email"
-              />
-            </FormFields>
-            <Footer pad={{ vertical: "medium" }}>
-              <Button
-                label="Add"
-                onClick={() => {
-                  this.handleClick();
-                }}
-              />
-            </Footer>
-          </Form>
-          <Drop campaign={this.props.match.params.id} />
-          <Box align="end">
-            <Button
-              label="Edit Template"
-              path={`/campaigns/${this.props.match.params.id}/edit`}
-            />
-          </Box>
         </div>
       </div>
     );

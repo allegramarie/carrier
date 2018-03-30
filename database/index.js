@@ -257,12 +257,12 @@ const addContact = function(input, callback) {
     });
 };
 const createMultiCampaignContact = function(campaign, contact, callback) {
-  // console.log("Data for join,", campaign, contact[0].rows[0].id);
+  console.log("Data for join,", campaign, contact[0].rows[0].id);
   return Promise.all(
     contact.map(data => {
       // console.log(data)
       return pool.query(
-        `UPDATE campaignContacts (campaignID, contactID) values ('${campaign}', '${
+        `INSERT into campaignContacts (campaignID, contactID) values ('${campaign}', '${
           data.rows[0].id
         }')`
       );
@@ -382,5 +382,7 @@ module.exports = {
   checkCampaignTemplate,
   getProfile,
   saveProfile,
-  getCampaignSubject
+  getCampaignSubject,
+  deleteContact,
+  deletecampaignsContact
 };

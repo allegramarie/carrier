@@ -302,8 +302,9 @@ app.post("/drop", (request, response) => {
   db.addContact(objData, data => {
     // console.log(data[0].rows[0].id,'add contact')
     // db.createCampaignContact(campaign, data.rows[0].id, res => {
-    //   console.log("response from add", res);
+    // console.log("response from add", data);
     db.createMultiCampaignContact(campaign, data, res => {
+      console.log(data, res);
       response.send(data);
     });
   });
