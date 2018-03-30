@@ -212,6 +212,7 @@ class Campaigns extends Component {
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Subscribed</th>
                         <th />
                       </tr>
                     </thead>
