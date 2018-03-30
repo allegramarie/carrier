@@ -37,22 +37,31 @@ class NewCampaign extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { nameInput, subjectInput } = this.state;
-    this.props.dispatch(
-      addCampaign(nameInput, "Draft", subjectInput, Auth.userID)
-    );
-    setTimeout(() => {
-      this.setState(
-        {
+    this.props
+      .dispatch(addCampaign(nameInput, "Draft", subjectInput, Auth.userID))
+      .then(() => {
+        this.setState({
           cid: this.props.campaigns.campaigns[
             this.props.campaigns.campaigns.length - 1
           ],
           nameInput: "",
           subjectInput: "",
           show: true
-        },
-        function() {}
-      );
-    }, 500);
+        });
+      });
+    // setTimeout(() => {
+    //   this.setState(
+    //     {
+    //       cid: this.props.campaigns.campaigns[
+    //         this.props.campaigns.campaigns.length - 1
+    //       ],
+    //       nameInput: "",
+    //       subjectInput: "",
+    //       show: true
+    //     },
+    //     function() {}
+    //   );
+    // }, 500);
   }
 
   handleInputChange(event) {

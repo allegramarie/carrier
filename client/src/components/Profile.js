@@ -15,6 +15,8 @@ import {
 import Tiles from "grommet/components/Tiles";
 import Tile from "grommet/components/Tile";
 import axios from "axios";
+import Image from "grommet/components/Image";
+import icon from "./user-128.png";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -53,27 +55,28 @@ class Profile extends React.Component {
 
   render() {
     console.log("This runs when profile is rendered");
-    console.log(this.props);
+
     return (
       <div>
+        <Image src={icon} size="small" onClick={console.log("click")} />
         <Box
           direction="row"
           justify="start"
           align="center"
-          wrap={true}
-          pad="medium"
-          margin="small"
+          wrap={false}
           colorIndex="light-1"
+          size="full"
         >
-          <Value value={`Name: ${this.state.name}`} />
+          <Value
+            style={{ fontSize: "10px" }}
+            value={`Name: ${this.state.name}`}
+          />
         </Box>
         <Box
           direction="row"
           justify="start"
           align="center"
-          wrap={true}
-          pad="medium"
-          margin="small"
+          wrap={false}
           colorIndex="light-1"
         >
           <Value value={`Email: ${this.state.email}`} />
@@ -82,9 +85,7 @@ class Profile extends React.Component {
           direction="row"
           justify="start"
           align="center"
-          wrap={true}
-          pad="medium"
-          margin="small"
+          wrap={false}
           colorIndex="light-1"
         >
           <Value value={`Bio: ${this.state.bio}`} />

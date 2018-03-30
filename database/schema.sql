@@ -7,7 +7,7 @@ CREATE DATABASE mail;
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 email varchar(100) NOT NULL,
-password varchar(50) NOT NULL,
+password varchar(100) NOT NULL,
 name varchar(100),
 bio varchar(250),
 UNIQUE (EMAIL)

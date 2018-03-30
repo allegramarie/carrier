@@ -36,7 +36,10 @@ export default function AppHeader(props) {
         {/*        <MailIcon colorIndex="brand" size="large" />*/}
         <Box pad="small" />
         <Menu label="Label" inline={true} direction="row" flex="grow">
-          <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} href="#">
+          <Anchor
+            style={{ marginLeft: "auto", marginRight: "auto" }}
+            href="/signup"
+          >
             Sign Up
           </Anchor>
           <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} href="#">
@@ -45,7 +48,10 @@ export default function AppHeader(props) {
           <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} href="#">
             About Us
           </Anchor>
-          <Anchor style={{ marginLeft: "auto", marginRight: "50px" }} href="#">
+          <Anchor
+            style={{ marginLeft: "auto", marginRight: "50px" }}
+            href="/login"
+          >
             Login
           </Anchor>
         </Menu>
