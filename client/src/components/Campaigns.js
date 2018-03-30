@@ -70,9 +70,11 @@ class Campaigns extends Component {
   }
 
   handleClick() {
+    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (
-      this.state.emailInput.indexOf("@") !== -1 &&
+      checker.test(this.state.emailInput) &&
       this.state.nameInput.length > 0
+      // this.state.emailInput.indexOf("@") !== -1 &&
     ) {
       this.props.dispatch(
         addContact(
@@ -143,57 +145,55 @@ class Campaigns extends Component {
   render() {
     return (
       <div>
-        <Button icon={<RevertIcon />} path="/" />
+        <Split fixed={false} separator={false} showOnResponsive="both">
+          <Box>
+            <Button icon={<RevertIcon />} path="/" />
+            <Form>
+              <Header>
+                <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
+              </Header>
+              <FormFields>
+                <TextInput
+                  value={this.state.nameInput}
+                  onDOMChange={e => {
+                    this.handleName(e);
+                  }}
+                  placeHolder="Name"
+                />
+                <TextInput
+                  value={this.state.emailInput}
+                  onDOMChange={e => {
+                    this.handleEmail(e);
+                  }}
+                  placeHolder="Email"
+                />
+              </FormFields>
+              {this.state.badInputs === true ? (
+                <p>
+                  <Status value="warning" /> Email must be valid.
+                </p>
+              ) : (
+                <p />
+              )}
 
-        <Form>
-          <Header>
-            <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
-          </Header>
-          <FormFields>
-            <TextInput
-              value={this.state.nameInput}
-              onDOMChange={e => {
-                this.handleName(e);
-              }}
-              placeHolder="Name"
-            />
-            <TextInput
-              value={this.state.emailInput}
-              onDOMChange={e => {
-                this.handleEmail(e);
-              }}
-              placeHolder="Email"
-            />
-          </FormFields>
-          {this.state.badInputs === true ? (
-            <Notification
-              style={{ width: "100%" }}
-              message="Please Enter a Valid Email"
-              size="small"
-              status="critical"
-            />
-          ) : (
-            <p />
-          )}
-
-          <Footer pad={{ vertical: "medium" }}>
-            <Button
-              label="Add"
-              onClick={() => {
-                this.handleClick();
-              }}
-            />
-          </Footer>
-        </Form>
-        <Drop campaign={this.props.match.params.id} />
-        <Box align="end">
-          <Button
-            label="Edit Template"
-            path={`/campaigns/${this.props.match.params.id}/edit`}
-          />
-        </Box>
-        {this.state.loading === true ? (
-          <div style={{ position: "absolute", right: 70, top: 60 }}>
+              <Footer pad={{ vertical: "medium" }}>
+                <Button
+                  label="Add"
+                  onClick={() => {
+                    this.handleClick();
+                  }}
+                />
+              </Footer>
+            </Form>
+            <Drop campaign={this.props.match.params.id} />
+            <Box align="end">
+              <Button
+                label="Edit Template"
+                path={`/campaigns/${this.props.match.params.id}/edit`}
+              />
+            </Box>
+          </Box>
+          <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
             {!this.props.contacts.contacts[0] ? (
               <Pulse />
             ) : (
@@ -229,12 +229,9 @@ class Campaigns extends Component {
                 </FormFields>
               </Form>
             )}
-          </div>
-        ) : (
-          <div>
-            <Spinning />
-          </div>
-        )}
+            {/*   </div>*/}
+          </Box>
+        </Split>
       </div>
     );
   }

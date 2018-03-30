@@ -60,7 +60,6 @@ class CampaignTable extends React.Component {
   }
   render() {
     // console.log(this.props.campaigns.campaigns)
-    // const that = this;
     if (this.state.show === true) {
       return <Redirect to={`/campaigns/${this.state.id}`} />;
     }
@@ -77,75 +76,61 @@ class CampaignTable extends React.Component {
       );
     } else {
       return (
-        <div>
-          {this.state.loading === true ? (
-            <div>
-              <Accordion
-                openMulti={true}
-                style={{ width: "70%", height: "625px", overflow: "auto" }}
-              >
-                {this.props.campaigns.campaigns.map((campaign, index) => (
-                  <AccordionPanel
-                    heading={`Status: ${
-                      campaign.status
-                    } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Subject: ${
-                      campaign.name
-                    }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0  Email Subject: ${
-                      campaign.subject
-                    }`}
-                  >
-                    {campaign.status === "Sent" ? (
-                      <Paragraph>
-                        <Box>
-                          <Value value={100} units="% Complete" align="start" />
-                          <Meter
-                            vertical={false}
-                            value={100}
-                            onActive={() => {}}
-                            colorIndex="ok"
-                          />
-                        </Box>
-                        This Campaign is complete and has been sent. You can
-                        view your stats here. Thanks for using us.
-                      </Paragraph>
-                    ) : (
-                      <Paragraph>
-                        <Box>
-                          <Value value={50} units="% Complete" align="start" />
-                          <Meter
-                            vertical={false}
-                            value={50}
-                            onActive={() => {}}
-                            colorIndex="critical"
-                          />
-                        </Box>
-                        This draft is currently incomplete.(Campaign email has
-                        not been sent). To complete this draft, edit any
-                        remaining data and press send.
-                      </Paragraph>
-                    )}
-                    {campaign.status === "Sent" ? (
-                      <p />
-                    ) : (
-                      <Button
-                        icon={<EditIcon />}
-                        label="Edit"
-                        onClick={() => {
-                          this.handleClick(campaign.id, campaign.status);
-                        }}
-                        style={{ width: "150px" }}
-                      />
-                    )}
-                  </AccordionPanel>
-                ))}
-              </Accordion>
-            </div>
-          ) : (
-            <div>
-              <Spinning />
-            </div>
-          )}
-        </div>
+        <Accordion openMulti={true} style={{ width: "70%" }}>
+          {this.props.campaigns.campaigns.map((campaign, index) => (
+            <AccordionPanel
+              heading={`Status: ${
+                campaign.status
+              } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
+                campaign.name
+              }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
+              `}
+            >
+              {campaign.status === "Sent" ? (
+                <Paragraph>
+                  <Box>
+                    <Value value={100} units="% Complete" align="start" />
+                    <Meter
+                      vertical={false}
+                      value={100}
+                      onActive={() => {}}
+                      colorIndex="ok"
+                    />
+                  </Box>
+                  This Campaign is complete and has been sent. You can view your
+                  stats here. Thanks for using us.
+                </Paragraph>
+              ) : (
+                <Paragraph>
+                  <Box>
+                    <Value value={50} units="% Complete" align="start" />
+                    <Meter
+                      vertical={false}
+                      value={50}
+                      onActive={() => {}}
+                      colorIndex="critical"
+                    />
+                  </Box>
+                  This draft is currently incomplete.(Campaign email has not
+                  been sent). To complete this draft, edit any remaining data
+                  and press send.
+                </Paragraph>
+              )}
+              {campaign.status === "Sent" ? (
+                <p />
+              ) : (
+                <Button
+                  icon={<EditIcon />}
+                  label="Edit"
+                  onClick={() => {
+                    this.handleClick(campaign.id, campaign.status);
+                  }}
+                  style={{ width: "150px" }}
+                />
+              )}
+            </AccordionPanel>
+          ))}
+        </Accordion>
       );
     }
   }
