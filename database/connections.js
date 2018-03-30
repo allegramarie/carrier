@@ -3,6 +3,7 @@ var redis = require("redis"),
 var expiration = 86400;
 
 const incrementConnections = function(input, callback) {
+  console.log("input: ", input);
   client.exists("connections", function(err, reply) {
     if (reply) {
       while (input > 0) {
@@ -13,7 +14,7 @@ const incrementConnections = function(input, callback) {
         input--;
       }
     } else {
-      client.set(["connections", 0, "EX", expiration], (err, response) => {
+      client.set(["connections", 1, "EX", expiration], (err, response) => {
         if (err) {
           console.log("redis error", err);
         }
@@ -24,10 +25,6 @@ const incrementConnections = function(input, callback) {
 
 const returnConnectionsCount = function(callback) {
   client.exists("connections", function(err, reply) {
-    console.log("what is reply?");
-    console.log(reply);
-    // If reply is === 0, the condition will evaluate to false ...
-    // We were going to set connections to 1
     if (reply) {
       client.get("connections", (err, reply) => {
         console.log("Returned the count from redis", reply);

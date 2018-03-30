@@ -26,30 +26,31 @@ app.use(auth.attachSession);
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
 
-var apiLimiter = function(request, response, next) {
-  console.log("api limiter called", request);
+const apiLimiter = function(request, response, next) {
+  console.log("api limiter called");
   let emails = request.body.contacts.length;
-  //estimated request based on sendgrid format from api
-  let numConnections = connections.returnConnectionsCount(resp => {
-    return resp;
+  let numConnections = null;
+  connections.returnConnectionsCount(numConnections => {
+    let total = parseInt(numConnections) + emails;
+    console.log("emails", emails);
+    console.log("numConnections: ", numConnections);
+    console.log("total: ", total);
+    if (total <= 100) {
+      connections.incrementConnections(emails, resp => {
+        next();
+      });
+    } else {
+      response.status(429).send("Too many requests");
+    }
   });
-  let total = numConnections + emails;
-  if (total < 100) {
-    db.incrementConnections(emails, resp => {
-      return next(resp);
-    });
-  } else {
-    response.status(429).send("Too many requests");
-  }
 };
 
-app.use("/exportHTML", apiLimiter);
+//app.use("/exportHTML", apiLimiter);
 
-// TODO: THis should really be `/send`
+// TODO: This should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");
   let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
-  console.log(htmlEmailContent);
   sendAt = parseInt(sendAt);
 
   // Get the list of email recipients
@@ -57,7 +58,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     const contacts = results;
     db.getCampaignSubject(campaignId, (error, results) => {
       const subject = results.rows[0].subject;
-      console.log("This should be the email subject: ", subject);
       sgMail.setApiKey(`${config.TOKEN}`);
       sgMail.setSubstitutionWrappers("{{", "}}");
       const emails = [];
@@ -85,13 +85,10 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
         };
         emails.push(msg);
       }
-      const emailCount = emails.length;
       sgMail
         .send(emails)
-        .then(sgResponse => {
-          console.log(JSON.stringify(sgResponse, null, 2));
-        })
-        .catch(error => console.log(JSON.stringify(error, null, 2)));
+        .then(sgResponse => console.log("sgMail -> Sent!"))
+        .catch(error => console.log("sgMail -> FAILED"));
     });
   });
 });
