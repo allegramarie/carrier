@@ -68,7 +68,7 @@ export function newUser(user) {
 export function getCampaigns(userID) {
   // console.log("getting campaigns", userID);
   return function(dispatch) {
-    axios
+    return axios
       .get("/campaigns", {
         params: {
           userID: userID
@@ -105,7 +105,7 @@ export function updateCampaign(id) {
 
 export function getContacts(id) {
   return function(dispatch) {
-    axios
+    return axios
       .get("/campaignContacts", {
         params: {
           id: id

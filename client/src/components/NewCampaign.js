@@ -48,6 +48,9 @@ class NewCampaign extends Component {
           subjectInput: "",
           show: true
         });
+      })
+      .catch(err => {
+        console.log(err);
       });
     // setTimeout(() => {
     //   this.setState(

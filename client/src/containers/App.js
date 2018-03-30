@@ -20,9 +20,9 @@ import Auth from "../Auth";
 import Edit from "../components/Edit.js";
 
 class App extends Component {
-  componentDidMount() {
-    this.props.dispatch(getCampaigns(Auth.userID));
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(getCampaigns(Auth.userID))
+  // }
 
   render() {
     return (

@@ -13,6 +13,8 @@ import AccordionPanel from "grommet/components/AccordionPanel";
 import Button from "grommet/components/Button";
 import EditIcon from "grommet/components/icons/base/Edit";
 import Meter from "grommet/components/Meter";
+import Auth from "../Auth";
+import { getCampaigns } from "../actions";
 
 class CampaignTable extends React.Component {
   constructor(props) {
@@ -21,11 +23,24 @@ class CampaignTable extends React.Component {
       show: false,
       campaigns: [],
       id: 0,
-      addCampaign: false
+      addCampaign: false,
+      loading: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount() {
+    this.props
+      .dispatch(getCampaigns(Auth.userID))
+      .then(() => {
+        this.setState({
+          loading: true
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   componentWillReceiveProps(nextProps) {
     // console.log(
     //   "getting props within campaign table",
@@ -34,15 +49,18 @@ class CampaignTable extends React.Component {
     // );
   }
 
-  handleClick(id, status) {
+  handleClick(campaigns, status) {
+    // console.log(campaigns, status)
     if (status !== "Sent") {
       this.setState({
         show: true,
-        id: this.props.campaigns.campaigns[0].id
+        id: campaigns
       });
     }
   }
   render() {
+    // console.log(this.props.campaigns.campaigns)
+    // const that = this;
     if (this.state.show === true) {
       return <Redirect to={`/campaigns/${this.state.id}`} />;
     }
@@ -59,62 +77,75 @@ class CampaignTable extends React.Component {
       );
     } else {
       return (
-        <Accordion openMulti={true} style={{ width: "70%" }}>
-          {this.props.campaigns.campaigns.map((campaign, index) => (
-            <AccordionPanel
-              heading={`Status: ${
-                campaign.status
-              } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Subject: ${
-                campaign.name
-              }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0  Email Subject: ${
-                campaign.subject
-              }`}
-            >
-              {campaign.status === "Sent" ? (
-                <Paragraph>
-                  <Box>
-                    <Value value={100} units="% Complete" align="start" />
-                    <Meter
-                      vertical={false}
-                      value={100}
-                      onActive={() => {}}
-                      colorIndex="ok"
-                    />
-                  </Box>
-                  This Campaign is complete and has been sent. You can view your
-                  stats here. Thanks for using us.
-                </Paragraph>
-              ) : (
-                <Paragraph>
-                  <Box>
-                    <Value value={50} units="% Complete" align="start" />
-                    <Meter
-                      vertical={false}
-                      value={50}
-                      onActive={() => {}}
-                      colorIndex="critical"
-                    />
-                  </Box>
-                  This draft is currently incomplete.(Campaign email has not
-                  been sent). To complete this draft, edit any remaining data
-                  and press send.
-                </Paragraph>
-              )}
-              {campaign.status === "Sent" ? (
-                <p />
-              ) : (
-                <Button
-                  icon={<EditIcon />}
-                  label="Edit"
-                  onClick={() => {
-                    this.handleClick();
-                  }}
-                  style={{ width: "150px" }}
-                />
-              )}
-            </AccordionPanel>
-          ))}
-        </Accordion>
+        <div>
+          {this.state.loading === true ? (
+            <div>
+              <Accordion
+                openMulti={true}
+                style={{ width: "70%", height: "625px", overflow: "auto" }}
+              >
+                {this.props.campaigns.campaigns.map((campaign, index) => (
+                  <AccordionPanel
+                    heading={`Status: ${
+                      campaign.status
+                    } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Subject: ${
+                      campaign.name
+                    }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0  Email Subject: ${
+                      campaign.subject
+                    }`}
+                  >
+                    {campaign.status === "Sent" ? (
+                      <Paragraph>
+                        <Box>
+                          <Value value={100} units="% Complete" align="start" />
+                          <Meter
+                            vertical={false}
+                            value={100}
+                            onActive={() => {}}
+                            colorIndex="ok"
+                          />
+                        </Box>
+                        This Campaign is complete and has been sent. You can
+                        view your stats here. Thanks for using us.
+                      </Paragraph>
+                    ) : (
+                      <Paragraph>
+                        <Box>
+                          <Value value={50} units="% Complete" align="start" />
+                          <Meter
+                            vertical={false}
+                            value={50}
+                            onActive={() => {}}
+                            colorIndex="critical"
+                          />
+                        </Box>
+                        This draft is currently incomplete.(Campaign email has
+                        not been sent). To complete this draft, edit any
+                        remaining data and press send.
+                      </Paragraph>
+                    )}
+                    {campaign.status === "Sent" ? (
+                      <p />
+                    ) : (
+                      <Button
+                        icon={<EditIcon />}
+                        label="Edit"
+                        onClick={() => {
+                          this.handleClick(campaign.id, campaign.status);
+                        }}
+                        style={{ width: "150px" }}
+                      />
+                    )}
+                  </AccordionPanel>
+                ))}
+              </Accordion>
+            </div>
+          ) : (
+            <div>
+              <Spinning />
+            </div>
+          )}
+        </div>
       );
     }
   }

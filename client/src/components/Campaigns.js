@@ -38,7 +38,8 @@ class Campaigns extends Component {
       nameInput: "",
       emailInput: "",
       show: false,
-      badInputs: false
+      badInputs: false,
+      loading: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleName = this.handleName.bind(this);
@@ -56,7 +57,16 @@ class Campaigns extends Component {
   componentDidMount() {
     // console.log(Auth.userID,"here")
 
-    this.props.dispatch(getContacts(this.props.match.params.id));
+    this.props
+      .dispatch(getContacts(this.props.match.params.id))
+      .then(() => {
+        this.setState({
+          loading: true
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleClick() {
@@ -74,7 +84,8 @@ class Campaigns extends Component {
       this.setState(
         {
           emailInput: "",
-          nameInput: ""
+          nameInput: "",
+          badInputs: false
         },
         function() {
           // console.log('reached!', this.state)
@@ -181,43 +192,48 @@ class Campaigns extends Component {
             path={`/campaigns/${this.props.match.params.id}/edit`}
           />
         </Box>
-        <div style={{ borderLeft: "thickSolid" }} />
-        <div style={{ position: "absolute", right: 70, top: 60 }}>
-          {!this.props.contacts.contacts[0] ? (
-            <Pulse />
-          ) : (
-            <Form style={{ width: "500px" }}>
-              <FormFields>
-                <Table
-                  scrollable={true}
-                  style={{
-                    height: "700px",
-                    overflow: "auto",
-                    border: "solid",
-                    borderRadius: "1%"
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.props.contacts.contacts.map((contact, index) => (
-                      <Recipients
-                        contact={contact}
-                        key={index}
-                        handleDelete={this.handleDelete}
-                      />
-                    ))}
-                  </tbody>
-                </Table>
-              </FormFields>
-            </Form>
-          )}
-        </div>
+        {this.state.loading === true ? (
+          <div style={{ position: "absolute", right: 70, top: 60 }}>
+            {!this.props.contacts.contacts[0] ? (
+              <Pulse />
+            ) : (
+              <Form style={{ width: "500px" }}>
+                <FormFields>
+                  <Table
+                    scrollable={true}
+                    style={{
+                      height: "700px",
+                      overflow: "auto",
+                      border: "solid",
+                      borderRadius: "1%"
+                    }}
+                  >
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.contacts.contacts.map((contact, index) => (
+                        <Recipients
+                          contact={contact}
+                          key={index}
+                          handleDelete={this.handleDelete}
+                        />
+                      ))}
+                    </tbody>
+                  </Table>
+                </FormFields>
+              </Form>
+            )}
+          </div>
+        ) : (
+          <div>
+            <Spinning />
+          </div>
+        )}
       </div>
     );
   }
