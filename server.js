@@ -13,6 +13,7 @@ const axios = require("axios");
 const Busboy = require("busboy");
 const fs = require("fs");
 const rateLimit = require("express-rate-limit");
+const connections = require("./database/connections");
 
 let app = express();
 
@@ -27,12 +28,12 @@ app.use(express.static(__dirname + "/client/build"));
 
 var apiLimiter = function(request, response, next) {
   console.log("api limiter called", request);
-  let emails = request.data.personalizations[0].to.length;
+  let emails = request.body.contacts.length;
   //estimated request based on sendgrid format from api
-  let connections = db.returnConnectionsCount(resp => {
+  let numConnections = connections.returnConnectionsCount(resp => {
     return resp;
   });
-  let total = connections + emails;
+  let total = numConnections + emails;
   if (total < 100) {
     db.incrementConnections(emails, resp => {
       return next(resp);
@@ -47,12 +48,12 @@ app.use("/exportHTML", apiLimiter);
 // TODO: THis should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");
-  let { campaignId, htmlEmailContent, sendAt } = request.body;
+  let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
   console.log(htmlEmailContent);
   sendAt = parseInt(sendAt);
 
   // Get the list of email recipients
-  db.campaignContacts(campaignId, (error, results) => {
+  db.campaignContacts(campaignId, results => {
     const contacts = results;
     db.getCampaignSubject(campaignId, (error, results) => {
       const subject = results.rows[0].subject;

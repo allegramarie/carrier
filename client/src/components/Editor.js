@@ -213,9 +213,11 @@ class Editor extends Component {
         })
         .replace(/(\r\n|\n|\r)/gm, " ");
       console.log(result);
+      console.log(this.props.contacts.contacts);
       axios.post("/exportHTML", {
         sendAt,
         htmlEmailContent: a,
+        contacts: this.props.contacts.contacts,
         campaignId: this.props.match.params.id
       });
     });

@@ -1,7 +1,6 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
-var connections = require("./connections.js");
 
 const pool = false
   ? // If true, use production.
@@ -230,7 +229,9 @@ const campaignContacts = function(input, callback) {
         callback(err, null);
       } else {
         console.log(results);
-        callback(null, results.rows);
+        // TODO: There is some code which expects the first argument to be
+        // error, but it is instead results
+        callback(results.rows);
       }
     }
   );

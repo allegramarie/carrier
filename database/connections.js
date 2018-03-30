@@ -24,6 +24,10 @@ const incrementConnections = function(input, callback) {
 
 const returnConnectionsCount = function(callback) {
   client.exists("connections", function(err, reply) {
+    console.log("what is reply?");
+    console.log(reply);
+    // If reply is === 0, the condition will evaluate to false ...
+    // We were going to set connections to 1
     if (reply) {
       client.get("connections", (err, reply) => {
         console.log("Returned the count from redis", reply);
