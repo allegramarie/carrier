@@ -217,7 +217,9 @@ class Editor extends Component {
       axios.post("/exportHTML", {
         sendAt,
         htmlEmailContent: a,
-        contacts: this.props.contacts.contacts,
+        contacts: this.props.contacts.contacts.filter(
+          contact => !contact.unsubscribe
+        ),
         campaignId: this.props.match.params.id
       });
     });
