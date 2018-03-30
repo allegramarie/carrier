@@ -12,7 +12,8 @@ import {
   Footer,
   Table,
   FormFields,
-  Box
+  Box,
+  Section
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
@@ -48,15 +49,11 @@ class Campaigns extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    // console.log("current contacts", this.props.contacts.contacts);
-    // console.log("getting props within contacts", nextProps.contacts.contacts);
-    //   this.props.dispatch(getContacts(this.props.match.params.id));
-  }
+
+  //TODO: Does this need to be here?
+  componentWillReceiveProps(nextProps) {}
 
   componentDidMount() {
-    // console.log(Auth.userID,"here")
-
     this.props
       .dispatch(getContacts(this.props.match.params.id))
       .then(() => {
@@ -70,11 +67,9 @@ class Campaigns extends Component {
   }
 
   handleClick() {
-    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (
-      checker.test(this.state.emailInput) &&
+      this.state.emailInput.indexOf("@") !== -1 &&
       this.state.nameInput.length > 0
-      // this.state.emailInput.indexOf("@") !== -1 &&
     ) {
       this.props.dispatch(
         addContact(
@@ -83,16 +78,11 @@ class Campaigns extends Component {
           this.props.match.params.id
         )
       );
-      this.setState(
-        {
-          emailInput: "",
-          nameInput: "",
-          badInputs: false
-        },
-        function() {
-          // console.log('reached!', this.state)
-        }
-      );
+      this.setState({
+        emailInput: "",
+        nameInput: "",
+        badInputs: false
+      });
       if (this.props.contacts.contacts.length === 0) {
         this.shouldCampaignUpdate();
       }
@@ -125,16 +115,19 @@ class Campaigns extends Component {
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
+
   handleName(e) {
     this.setState({
       nameInput: e.target.value
     });
   }
+
   handleEmail(e) {
     this.setState({
       emailInput: e.target.value
     });
   }
+
   sendEmail() {
     console.log("send");
     this.setState({
@@ -144,95 +137,102 @@ class Campaigns extends Component {
 
   render() {
     return (
-      <div>
-        <Split fixed={false} separator={false} showOnResponsive="both">
-          <Box>
-            <Button icon={<RevertIcon />} path="/" />
-            <Form>
-              <Header>
-                <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
-              </Header>
-              <FormFields>
-                <TextInput
-                  value={this.state.nameInput}
-                  onDOMChange={e => {
-                    this.handleName(e);
-                  }}
-                  placeHolder="Name"
-                />
-                <TextInput
-                  value={this.state.emailInput}
-                  onDOMChange={e => {
-                    this.handleEmail(e);
-                  }}
-                  placeHolder="Email"
-                />
-              </FormFields>
-              {this.state.badInputs === true ? (
-                <p>
-                  <Status value="warning" /> Email must be valid.
-                </p>
-              ) : (
-                <p />
-              )}
-
-              <Footer pad={{ vertical: "medium" }}>
-                <Button
-                  label="Add"
-                  onClick={() => {
-                    this.handleClick();
-                  }}
-                />
-              </Footer>
-            </Form>
-            <Drop campaign={this.props.match.params.id} />
-            <Box align="end">
-              <Button
-                label="Edit Template"
-                path={`/campaigns/${this.props.match.params.id}/edit`}
+      <Split flex="right" separator={false} fixed={false}>
+        <Sidebar />
+        <Box justify="center" align="start" pad="medium">
+          <Button icon={<RevertIcon />} path="/" />
+          <Form>
+            <Header>
+              <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
+            </Header>
+            <FormFields>
+              <TextInput
+                value={this.state.nameInput}
+                onDOMChange={e => {
+                  this.handleName(e);
+                }}
+                placeHolder="Name"
               />
-            </Box>
-          </Box>
-          <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
-            {!this.props.contacts.contacts[0] ? (
-              <Pulse />
+              <TextInput
+                value={this.state.emailInput}
+                onDOMChange={e => {
+                  this.handleEmail(e);
+                }}
+                placeHolder="Email"
+              />
+            </FormFields>
+            {this.state.badInputs === true ? (
+              <Notification
+                style={{ width: "100%" }}
+                message="Please Enter a Valid Email"
+                size="small"
+                status="critical"
+              />
             ) : (
-              <Form style={{ width: "500px" }}>
-                <FormFields>
-                  <Table
-                    scrollable={true}
-                    style={{
-                      height: "700px",
-                      overflow: "auto",
-                      border: "solid",
-                      borderRadius: "1%"
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subscribed</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.props.contacts.contacts.map((contact, index) => (
-                        <Recipients
-                          contact={contact}
-                          key={index}
-                          handleDelete={this.handleDelete}
-                        />
-                      ))}
-                    </tbody>
-                  </Table>
-                </FormFields>
-              </Form>
+              <p />
             )}
-            {/*   </div>*/}
+
+            <Footer pad={{ vertical: "medium" }}>
+              <Button
+                label="Add"
+                onClick={() => {
+                  this.handleClick();
+                }}
+              />
+            </Footer>
+          </Form>
+          <Drop campaign={this.props.match.params.id} />
+          <Box align="end">
+            <Button
+              label="Edit Template"
+              path={`/campaigns/${this.props.match.params.id}/edit`}
+            />
           </Box>
-        </Split>
-      </div>
+          {this.state.loading === true ? (
+            <div style={{ position: "absolute", right: 70, top: 60 }}>
+              {!this.props.contacts.contacts[0] ? (
+                <Pulse />
+              ) : (
+                <Form style={{ width: "500px" }}>
+                  <FormFields>
+                    <Table
+                      scrollable={true}
+                      style={{
+                        height: "700px",
+                        overflow: "auto",
+                        border: "solid",
+                        borderRadius: "1%"
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Subscribed</th>
+                          <th />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.props.contacts.contacts.map((contact, index) => (
+                          <Recipients
+                            contact={contact}
+                            key={index}
+                            handleDelete={this.handleDelete}
+                          />
+                        ))}
+                      </tbody>
+                    </Table>
+                  </FormFields>
+                </Form>
+              )}
+            </div>
+          ) : (
+            <div>
+              <Spinning />
+            </div>
+          )}
+        </Box>
+      </Split>
     );
   }
 }

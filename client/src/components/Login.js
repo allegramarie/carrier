@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { LoginForm, Anchor } from "grommet";
+import { LoginForm, Anchor, Section, Box } from "grommet";
 import Auth from "../Auth";
 import Status from "grommet/components/icons/Status";
 
@@ -44,14 +44,16 @@ class Login extends Component {
     return this.state.redirect ? (
       <Redirect to="/" />
     ) : (
-      <div>
-        <LoginForm
-          errors={this.state.errors}
-          onSubmit={this.handleSubmit}
-          title="Login"
-          forgotPassword={<Anchor path="/signup" label="First time here?" />}
-        />
-      </div>
+      <Section align="center">
+        <Box flex="center" seperator={false} fixed={false}>
+          <LoginForm
+            errors={this.state.errors}
+            onSubmit={this.handleSubmit}
+            title="Login"
+            forgotPassword={<Anchor path="/signup" label="First time here?" />}
+          />
+        </Box>
+      </Section>
     );
   }
 }

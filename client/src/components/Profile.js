@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Header,
+  Split,
   Heading,
   Section,
   Article,
@@ -20,6 +21,7 @@ import icon from "./user-128.png";
 import List from "grommet/components/List";
 import ListItem from "grommet/components/ListItem";
 import EditIcon from "grommet/components/icons/base/Edit";
+import Sidebar from "./Sidebar";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -98,6 +100,7 @@ class Profile extends React.Component {
   render() {
     console.log("This runs when profile is rendered");
     return (
+<<<<<<< HEAD
       <div style={{ width: "100%" }}>
         <h1>Settings</h1>
         <List selectable={true} onSelect={() => {}} style={{ width: "100%" }}>
@@ -194,6 +197,46 @@ class Profile extends React.Component {
           </ListItem>
         </List>
       </div>
+=======
+      <Split flex="right" separator={false} fixed={false}>
+        <Sidebar />
+        <Box justify="center" align="start" pad="medium">
+          <Image src={icon} size="small" onClick={console.log("click")} />
+          <Box
+            direction="row"
+            justify="start"
+            align="center"
+            wrap={false}
+            colorIndex="light-1"
+            size="full"
+          >
+            <Value
+              style={{ fontSize: "10px" }}
+              value={`Name: ${this.state.name}`}
+            />
+          </Box>
+          <Box
+            direction="row"
+            justify="start"
+            align="center"
+            wrap={false}
+            colorIndex="light-1"
+          >
+            <Value value={`Email: ${this.state.email}`} />
+          </Box>
+          <Box
+            direction="row"
+            justify="start"
+            align="center"
+            wrap={false}
+            colorIndex="light-1"
+          >
+            <Value value={`Bio: ${this.state.bio}`} />
+          </Box>
+          <Button label="Edit" path={`/edit/${this.props.match.params.id}`} />
+        </Box>
+      </Split>
+>>>>>>> Moved sidebar structure into each component
     );
   }
 }

@@ -9,6 +9,7 @@ import {
   Footer,
   FormFields,
   Button,
+  Split,
   FormField,
   TextInput
 } from "grommet";
@@ -16,6 +17,7 @@ import Auth from "../Auth";
 import { addCampaign } from "../actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 class NewCampaign extends Component {
   constructor(props) {
@@ -86,34 +88,37 @@ class NewCampaign extends Component {
       return <Redirect to={`/campaigns/${this.state.cid.rows[0].id}`} />;
     }
     return (
-      <Box justify="center" align="start" pad="medium">
-        <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>
-          <Section key="utilization" pad="medium" full="horizontal">
-            <Form onSubmit={this.handleSubmit}>
-              <Header>
-                <Heading tag="h2">Create Campaign</Heading>
-              </Header>
-              <FormFields>
-                <FormField label="Campaign Name">
-                  <TextInput
-                    onDOMChange={e => this.handleInputChange(e)}
-                    name="nameInput"
-                  />
-                </FormField>
-                <FormField label="Email Subject">
-                  <TextInput
-                    onDOMChange={e => this.handleInputChange(e)}
-                    name="subjectInput"
-                  />
-                </FormField>
-              </FormFields>
-              <Footer pad={{ vertical: "medium" }}>
-                <Button label="Submit" type="submit" primary={true} />
-              </Footer>
-            </Form>
-          </Section>
-        </Article>
-      </Box>
+      <Split flex="right" separator={false} fixed={false}>
+        <Sidebar />
+        <Box justify="center" align="start" pad="medium">
+          <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>
+            <Section key="utilization" pad="medium" full="horizontal">
+              <Form onSubmit={this.handleSubmit}>
+                <Header>
+                  <Heading tag="h2">Create Campaign</Heading>
+                </Header>
+                <FormFields>
+                  <FormField label="Campaign Name">
+                    <TextInput
+                      onDOMChange={e => this.handleInputChange(e)}
+                      name="nameInput"
+                    />
+                  </FormField>
+                  <FormField label="Email Subject">
+                    <TextInput
+                      onDOMChange={e => this.handleInputChange(e)}
+                      name="subjectInput"
+                    />
+                  </FormField>
+                </FormFields>
+                <Footer pad={{ vertical: "medium" }}>
+                  <Button label="Submit" type="submit" primary={true} />
+                </Footer>
+              </Form>
+            </Section>
+          </Article>
+        </Box>
+      </Split>
     );
   }
 }
