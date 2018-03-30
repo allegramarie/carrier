@@ -13,6 +13,7 @@ const axios = require("axios");
 const Busboy = require("busboy");
 const fs = require("fs");
 const rateLimit = require("express-rate-limit");
+const connections = require("./database/connections");
 
 let app = express();
 
@@ -25,64 +26,72 @@ app.use(auth.attachSession);
 // Declare static files
 app.use(express.static(__dirname + "/client/build"));
 
-// app.post("/exportHTML", (req, res) => {
-//   var abc = req.body.data;
-
-//   sgMail.setApiKey(`${config.TOKEN}`);
-//   const msg = {
-//     to: req.body.sendgridEmails,
-//     from: "test@example.com",
-//     subject: req.body.subject,
-//     html: abc
-//   };
-//   sgMail.sendMultiple(msg);
-//   res.send(req.data);
-// });
-
-app.post("/exportHTML", (req, res) => {
-  console.log("getting frustrated");
-  // console.log(req.body.data);
-  var abc = req.body.data;
-  console.log(req.body.data);
-  console.log(req.body.sendgridEmails);
-  console.log(req.body.subject);
-  console.log(req.body.sendTime);
-
-  sgMail.setApiKey(`${config.TOKEN}`);
-  const msg = {
-    to:
-      [
-        "eshum89@gmail.com",
-        "yu_qing630@yahoo.com",
-        "allegra.berndt@gmail.com"
-      ] || req.body.sendgridEmails,
-    from: "test@example.com",
-    subject: "Hello Allegra",
-    html: req.body.data,
-    sendAt: req.body.sendTime
-  };
-  sgMail.sendMultiple(msg);
-  res.send(req.data);
-});
-
-var apiLimiter = function(request, response, next) {
-  console.log("api limiter called", request);
-  let emails = request.data.personalizations[0].to.length;
-  //estimated request based on sendgrid format from api
-  let connections = db.returnConnectionsCount(resp => {
-    return resp;
+const apiLimiter = function(request, response, next) {
+  console.log("api limiter called");
+  let emails = request.body.contacts.length;
+  let numConnections = null;
+  connections.returnConnectionsCount(numConnections => {
+    let total = parseInt(numConnections) + emails;
+    console.log("emails", emails);
+    console.log("numConnections: ", numConnections);
+    console.log("total: ", total);
+    if (total <= 100) {
+      connections.incrementConnections(emails, resp => {
+        next();
+      });
+    } else {
+      response.status(429).send("Too many requests");
+    }
   });
-  let total = connections + emails;
-  if (total < 100) {
-    db.incrementConnections(emails, resp => {
-      return next(resp);
-    });
-  } else {
-    response.status(429).send("Too many requests");
-  }
 };
 
-app.use("/exportHTML", apiLimiter);
+//app.use("/exportHTML", apiLimiter);
+
+// TODO: This should really be `/send`
+app.post("/exportHTML", apiLimiter, (request, response) => {
+  console.log("We are sending an email!");
+  let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
+  sendAt = parseInt(sendAt);
+
+  // Get the list of email recipients
+  db.campaignContacts(campaignId, results => {
+    const contacts = results;
+    db.getCampaignSubject(campaignId, (error, results) => {
+      const subject = results.rows[0].subject;
+      sgMail.setApiKey(`${config.TOKEN}`);
+      sgMail.setSubstitutionWrappers("{{", "}}");
+      const emails = [];
+      //for each campaign contact, build their message object and add it to
+      //the emails array.
+      for (const contact of contacts) {
+        console.log(`Making message for ${JSON.stringify(contact)}`);
+        const msg = {
+          sendAt,
+          subject,
+          to: contact.email,
+          from: "thealex@umich.edu", // TODO: This should be `request.session.username`,
+          // TODO: Add substitution string to HTML email
+          content: [
+            {
+              type: "text/html",
+              value: htmlEmailContent
+            }
+          ],
+          // Assuming contact.id is userId
+          substitutions: {
+            trackingImageURL: `${contact.id}/${campaignId}/footer.png`,
+            foo: "BAR"
+          }
+        };
+        emails.push(msg);
+      }
+      sgMail
+        .send(emails)
+        .then(sgResponse => console.log("sgMail -> Sent!"))
+        .catch(error => console.log("sgMail -> FAILED"));
+    });
+  });
+});
 
 app.get("/", (request, response) => {
   response.send("Hello");
@@ -118,6 +127,8 @@ app.post("/newUser", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
+  console.log("You're sending a message!");
+  console.log(request);
   sendgrid(request, response)
     .then(data => {
       response.send();
@@ -297,22 +308,6 @@ app.post("/drop", (request, response) => {
     });
   });
 });
-//s3 drop
-app.post("/exportHTML", (req, res) => {
-  // console.log("getting frustrated");
-  // console.log(req.body.data);
-  var abc = req.body.data;
-
-  sgMail.setApiKey(`${config.TOKEN}`);
-  const msg = {
-    to: req.body.sendgridEmails,
-    from: "test@example.com",
-    subject: req.body.subject,
-    html: abc
-  };
-  sgMail.sendMultiple(msg);
-  res.send(req.data);
-});
 
 app.post("/deleteContact", (request, response) => {
   // console.log('here', request.body)
@@ -322,6 +317,7 @@ app.post("/deleteContact", (request, response) => {
     });
   });
 });
+
 app.get("/getProfile", (request, response) => {
   // console.log(request.query.userID)
   db.getProfile(request.query.userID, data => {
@@ -337,6 +333,7 @@ app.post("/saveProfile", (request, response) => {
     response.send(data);
   });
 });
+
 // AUTH ROUTES
 app.post("/login", (request, response) => {
   const { username, password } = request.body;

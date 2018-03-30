@@ -1,7 +1,6 @@
 var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
-var connections = require("./connections.js");
 
 const pool = true
   ? // If true, use production.
@@ -227,8 +226,11 @@ const campaignContacts = function(input, callback) {
     (err, results) => {
       if (err) {
         console.log(err, "here in campaign contacts");
+        callback(err, null);
       } else {
-        // console.log(results)
+        console.log(results);
+        // TODO: There is some code which expects the first argument to be
+        // error, but it is instead results
         callback(results.rows);
       }
     }
@@ -348,6 +350,19 @@ pool.connect((err, client, done) => {
   }
 });
 
+const getCampaignSubject = (campaignId, callback) => {
+  pool.query(
+    `SELECT subject FROM campaigns WHERE id = '${campaignId}';`,
+    (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
 module.exports = {
   addNewCampaign,
   addNewContact,
@@ -366,5 +381,6 @@ module.exports = {
   updateCampaignS3URL,
   checkCampaignTemplate,
   getProfile,
-  saveProfile
+  saveProfile,
+  getCampaignSubject
 };

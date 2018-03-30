@@ -3,6 +3,7 @@ var redis = require("redis"),
 var expiration = 86400;
 
 const incrementConnections = function(input, callback) {
+  console.log("input: ", input);
   client.exists("connections", function(err, reply) {
     if (reply) {
       while (input > 0) {
@@ -13,7 +14,7 @@ const incrementConnections = function(input, callback) {
         input--;
       }
     } else {
-      client.set(["connections", 0, "EX", expiration], (err, response) => {
+      client.set(["connections", 1, "EX", expiration], (err, response) => {
         if (err) {
           console.log("redis error", err);
         }
