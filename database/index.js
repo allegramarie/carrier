@@ -159,7 +159,7 @@ const unsubscribeContact = function(contact, callback) {
       if (err) {
         console.log("Error in unsubscribe", err);
       } else {
-        callback(results);
+        callback(results.rows[0]);
       }
     }
   );

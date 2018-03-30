@@ -64,6 +64,11 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       //for each campaign contact, build their message object and add it to
       //the emails array.
       for (const contact of contacts) {
+        // TODO: Make this nicer(?)
+        // If they are unsubscribe, skip 'em
+        if (contact.unsubscribe) {
+          continue;
+        }
         console.log(`Making message for ${JSON.stringify(contact)}`);
         const msg = {
           sendAt,
@@ -79,7 +84,11 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
           ],
           // Assuming contact.id is userId
           substitutions: {
-            trackingImageURL: `${contact.id}/${campaignId}/footer.png`,
+            trackingImageURL: `${contact.contactid}/${campaignId}/footer.png`,
+            // TODO: Change url for production
+            unsubscribeURL: `http://localhost:3000/unsubscribe/${
+              contact.contactid
+            }`,
             foo: "BAR"
           }
         };
@@ -194,10 +203,10 @@ app.post("/newContact", (request, response) => {
   });
 });
 
-app.post("/unsubscribe/:id", (request, response) => {
-  var id = request.params.id;
-  db.unsubscribnweeContact(id, data => {
-    response.send(data);
+app.post("/unsubscribe/:contactId", (request, response) => {
+  var contactId = request.params.contactId;
+  db.unsubscribeContact(contactId, data => {
+    response.redirect("/unsubscribe");
   });
 });
 
