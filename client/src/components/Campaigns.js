@@ -201,10 +201,12 @@ class Campaigns extends Component {
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Subscribed</th>
                       <th />
                     </tr>
                   </thead>
                   <tbody>
+                    {console.log(this.props.contacts.contacts)}
                     {this.props.contacts.contacts.map((contact, index) => (
                       <Recipients
                         contact={contact}
