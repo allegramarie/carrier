@@ -11,9 +11,9 @@ class Dashboard extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.props.dispatch(getCampaigns(Auth.userID));
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(getCampaigns(Auth.userID));
+  // }
 
   render() {
     return (

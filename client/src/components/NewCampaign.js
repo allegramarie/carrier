@@ -80,9 +80,10 @@ class NewCampaign extends Component {
   }
 
   render() {
+    console.log(this.state.cid);
     if (this.state.show === true) {
       // console.log(this.state.cid.id)
-      return <Redirect to={`/campaigns/${this.state.cid.id}`} />;
+      return <Redirect to={`/campaigns/${this.state.cid.rows[0].id}`} />;
     }
     return (
       <Box justify="center" align="start" pad="medium">
