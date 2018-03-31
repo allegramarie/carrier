@@ -193,11 +193,11 @@ class Campaigns extends Component {
               />
             </Box>
           </Box>
-          <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
+          <Box style={{ marginLeft: "150px", marginTop: "50px" }}>
             {!this.props.contacts.contacts[0] ? (
               <Pulse />
             ) : (
-              <Form style={{ width: "500px" }}>
+              <Form style={{ width: "650px" }}>
                 <FormFields>
                   <Table
                     scrollable={true}

@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { LoginForm, Anchor } from "grommet";
 import Auth from "../Auth";
 import Status from "grommet/components/icons/Status";
+import Bird from "./bird.png";
 
 class Login extends Component {
   constructor(props) {
@@ -45,12 +46,25 @@ class Login extends Component {
       <Redirect to="/" />
     ) : (
       <div>
-        <LoginForm
-          errors={this.state.errors}
-          onSubmit={this.handleSubmit}
-          title="Login"
-          forgotPassword={<Anchor path="/signup" label="First time here?" />}
+        <img
+          src={Bird}
+          style={{
+            position: "absolute",
+            left: "42%",
+            height: "100px",
+            marginTop: "30px"
+          }}
         />
+
+        <div style={{ position: "absolute", left: "32%", marginTop: "80px" }}>
+          <LoginForm
+            align="center"
+            errors={this.state.errors}
+            onSubmit={this.handleSubmit}
+            title="Login"
+            forgotPassword={<Anchor path="/signup" label="First time here?" />}
+          />
+        </div>
       </div>
     );
   }

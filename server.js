@@ -212,6 +212,7 @@ app.post("/unsubscribe/:contactId", (request, response) => {
 
 app.get("/templates/:campaignId", (request, response) => {
   // Get the id from the route
+  console.log("in here now");
   const campaignId = request.params.campaignId;
   console.log(`campaignId: ${campaignId}`);
   // Load the URL from the database
