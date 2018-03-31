@@ -19,12 +19,6 @@ import Unsubscribe from "../components/Unsubscribe.js";
 import Auth from "../Auth";
 import Edit from "../components/Edit.js";
 
-/*
-  <Split flex="right" separator={false} fixed={false}>
-    <Sidebar />
-    <Box justify="center" align="start" pad="medium">
- */
-
 class App extends Component {
   render() {
     return (
@@ -33,12 +27,13 @@ class App extends Component {
           <PrivateRoute exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <PrivateRoute path="/profile/:id/edit" component={Edit} />
           <PrivateRoute path="/profile/:id" component={Profile} />
           <PrivateRoute path="/createCampaign" component={NewCampaign} />
           <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
           <PrivateRoute path="/campaigns/:id" component={Campaigns} />
           <PrivateRoute path="/drop" component={Drop} />
-          <PrivateRoute path="/edit/:id" component={Edit} />
+          {/* TODO: `Edit` should become `EditProfile` */}
           <Route path="/about" component={LandingPage} />
           <Route path="/unsubscribe/:id" component={Unsubscribe} />
         </Switch>
