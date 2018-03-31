@@ -49,19 +49,19 @@ class Groups extends React.Component {
     // );
   }
 
-  handleClick(groups, status) {
+  handleClick(group) {
     // console.log(campaigns, status)
-    if (status !== "Sent") {
-      this.setState({
-        show: true,
-        id: groups
-      });
-    }
+    this.setState({
+      show: true,
+      id: group
+    });
   }
+
   render() {
-    console.log(this.props.groups.groups);
+    console.log("groups", this.props.groups.groups, "state", this.state.id);
     const that = this;
     if (this.state.show === true) {
+      console.log("show", this.state.show);
       return <Redirect to={`/groups/${this.state.id}`} />;
     } else {
       // if (this.state.addCampaign === true) {
@@ -86,14 +86,24 @@ class Groups extends React.Component {
               >
                 {this.props.groups.groups.map((group, index) => (
                   <AccordionPanel
-                    heading={`Status: ${
-                      group.name
-                    } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Subject: ${
-                      group.name
-                    }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0  Email Subject: ${
+                    key={index}
+                    heading={`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
                       group.name
                     }`}
-                  />
+                  >
+                    {group.status === "Sent" ? (
+                      <p />
+                    ) : (
+                      <Button
+                        icon={<EditIcon />}
+                        label="Edit"
+                        onClick={() => {
+                          this.handleClick(group.id);
+                        }}
+                        style={{ width: "150px" }}
+                      />
+                    )}
+                  </AccordionPanel>
                 ))}
               </Accordion>
             </div>
@@ -112,7 +122,8 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     contacts: state.contacts,
-    groups: state.groups
+    groups: state.groups,
+    allContacts: state.allContacts
   };
 }
 

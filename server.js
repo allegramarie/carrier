@@ -136,8 +136,7 @@ app.post("/newUser", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
-  console.log("You're sending a message!");
-  console.log(request);
+  console.log("You're sending a message!", request);
   sendgrid(request, response)
     .then(data => {
       response.send();
@@ -208,6 +207,24 @@ app.get("/groupContacts", (request, response) => {
   });
 });
 
+app.post("/groupContacts", (request, response) => {
+  // console.log("Adding group contact server", request.body)
+  db.createGroupContact(
+    request.body.params.group,
+    request.body.params.id,
+    data => {
+      response.send(data);
+    }
+  );
+});
+
+app.get("/allContacts", (request, response) => {
+  db.allContacts(request.query.id, data => {
+    // console.log(data);
+    response.send(data);
+  });
+});
+
 app.post("/newContact", (request, response) => {
   var campaign = request.body.campaign;
   db.addNewContact(request.body.name, request.body.email, data => {
@@ -235,7 +252,7 @@ app.get("/templates/:campaignId", (request, response) => {
       throw err;
     }
     // {templateURL: "https://s3.amazonaws.com/..."}
-    console.log(results);
+    console.log("campaignid templates", results);
     // Use the URL to get JSON from S3
     axios.get(results.templateurl).then(results => {
       // Send the JSON data back to the client

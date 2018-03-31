@@ -13,7 +13,11 @@ export default function addUser(state = initialState, action) {
     case ADD_USER:
       return {
         //action.payload // Using this assumes a fully formed campaign object is the payload.
-        user: action.payload
+        user: {
+          id: 1,
+          email: "allegra",
+          password: "postgres"
+        }
         // id: action.payload.id,
         // name: action.payload.name,
         // email: action.payload.email

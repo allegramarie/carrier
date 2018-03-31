@@ -167,6 +167,20 @@ const createCampaignContact = function(campaign, contact, callback) {
   );
 };
 
+const createGroupContact = function(group, contact, callback) {
+  // console.log("Data for join,", group, contact);
+  pool.query(
+    `insert into groupContacts (groupID, contactID) values ('${group}', '${contact}')`,
+    (err, results) => {
+      if (err) {
+        console.log("Error creating group contacts", err);
+      } else {
+        callback(results);
+      }
+    }
+  );
+};
+
 const unsubscribeContact = function(contact, callback) {
   pool.query(
     `update contacts set unsubscribe = 'true' where id = '${contact}'`,
@@ -261,7 +275,25 @@ const groupContacts = function(input, callback) {
         console.log(err, "here in group contacts");
         callback(err, null);
       } else {
-        console.log(results);
+        console.log("contacts from groups", results.rows);
+        // TODO: There is some code which expects the first argument to be
+        // error, but it is instead results
+        callback(results.rows);
+      }
+    }
+  );
+};
+
+const allContacts = function(input, callback) {
+  // console.log(input);
+  pool.query(
+    `SELECT DISTINCT contacts.name, contacts.id, contacts.email FROM campaigns JOIN campaignContacts ON campaigns.id = campaignContacts.campaignId JOIN contacts on contacts.id = campaignContacts.contactId WHERE campaigns.userID = '${input}'`,
+    (err, results) => {
+      if (err) {
+        console.log(err, "here in all users contacts");
+        callback(err, null);
+      } else {
+        console.log("Getting all contacts", results.rows);
         // TODO: There is some code which expects the first argument to be
         // error, but it is instead results
         callback(results.rows);
@@ -419,5 +451,7 @@ module.exports = {
   deleteContact,
   deletecampaignsContact,
   groupContacts,
-  getUserGroups
+  getUserGroups,
+  allContacts,
+  createGroupContact
 };

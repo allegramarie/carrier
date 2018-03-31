@@ -12,14 +12,21 @@ import {
   Footer,
   Table,
   FormFields,
-  Box
+  Box,
+  Select
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
 import GroupMembers from "./GroupMembers.js";
 import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
-import { getContacts, addContact, deleteContact } from "../actions";
+import {
+  getGroupContacts,
+  addContact,
+  deleteContact,
+  getAllContacts,
+  addGroupContacts
+} from "../actions";
 import Auth from "../Auth";
 import Notification from "grommet/components/Notification";
 import Split from "grommet/components/Split";
@@ -30,8 +37,9 @@ class GroupDetails extends Component {
     super(props);
     this.state = {
       contacts: [],
-      nameInput: "",
-      emailInput: "",
+      value: "",
+      sub: "",
+      id: "",
       show: false,
       badInputs: false,
       loading: false
@@ -41,7 +49,6 @@ class GroupDetails extends Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -50,10 +57,11 @@ class GroupDetails extends Component {
   }
 
   componentDidMount() {
-    // console.log(Auth.userID,"here")
+    console.log(this.props.match.params.id, "here");
 
+    this.props.dispatch(getGroupContacts(this.props.match.params.id));
     this.props
-      .dispatch(getContacts(this.props.match.params.id))
+      .dispatch(getAllContacts(this.props.match.params.id))
       .then(() => {
         this.setState({
           loading: true
@@ -65,33 +73,30 @@ class GroupDetails extends Component {
   }
 
   handleClick() {
-    if (
-      this.state.emailInput.indexOf("@") !== -1 &&
-      this.state.nameInput.length > 0
-    ) {
-      this.props.dispatch(
-        addContact(
-          this.state.nameInput,
-          this.state.emailInput,
-          this.props.match.params.id
-        )
-      );
-      this.setState(
-        {
-          emailInput: "",
-          nameInput: "",
-          badInputs: false
-        },
-        function() {
-          // console.log('reached!', this.state)
-        }
-      );
-      //   if (this.props.contacts.contacts.length === 0) {
-      //     this.shouldCampaignUpdate();
-      //   }
-      // } else {
-      //   this.setState({ badInputs: true });
-    }
+    this.props.dispatch(
+      addGroupContacts(
+        this.props.match.params.id,
+        this.state.id,
+        this.state.value,
+        this.state.sub
+      )
+    );
+    this.setState(
+      {
+        value: "",
+        sub: "",
+        id: "",
+        badInputs: false
+      },
+      function() {
+        console.log("reached!", this.state);
+      }
+    );
+    //   if (this.props.contacts.contacts.length === 0) {
+    //     this.shouldCampaignUpdate();
+    //   }
+    // } else {
+    //   this.setState({ badInputs: true });
   }
 
   // shouldCampaignUpdate() {
@@ -116,7 +121,7 @@ class GroupDetails extends Component {
   handleDelete(id, contactid, campaignid) {
     console.log("here", id, contactid, campaignid);
     this.props.dispatch(deleteContact(id, contactid, campaignid));
-    this.props.dispatch(getContacts(this.props.match.params.id));
+    this.props.dispatch(getGroupContacts(this.props.match.params.id));
   }
   handleName(e) {
     this.setState({
@@ -138,14 +143,66 @@ class GroupDetails extends Component {
   render() {
     return (
       <div>
-        <Button icon={<RevertIcon />} path="/" />
-
-        {this.state.loading === true ? (
-          <div style={{ position: "absolute", right: 70, top: 60 }}>
+        {console.log("all contacts", this.props.allContacts.allContacts)}
+        <Split fixed={false} separator={false} showOnResponsive="both">
+          <Box>
+            <Button icon={<RevertIcon />} path="/groups" />
+            <Form>
+              <Header>
+                <Heading style={{ fontSize: "25px" }}>
+                  Add Contacts to Group
+                </Heading>
+              </Header>
+              <FormFields>
+                <Select
+                  placeHolder="None"
+                  value={this.state.value}
+                  options={this.props.allContacts.allContacts.map(function(
+                    contact,
+                    key
+                  ) {
+                    return {
+                      value: contact.name,
+                      sub: contact.email,
+                      id: contact.id,
+                      label: (
+                        <Box direction="row" justify="start">
+                          <span>{contact.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="secondary">
+                            {contact.email}
+                          </span>
+                        </Box>
+                      )
+                    };
+                  })}
+                  onChange={event => {
+                    this.setState(
+                      {
+                        value: event.option.value,
+                        sub: event.option.sub,
+                        id: event.option.id
+                      },
+                      function() {
+                        console.log("clicked!", this.state.id);
+                      }
+                    );
+                  }}
+                />
+              </FormFields>
+              <Footer pad={{ vertical: "medium" }}>
+                <Button
+                  label="Add"
+                  onClick={() => {
+                    this.handleClick();
+                  }}
+                />
+              </Footer>
+            </Form>
+          </Box>
+          <Box style={{ marginLeft: "150px", marginTop: "50px" }}>
             {!this.props.contacts.contacts[0] ? (
               <Pulse />
             ) : (
-              <Form style={{ width: "500px" }}>
+              <Form style={{ width: "650px" }}>
                 <FormFields>
                   <Table
                     scrollable={true}
@@ -160,6 +217,7 @@ class GroupDetails extends Component {
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Subscribed</th>
                         <th />
                       </tr>
                     </thead>
@@ -176,12 +234,9 @@ class GroupDetails extends Component {
                 </FormFields>
               </Form>
             )}
-          </div>
-        ) : (
-          <div>
-            <Spinning />
-          </div>
-        )}
+            {/*   </div>*/}
+          </Box>
+        </Split>
       </div>
     );
   }
@@ -190,7 +245,9 @@ class GroupDetails extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    contacts: state.contacts
+    contacts: state.contacts,
+    groups: state.groups,
+    allContacts: state.allContacts
   };
 }
 

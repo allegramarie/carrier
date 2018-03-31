@@ -40,8 +40,8 @@ class App extends Component {
               <PrivateRoute path="/createCampaign" component={NewCampaign} />
               <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
               <PrivateRoute path="/campaigns/:id" component={Campaigns} />
-              <PrivateRoute path="/groups" component={Groups} />
               <PrivateRoute path="/groups/:id" component={GroupDetails} />
+              <PrivateRoute path="/groups" component={Groups} />
               <PrivateRoute path="/drop" component={Drop} />
               <PrivateRoute path="/edit/:id" component={Edit} />
               <Route path="/LandingPage" component={LandingPage} />

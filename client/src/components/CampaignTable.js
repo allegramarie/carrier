@@ -50,7 +50,7 @@ class CampaignTable extends React.Component {
   }
 
   handleClick(campaigns, status) {
-    // console.log(campaigns, status)
+    console.log(campaigns, status);
     if (status !== "Sent") {
       this.setState({
         show: true,

@@ -156,6 +156,41 @@ export function getContacts(id) {
   };
 }
 
+export function getAllContacts(id) {
+  return function(dispatch) {
+    return axios
+      .get("/allContacts", {
+        params: {
+          id: id
+        }
+      })
+      .then(response => {
+        dispatch({ type: types.GET_ALL_CONTACTS, payload: response.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
+export function addGroupContacts(group, id, name, email) {
+  return function(dispatch) {
+    return axios
+      .post("/groupContacts", {
+        params: {
+          group: group,
+          id: id
+        }
+      })
+      .then(response => {
+        dispatch({ type: types.ADD_CONTACT, payload: { name, email } });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
 export function addContact(name, email, campaign) {
   console.log("within add contact,", name, email, campaign);
   return function(dispatch) {
