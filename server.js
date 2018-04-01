@@ -202,7 +202,7 @@ app.get("/campaignContacts", (request, response) => {
 
 app.get("/groupContacts", (request, response) => {
   db.groupContacts(request.query.id, data => {
-    // console.log(data);
+    console.log("group contacts data", data);
     response.send(data);
   });
 });
@@ -231,6 +231,19 @@ app.post("/newContact", (request, response) => {
     // console.log("contact id", data.rows[0].id, "campaign", campaign);
     db.createCampaignContact(campaign, data.rows[0].id, res => {
       response.send(res);
+    });
+  });
+});
+
+app.post("/groupToCampaigns", (request, response) => {
+  console.log("server groups to campaigns", request.body);
+  var campaign = request.body.campaign;
+  db.groupContacts(request.body.id, data => {
+    data.forEach(contact => {
+      db.createCampaignContact(campaign, contact.contactid, res => {
+        console.log("Campaign contact should be created", res);
+        response.send(res);
+      });
     });
   });
 });

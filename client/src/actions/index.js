@@ -139,6 +139,24 @@ export function getGroupContacts(id) {
   };
 }
 
+export function groupToCampaigns(campaign, id) {
+  console.log("inside group to campaigns");
+  return function(dispatch) {
+    return axios
+      .post("/groupToCampaigns", {
+        campaign: campaign,
+        id: id
+      })
+      .then(response => {
+        console.log(response.data);
+        dispatch({ type: types.ADD_CONTACT, payload: response.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
 export function getContacts(id) {
   return function(dispatch) {
     return axios

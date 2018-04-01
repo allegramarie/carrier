@@ -8,6 +8,7 @@ const SidebarMenu = () => (
     <Anchor path="/LandingPage">Home Page</Anchor>
     <Anchor path={`/profile/${Auth.userID}`}>Profile</Anchor>
     <Anchor path="/createCampaign">Create Campaign</Anchor>
+    <Anchor path="/groups">Groups</Anchor>
     <Anchor path="/login" onClick={Auth.logout.bind(Auth)}>
       Logout
     </Anchor>

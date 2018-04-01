@@ -45,9 +45,6 @@ class GroupDetails extends Component {
       loading: false
     };
     this.handleClick = this.handleClick.bind(this);
-    this.handleName = this.handleName.bind(this);
-    this.handleEmail = this.handleEmail.bind(this);
-    this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
   componentWillReceiveProps(nextProps) {
@@ -122,22 +119,6 @@ class GroupDetails extends Component {
     console.log("here", id, contactid, campaignid);
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getGroupContacts(this.props.match.params.id));
-  }
-  handleName(e) {
-    this.setState({
-      nameInput: e.target.value
-    });
-  }
-  handleEmail(e) {
-    this.setState({
-      emailInput: e.target.value
-    });
-  }
-  sendEmail() {
-    console.log("send");
-    this.setState({
-      show: true
-    });
   }
 
   render() {

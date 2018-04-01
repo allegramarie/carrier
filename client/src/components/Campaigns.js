@@ -12,7 +12,8 @@ import {
   Footer,
   Table,
   FormFields,
-  Box
+  Box,
+  Select
 } from "grommet";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
@@ -23,7 +24,9 @@ import {
   getContacts,
   addContact,
   deleteContact,
-  updateCampaign
+  updateCampaign,
+  getGroups,
+  groupToCampaigns
 } from "../actions";
 import Auth from "../Auth";
 import Notification from "grommet/components/Notification";
@@ -37,6 +40,7 @@ class Campaigns extends Component {
       contacts: [],
       nameInput: "",
       emailInput: "",
+      value: "",
       show: false,
       badInputs: false,
       loading: false
@@ -47,6 +51,7 @@ class Campaigns extends Component {
     this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
+    this.addGroupToContacts = this.addGroupToContacts.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
@@ -57,8 +62,9 @@ class Campaigns extends Component {
   componentDidMount() {
     // console.log(Auth.userID,"here")
 
+    this.props.dispatch(getContacts(this.props.match.params.id));
     this.props
-      .dispatch(getContacts(this.props.match.params.id))
+      .dispatch(getGroups(this.props.match.params.id))
       .then(() => {
         this.setState({
           loading: true
@@ -140,6 +146,21 @@ class Campaigns extends Component {
     });
   }
 
+  addGroupToContacts() {
+    this.props.dispatch(
+      groupToCampaigns(this.props.match.params.id, this.state.id)
+    );
+    this.setState(
+      {
+        value: "",
+        id: ""
+      },
+      function() {
+        console.log("reached groups to contacts!", this.state);
+      }
+    );
+  }
+
   render() {
     return (
       <div>
@@ -186,6 +207,44 @@ class Campaigns extends Component {
           </Footer>
         </Form>
         <Drop campaign={this.props.match.params.id} />
+        <Heading style={{ fontSize: "25px" }}>
+          Add Group Contacts to Campaign
+        </Heading>
+        {console.log(this.props.groups.groups)}
+        <Select
+          placeHolder="None"
+          value={this.state.value}
+          options={this.props.groups.groups.map(function(group, key) {
+            return {
+              value: group.name,
+              id: group.id,
+              label: (
+                <Box direction="row" justify="start">
+                  <span>{group.name}</span>
+                </Box>
+              )
+            };
+          })}
+          onChange={event => {
+            this.setState(
+              {
+                value: event.option.value,
+                id: event.option.id
+              },
+              function() {
+                console.log("clicked!", this.state.id);
+              }
+            );
+          }}
+        />
+        <Footer pad={{ vertical: "medium" }}>
+          <Button
+            label="Add"
+            onClick={() => {
+              this.addGroupToContacts();
+            }}
+          />
+        </Footer>
         <Box align="end">
           <Button
             label="Edit Template"
@@ -243,7 +302,8 @@ class Campaigns extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    contacts: state.contacts
+    contacts: state.contacts,
+    groups: state.groups
   };
 }
 
