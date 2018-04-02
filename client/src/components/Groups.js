@@ -7,7 +7,7 @@ import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
 import Sidebar from "./Sidebar";
 // import { createBrowserHistory } from "history";
-import { Header, Heading, Article } from "grommet";
+import { Header, Heading } from "grommet";
 import Split from "grommet/components/Split";
 import Accordion from "grommet/components/Accordion";
 import AccordionPanel from "grommet/components/AccordionPanel";
@@ -65,48 +65,51 @@ class Groups extends React.Component {
       console.log("show", this.state.show);
       return <Redirect to={`/groups/${this.state.id}`} />;
     } else {
+      // if (this.state.addCampaign === true) {
+      //   return <Redirect to={"/createCampaign"} />;
+      // }
+      // if (!this.props.campaigns.campaigns[0]) {
+      //   return (
+      //     <Pulse
+      //       onClick={() => {
+      //         this.setState({ addCampaign: true });
+      //       }}
+      //     />
+      //   );
+      // }
       return (
         <div>
           <Split flex="right" separator={false} fixed={false}>
             <Sidebar />
-
             {this.state.loading === true ? (
               <div>
+                <NewGroup />
+                <Heading tag="h2">All Groups</Heading>
                 <Accordion
                   openMulti={true}
                   style={{ width: "70%", height: "625px", overflow: "auto" }}
                 >
-                  <NewGroup />
-                  <Article
-                    ref="content"
-                    pad="none"
-                    style={{ marginLeft: "2%" }}
-                  >
-                    <Header>
-                      <Heading tag="h2">All Groups</Heading>
-                    </Header>
-                    {this.props.groups.groups.map((group, index) => (
-                      <AccordionPanel
-                        key={index}
-                        heading={`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
-                          group.name
-                        }`}
-                      >
-                        {group.status === "Sent" ? (
-                          <p />
-                        ) : (
-                          <Button
-                            icon={<EditIcon />}
-                            label="Edit"
-                            onClick={() => {
-                              this.handleClick(group.id);
-                            }}
-                            style={{ width: "150px" }}
-                          />
-                        )}
-                      </AccordionPanel>
-                    ))}
-                  </Article>
+                  {this.props.groups.groups.map((group, index) => (
+                    <AccordionPanel
+                      key={index}
+                      heading={`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
+                        group.name
+                      }`}
+                    >
+                      {group.status === "Sent" ? (
+                        <p />
+                      ) : (
+                        <Button
+                          icon={<EditIcon />}
+                          label="Edit"
+                          onClick={() => {
+                            this.handleClick(group.id);
+                          }}
+                          style={{ width: "150px" }}
+                        />
+                      )}
+                    </AccordionPanel>
+                  ))}
                 </Accordion>
               </div>
             ) : (
