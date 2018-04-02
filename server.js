@@ -96,7 +96,9 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       }
       sgMail
         .send(emails)
-        .then(sgResponse => console.log("sgMail -> Sent!"))
+        .then(sgResponse => {
+          db.updateCampaignStatusToSent(campaignId);
+        })
         .catch(error => console.log("sgMail -> FAILED"));
     });
   });
@@ -312,6 +314,7 @@ app.post("/templates", (request, response) => {
     if (err) {
       throw err;
     }
+    db.updateCampaignStatus(campaignId);
     response.send({ msg: "Saved!" });
   });
 });

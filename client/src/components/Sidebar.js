@@ -14,7 +14,7 @@ class Sidebar extends Component {
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
         <Header pad="medium" justify="start">
           <Title>
-            <Anchor path="/">MailAppTitle</Anchor>
+            <Anchor path="/">CarrierPigeon</Anchor>
           </Title>
         </Header>
         <Box flex="grow" justify="start">
