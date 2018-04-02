@@ -67,9 +67,9 @@ class Profile extends React.Component {
   handleKeyPress = event => {
     if (event.key == "Enter") {
       if (this.state.email.length > 1) {
-        console.log("enter press here! ");
-        console.log("enter press here! ");
-        console.log(this.state.name);
+        // console.log("enter press here! ");
+        // console.log("enter press hxere! ");
+        // console.log(this.state.name);
         axios
           .post("/saveProfile", {
             data: this.state,
@@ -98,7 +98,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log("This runs when profile is rendered");
+    // console.log("This runs when profile is rendered");
     return (
       <Split flex="right" separator={false} fixed={false}>
         <Sidebar />

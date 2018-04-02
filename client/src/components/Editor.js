@@ -66,7 +66,6 @@ class Editor extends Component {
     for (const theme of this.state.themes) {
       if (theme.name === name) {
         return this.editor.loadDesign(theme.content);
-        // return;
       }
     }
     //
@@ -235,6 +234,7 @@ class Editor extends Component {
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
       this.setState({ popup: true });
+
       axios
         .post("/templates", data)
         .then(response => {})

@@ -76,70 +76,67 @@ class CampaignTable extends React.Component {
       );
     } else {
       return (
-        <Accordion
-          openMulti={true}
-          style={{ width: "73%", height: "600px", overflow: "auto" }}
-        >
-          {this.props.campaigns.campaigns.map((campaign, index) => (
-            <AccordionPanel
-              /*              heading={`Status: ${
-                campaign.status
-              } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
-                campaign.name
-              }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
-              `}*/
-
-              heading={
-                `Status: ${campaign.status}`.padEnd(70) +
-                `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0` +
-                `Subject: ${campaign.name}`.padEnd(40)
-              }
-            >
-              {campaign.status === "Sent" ? (
-                <Paragraph>
-                  <Box>
-                    <Value value={100} units="% Complete" align="start" />
-                    <Meter
-                      vertical={false}
-                      value={100}
-                      onActive={() => {}}
-                      colorIndex="ok"
+        <div>
+          {this.state.loading === true ? (
+            <Accordion openMulti={true} style={{ width: "70%" }}>
+              {this.props.campaigns.campaigns.map((campaign, index) => (
+                <AccordionPanel
+                  heading={`Status: ${
+                    campaign.status
+                  } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
+                    campaign.name
+                  }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
+              `}
+                >
+                  {campaign.status === "Sent" ? (
+                    <Paragraph>
+                      <Box>
+                        <Value value={100} units="% Complete" align="start" />
+                        <Meter
+                          vertical={false}
+                          value={100}
+                          onActive={() => {}}
+                          colorIndex="ok"
+                        />
+                      </Box>
+                      This Campaign is complete and has been sent. You can view
+                      your stats here. Thanks for using us.
+                    </Paragraph>
+                  ) : (
+                    <Paragraph>
+                      <Box>
+                        <Value value={50} units="% Complete" align="start" />
+                        <Meter
+                          vertical={false}
+                          value={50}
+                          onActive={() => {}}
+                          colorIndex="critical"
+                        />
+                      </Box>
+                      This draft is currently incomplete.(Campaign email has not
+                      been sent). To complete this draft, edit any remaining
+                      data and press send.
+                    </Paragraph>
+                  )}
+                  {campaign.status === "Sent" ? (
+                    <p />
+                  ) : (
+                    <Button
+                      icon={<EditIcon />}
+                      label="Edit"
+                      onClick={() => {
+                        this.handleClick(campaign.id, campaign.status);
+                      }}
+                      style={{ width: "150px" }}
                     />
-                  </Box>
-                  This Campaign is complete and has been sent. You can view your
-                  stats here. Thanks for using us.
-                </Paragraph>
-              ) : (
-                <Paragraph>
-                  <Box>
-                    <Value value={50} units="% Complete" align="start" />
-                    <Meter
-                      vertical={false}
-                      value={50}
-                      onActive={() => {}}
-                      colorIndex="critical"
-                    />
-                  </Box>
-                  This draft is currently incomplete.(Campaign email has not
-                  been sent). To complete this draft, edit any remaining data
-                  and press send.
-                </Paragraph>
-              )}
-              {campaign.status === "Sent" ? (
-                <p />
-              ) : (
-                <Button
-                  icon={<EditIcon />}
-                  label="Edit"
-                  onClick={() => {
-                    this.handleClick(campaign.id, campaign.status);
-                  }}
-                  style={{ width: "150px" }}
-                />
-              )}
-            </AccordionPanel>
-          ))}
-        </Accordion>
+                  )}
+                </AccordionPanel>
+              ))}
+            </Accordion>
+          ) : (
+            <Spinning />
+          )}
+        </div>
       );
     }
   }
@@ -153,87 +150,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(CampaignTable);
-
-// import React from "react";
-// import { Table } from "grommet";
-// import CampaignTableRow from "./CampaignTableRow";
-// import { Redirect } from "react-router-dom";
-// import { connect } from "react-redux";
-// import Pulse from "grommet/components/icons/Pulse";
-// // import { createBrowserHistory } from "history";
-//
-// class CampaignTable extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       show: false,
-//       campaigns: [],
-//       id: 0
-//     };
-//     this.handleClick = this.handleClick.bind(this);
-//   }
-//
-//   componentWillReceiveProps(nextProps) {
-//     // console.log(
-//     //   "getting props within campaign table",
-//     //   nextProps.campaigns.campaigns,
-//     //   this.props
-//     // );
-//   }
-//
-//   handleClick(id, status) {
-//     if (status !== "Sent") {
-//       this.setState({
-//         show: true,
-//         id: id
-//       });
-//     }
-//   }
-//   render() {
-//     if (this.state.show === true) {
-//       return <Redirect to={`/campaigns/${this.state.id}`} />;
-//     }
-//     if (this.state.addCampaign === true) {
-//       return <Redirect to={"/createCampaign"} />;
-//     }
-//     if (!this.props.campaigns.campaigns[0]) {
-//       return (
-//         <Pulse
-//           onClick={() => {
-//             this.setState({ addCampaign: true });
-//           }}
-//         />
-//       );
-//     } else {
-//       return (
-//         <Table selectable={true}>
-//           <thead>
-//             <tr>
-//               <th>Status</th>
-//               <th>Name</th>
-//               <th>Subject</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {this.props.campaigns.campaigns.map((campaign, index) => (
-//               <CampaignTableRow
-//                 handleClick={this.handleClick}
-//                 campaign={campaign}
-//                 key={index}
-//               />
-//             ))}
-//           </tbody>
-//         </Table>
-//       );
-//     }
-//   }
-// }
-//
-// function mapStateToProps(state) {
-//   return {
-//     user: state.user,
-//     campaigns: state.campaigns
-//   };
-// }
-//
-// export default connect(mapStateToProps)(CampaignTable);

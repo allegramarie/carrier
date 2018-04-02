@@ -117,7 +117,7 @@ app.get("/:id/:cid/footer.png", (request, response) => {
     } else {
       console.log("sent file");
       db.userOpenedEmail(contactID, campaignID, results => {
-        console.log("response from user opened email", results);
+        // console.log("response from user opened email", results);
       });
     }
   });
@@ -133,16 +133,6 @@ app.get("/checkUser", (request, response) => {
       console.log(err);
     });
 });
-
-// app.post("/newUser", (request, response) => {
-//   db.addNewUser(request.body)
-//   .then((data)=>{
-//     response.send(data)
-//   })
-//   .catch((err)=>{
-//     console.log(err)
-//   })
-// });
 
 app.post("/send", (request, response) => {
   console.log("You're sending a message!");
@@ -161,7 +151,6 @@ app.get("/campaigns", (request, response) => {
   db
     .getUserCampaigns(request.query.userID)
     .then(data => {
-      console.log(data);
       response.send(data);
     })
     .catch(err => {
@@ -171,7 +160,6 @@ app.get("/campaigns", (request, response) => {
 
 app.post("/newCampaign", (request, response) => {
   // console.log("hit new campgiang");
-  // console.log(request.body);
   db
     .addNewCampaign(request.body)
     .then(data => {
@@ -259,22 +247,20 @@ app.get("/templates/:campaignId", (request, response) => {
     // Use the URL to get JSON from S3
     axios.get(results.templateurl).then(results => {
       // Send the JSON data back to the client
+
       response.send({ templateJSON: JSON.stringify(results.data) });
     });
   });
 });
 
 // TODO: Refactor constants into their own file, or `config.js`
-const BUCKET_NAME = "targ-templates";
 
 // TODO: this should be templates/:campaignId
+const BUCKET_NAME = "targ-templates";
+
 app.post("/templates", (request, response) => {
-  // console.log(request.body)
-  // console.log(request.session);
   const { campaignId, designJSON, userID } = request.body;
   var file = JSON.stringify(designJSON);
-  // console.log(designJSON);
-  // console.log(userID, "server");
   uploadToS3(userID, campaignId, file, (err, result) => {
     if (err) {
       throw err;
@@ -306,8 +292,6 @@ const uploadToS3 = (userId, campaignId, file, callback) => {
         console.log(err);
       }
       console.log("Made it to s3bucket upload callback");
-      // console.log(BUCKET_NAME);
-      // console.log(data);
       // TODO: save to postgres database
       const url = `https://s3.amazonaws.com/${BUCKET_NAME}/${fileName}`;
       db.updateCampaignS3URL(url, campaignId, (err, result) => {
@@ -346,7 +330,7 @@ app.post("/drop", (request, response) => {
   db
     .addContact(objData)
     .then(data => {
-      console.log(data, "inserver");
+      // console.log(data, "inserver");
       db
         .createMultiCampaignContact(campaign, data)
         .then(res => {

@@ -48,13 +48,8 @@ class Campaigns extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    //   this.props.dispatch(getContacts(this.props.match.params.id));
-  }
 
   componentDidMount() {
-    // console.log(Auth.userID,"here")
-
     this.props
       .dispatch(getContacts(this.props.match.params.id))
       .then(() => {
@@ -81,16 +76,12 @@ class Campaigns extends Component {
           this.props.match.params.id
         )
       );
-      this.setState(
-        {
-          emailInput: "",
-          nameInput: "",
-          badInputs: false
-        },
-        function() {
-          // console.log('reached!', this.state)
-        }
-      );
+      this.setState({
+        emailInput: "",
+        nameInput: "",
+        badInputs: false,
+        loading: false
+      });
       if (this.props.contacts.contacts.length === 0) {
         this.shouldCampaignUpdate();
       }
@@ -100,7 +91,7 @@ class Campaigns extends Component {
   }
 
   shouldCampaignUpdate() {
-    console.log("Campaign update is running");
+    // console.log("Campaign update is running");
     axios
       .get("/shouldCampaignUpdate", {
         params: {
@@ -108,7 +99,7 @@ class Campaigns extends Component {
         }
       })
       .then(response => {
-        console.log("should campaign update?", response.data);
+        // console.log("should campaign update?", response.data);
         if (response.data === true) {
           this.props.dispatch(updateCampaign(this.props.match.params.id));
         }
@@ -119,7 +110,7 @@ class Campaigns extends Component {
   }
 
   handleDelete(id, contactid, campaignid) {
-    console.log("here", id, contactid, campaignid);
+    // console.log("here", id, contactid, campaignid);
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
@@ -134,7 +125,7 @@ class Campaigns extends Component {
     });
   }
   sendEmail() {
-    console.log("send");
+    // console.log("send");
     this.setState({
       show: true
     });
@@ -191,44 +182,49 @@ class Campaigns extends Component {
               />
             </Box>
           </Box>
-          <Box style={{ marginLeft: "150px", marginTop: "50px" }}>
-            {!this.props.contacts.contacts[0] ? (
-              <Pulse />
-            ) : (
-              <Form style={{ width: "650px" }}>
-                <FormFields>
-                  <Table
-                    scrollable={true}
-                    style={{
-                      height: "700px",
-                      overflow: "auto",
-                      border: "solid",
-                      borderRadius: "1%"
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subscribed</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.props.contacts.contacts.map((contact, index) => (
-                        <Recipients
-                          contact={contact}
-                          key={index}
-                          handleDelete={this.handleDelete}
-                        />
-                      ))}
-                    </tbody>
-                  </Table>
-                </FormFields>
-              </Form>
-            )}
-            {/*   </div>*/}
-          </Box>
+
+          {this.state.loading === true ? (
+            <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
+              {!this.props.contacts.contacts[0] ? (
+                <Pulse />
+              ) : (
+                <Form style={{ width: "500px" }}>
+                  <FormFields>
+                    <Table
+                      scrollable={true}
+                      style={{
+                        height: "700px",
+                        overflow: "auto",
+                        border: "solid",
+                        borderRadius: "1%"
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Subscribed</th>
+                          <th />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.props.contacts.contacts.map((contact, index) => (
+                          <Recipients
+                            contact={contact}
+                            key={index}
+                            handleDelete={this.handleDelete}
+                          />
+                        ))}
+                      </tbody>
+                    </Table>
+                  </FormFields>
+                </Form>
+              )}
+              {/*   </div>*/}
+            </Box>
+          ) : (
+            <Spinning />
+          )}
         </Split>
       </div>
     );
