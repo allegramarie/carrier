@@ -112,6 +112,23 @@ export function getGroups(userID) {
   };
 }
 
+export function addGroup(name, userID) {
+  const payload = { name, userID };
+  return function(dispatch) {
+    return axios
+      .post("/newGroup", payload)
+      .then(response => {
+        // console.log(response.data)
+        dispatch({ type: types.ADD_GROUP, payload: response.data });
+        return response.data;
+      })
+      .catch(err => {
+        // console.log(err);
+        return err;
+      });
+  };
+}
+
 export function getGroupContacts(id) {
   return function(dispatch) {
     return axios

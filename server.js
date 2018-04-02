@@ -178,6 +178,19 @@ app.post("/newCampaign", (request, response) => {
     });
 });
 
+app.post("/newGroup", (request, response) => {
+  console.log("hit new group in server");
+  db
+    .adddNewGroup(request.body)
+    .then(data => {
+      console.log(data);
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 app.put("/updateCampaign", (request, response) => {
   // console.log("inside update campaign", request);
   db.updateCampaignStatus(request.body, data => {

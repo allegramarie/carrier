@@ -161,6 +161,16 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
   );
 };
 
+const addNewGroup = function({ name, userID }, callback) {
+  const status = "Draft";
+  let values = [name, userID];
+  // console.log(name, subject, status, userID);
+  return pool.query(
+    `insert into groups (name, userID) values ($1, $2) returning id;`,
+    values
+  );
+};
+
 const updateCampaignStatus = function(campaign, callback) {
   // console.log("Campaign to be updated,", campaign.params.id);
   pool.query(
@@ -354,5 +364,6 @@ module.exports = {
   groupContacts,
   getUserGroups,
   allContacts,
-  createGroupContact
+  createGroupContact,
+  addNewGroup
 };

@@ -18,6 +18,7 @@ import LandingPage from "../components/LandingPage.js";
 import Unsubscribe from "../components/Unsubscribe.js";
 import Groups from "../components/Groups.js";
 import GroupDetails from "../components/GroupDetails.js";
+import NewGroup from "../components/NewGroup.js";
 import Auth from "../Auth";
 
 class App extends Component {
@@ -38,6 +39,7 @@ class App extends Component {
           <PrivateRoute path="/campaigns/:id" component={Campaigns} />
           <PrivateRoute path="/groups/:id" component={GroupDetails} />
           <PrivateRoute path="/groups" component={Groups} />
+          <PrivateRoute path="/createGroup" component={NewGroup} />
           <PrivateRoute path="/drop" component={Drop} />
           <Route path="/about" component={LandingPage} />
           <Route path="/unsubscribe/:id" component={Unsubscribe} />
