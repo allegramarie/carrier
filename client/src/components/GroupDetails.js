@@ -124,7 +124,7 @@ class GroupDetails extends Component {
   render() {
     return (
       <div>
-        {console.log("all contacts", this.props.allContacts.allContacts)}
+        {console.log("all contacts", this.props.allContacts)}
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box>
@@ -139,10 +139,7 @@ class GroupDetails extends Component {
                 <Select
                   placeHolder="None"
                   value={this.state.value}
-                  options={this.props.allContacts.allContacts.map(function(
-                    contact,
-                    key
-                  ) {
+                  options={this.props.allContacts.map(function(contact, key) {
                     return {
                       value: contact.name,
                       sub: contact.email,
@@ -229,56 +226,8 @@ function mapStateToProps(state) {
     user: state.user,
     contacts: state.contacts,
     groups: state.groups,
-    allContacts: state.allContacts
+    allContacts: state.allContacts.allContacts
   };
 }
 
 export default connect(mapStateToProps)(GroupDetails);
-
-// <Form>
-//   <Header>
-//     <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
-//   </Header>
-//   <FormFields>
-//     <TextInput
-//       value={this.state.nameInput}
-//       onDOMChange={e => {
-//         this.handleName(e);
-//       }}
-//       placeHolder="Name"
-//     />
-//     <TextInput
-//       value={this.state.emailInput}
-//       onDOMChange={e => {
-//         this.handleEmail(e);
-//       }}
-//       placeHolder="Email"
-//     />
-//   </FormFields>
-//   {this.state.badInputs === true ? (
-//     <Notification
-//       style={{ width: "100%" }}
-//       message="Please Enter a Valid Email"
-//       size="small"
-//       status="critical"
-//     />
-//   ) : (
-//     <p />
-//   )}
-
-//   <Footer pad={{ vertical: "medium" }}>
-//     <Button
-//       label="Add"
-//       onClick={() => {
-//         this.handleClick();
-//       }}
-//     />
-//   </Footer>
-// </Form>
-// <Drop campaign={this.props.match.params.id} />
-// <Box align="end">
-//   <Button
-//     label="Edit Template"
-//     path={`/campaigns/${this.props.match.params.id}/edit`}
-//   />
-// </Box>

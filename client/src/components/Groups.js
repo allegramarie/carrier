@@ -59,7 +59,7 @@ class Groups extends React.Component {
   }
 
   render() {
-    console.log("groups", this.props.groups.groups, "state", this.state.id);
+    console.log("groups", this.props.groups, "state", this.state.id);
     const that = this;
     if (this.state.show === true) {
       console.log("show", this.state.show);
@@ -89,7 +89,7 @@ class Groups extends React.Component {
                   openMulti={true}
                   style={{ width: "70%", height: "625px", overflow: "auto" }}
                 >
-                  {this.props.groups.groups.map((group, index) => (
+                  {this.props.groups.map((group, index) => (
                     <AccordionPanel
                       key={index}
                       heading={`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
@@ -128,8 +128,7 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     contacts: state.contacts,
-    groups: state.groups,
-    allContacts: state.allContacts
+    groups: state.groups.groups
   };
 }
 

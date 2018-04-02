@@ -91,7 +91,7 @@ class Campaigns extends Component {
         badInputs: false,
         loading: true
       });
-      if (this.props.contacts.contacts.length === 0) {
+      if (this.props.contacts.length === 0) {
         this.shouldCampaignUpdate();
       }
     } else {
@@ -150,10 +150,7 @@ class Campaigns extends Component {
             id: ""
           },
           function() {
-            console.log(
-              "reached groups to contacts!",
-              this.props.contacts.contacts
-            );
+            console.log("reached groups to contacts!", this.props.contacts);
           }
         );
       })
@@ -209,11 +206,11 @@ class Campaigns extends Component {
               <Heading style={{ fontSize: "25px" }}>
                 Add Group Contacts to Campaign
               </Heading>
-              {console.log("groups,", this.props.groups.groups)}
+              {console.log("groups,", this.props.groups)}
               <Select
                 placeHolder="None"
                 value={this.state.value}
-                options={this.props.groups.groups.map(function(group, key) {
+                options={this.props.groups.map(function(group, key) {
                   return {
                     value: group.name,
                     id: group.id,
@@ -255,7 +252,7 @@ class Campaigns extends Component {
           </Box>
           {this.state.loading === true ? (
             <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
-              {!this.props.contacts.contacts[0] ? (
+              {!this.props.contacts[0] ? (
                 <Pulse />
               ) : (
                 <Form style={{ width: "600px" }}>
@@ -278,7 +275,7 @@ class Campaigns extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.props.contacts.contacts.map((contact, index) => (
+                        {this.props.contacts.map((contact, index) => (
                           <Recipients
                             contact={contact}
                             key={index}
@@ -304,8 +301,8 @@ class Campaigns extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    contacts: state.contacts,
-    groups: state.groups
+    contacts: state.contacts.contacts,
+    groups: state.groups.groups
   };
 }
 
