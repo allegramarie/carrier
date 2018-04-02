@@ -61,10 +61,9 @@ class Campaigns extends Component {
 
   componentDidMount() {
     // console.log(Auth.userID,"here")
-
-    this.props.dispatch(getContacts(this.props.match.params.id));
+    this.props.dispatch(getGroups(this.props.match.params.id));
     this.props
-      .dispatch(getGroups(this.props.match.params.id))
+      .dispatch(getContacts(this.props.match.params.id))
       .then(() => {
         this.setState({
           loading: true
@@ -147,18 +146,25 @@ class Campaigns extends Component {
   }
 
   addGroupToContacts() {
-    this.props.dispatch(
-      groupToCampaigns(this.props.match.params.id, this.state.id)
-    );
-    this.setState(
-      {
-        value: "",
-        id: ""
-      },
-      function() {
-        console.log("reached groups to contacts!", this.state);
-      }
-    );
+    this.props
+      .dispatch(groupToCampaigns(this.props.match.params.id, this.state.id))
+      .then(() => {
+        this.setState(
+          {
+            value: "",
+            id: ""
+          },
+          function() {
+            console.log(
+              "reached groups to contacts!",
+              this.props.contacts.contacts
+            );
+          }
+        );
+      })
+      .then(() => {
+        this.props.dispatch(getContacts(this.props.match.params.id));
+      });
   }
 
   render() {

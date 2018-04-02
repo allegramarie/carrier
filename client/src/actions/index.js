@@ -140,7 +140,6 @@ export function getGroupContacts(id) {
 }
 
 export function groupToCampaigns(campaign, id) {
-  console.log("inside group to campaigns");
   return function(dispatch) {
     return axios
       .post("/groupToCampaigns", {

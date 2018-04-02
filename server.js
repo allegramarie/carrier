@@ -240,10 +240,11 @@ app.post("/groupToCampaigns", (request, response) => {
   var campaign = request.body.campaign;
   db.groupContacts(request.body.id, data => {
     data.forEach(contact => {
+      //probably need to query for contact information here
       db.createCampaignContact(campaign, contact.contactid, res => {
         console.log("Campaign contact should be created", res);
-        response.send(res);
       });
+      response.send();
     });
   });
 });
