@@ -34,7 +34,7 @@ export default class LandingPage extends Component {
               }}
               heading={
                 <Heading strong={true}>
-                  Sending eMails Faster, Easier, for Free
+                  Send eMails Faster, Easier, for Free
                 </Heading>
               }
               description={
@@ -78,7 +78,7 @@ export default class LandingPage extends Component {
           </Box>
           <NewsFeed />
         </Box>
-        <Footer justify="between" colorIndex="grey-1" size="large">
+        <Footer justify="between" colorIndex="grey-1" size="medium">
           <Title>
             <SendIcon style={{ marginLeft: "50px" }} />
             Come Up With a Name Allegra
@@ -86,12 +86,12 @@ export default class LandingPage extends Component {
           <Box direction="row" align="center" pad={{ between: "medium" }}>
             <Paragraph margin="none">© Our Thesis Group</Paragraph>
             <Menu direction="row" size="medium" dropAlign={{ right: "right" }}>
-              <Anchor href="#">Sign Up</Anchor>
-              <Anchor href="#">Login</Anchor>
+              <Anchor href="/signup">Sign Up</Anchor>
+              <Anchor href="/login">Login</Anchor>
               <Anchor href="#">About</Anchor>
             </Menu>
           </Box>
-        </Footer>;
+        </Footer>
       </Box>
     );
   }
