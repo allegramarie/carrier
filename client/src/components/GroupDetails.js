@@ -125,7 +125,8 @@ class GroupDetails extends Component {
     return (
       <div>
         {console.log("all contacts", this.props.allContacts.allContacts)}
-        <Split fixed={false} separator={false} showOnResponsive="both">
+        <Split flex="right" separator={false} fixed={false}>
+          <Sidebar />
           <Box>
             <Button icon={<RevertIcon />} path="/groups" />
             <Form>

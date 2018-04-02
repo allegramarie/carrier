@@ -181,7 +181,7 @@ app.post("/newCampaign", (request, response) => {
 app.post("/newGroup", (request, response) => {
   console.log("hit new group in server");
   db
-    .adddNewGroup(request.body)
+    .addNewGroup(request.body)
     .then(data => {
       console.log(data);
       response.send(data);

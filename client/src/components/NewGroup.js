@@ -42,7 +42,7 @@ class NewGroup extends Component {
       .dispatch(addGroup(name, Auth.userID))
       .then(() => {
         this.setState({
-          cid: this.props.groups.groups[this.props.groups.groups.length - 1],
+          cid: this.props.groups[this.props.groups.length - 1],
           name: "",
           show: true
         });
