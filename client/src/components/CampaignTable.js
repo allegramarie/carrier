@@ -78,7 +78,10 @@ class CampaignTable extends React.Component {
       return (
         <div>
           {this.state.loading === true ? (
-            <Accordion openMulti={true} style={{ width: "70%" }}>
+            <Accordion
+              openMulti={true}
+              style={{ width: "70%", overflow: "auto", height: "600px" }}
+            >
               {this.props.campaigns.campaigns.map((campaign, index) => (
                 <AccordionPanel
                   heading={`Status: ${

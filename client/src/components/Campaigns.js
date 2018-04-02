@@ -80,7 +80,7 @@ class Campaigns extends Component {
         emailInput: "",
         nameInput: "",
         badInputs: false,
-        loading: false
+        loading: true
       });
       if (this.props.contacts.contacts.length === 0) {
         this.shouldCampaignUpdate();
@@ -189,7 +189,7 @@ class Campaigns extends Component {
               {!this.props.contacts.contacts[0] ? (
                 <Pulse />
               ) : (
-                <Form style={{ width: "500px" }}>
+                <Form style={{ width: "600px" }}>
                   <FormFields>
                     <Table
                       scrollable={true}
