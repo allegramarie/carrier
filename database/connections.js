@@ -14,11 +14,7 @@ const incrementConnections = function(input, callback) {
         input--;
       }
     } else {
-      client.set(["connections", 1, "EX", expiration], (err, response) => {
-        if (err) {
-          console.log("redis error", err);
-        }
-      });
+      console.log("Error incrementing connections", err);
     }
   });
 };
@@ -31,7 +27,11 @@ const returnConnectionsCount = function(callback) {
         callback(reply);
       });
     } else {
-      console.log("Connections are expired", err);
+      client.set(["connections", 1, "EX", expiration], (err, response) => {
+        if (err) {
+          console.log("redis error", err);
+        }
+      });
     }
   });
 };
