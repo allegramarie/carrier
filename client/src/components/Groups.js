@@ -42,7 +42,7 @@ class Groups extends React.Component {
         console.log(err);
       });
   }
-  componentWillReceiveProps(nextProps) {
+  getDerivedStateFromProps(nextProps) {
     // console.log(
     //   "getting props within campaign table",
     //   nextProps.campaigns.campaigns,

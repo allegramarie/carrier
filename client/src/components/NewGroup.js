@@ -71,30 +71,32 @@ class NewGroup extends Component {
       return <Redirect to={`/groups/${this.state.cid.rows[0].id}`} />;
     }
     return (
-      <Split flex="right" separator={false} fixed={false}>
-        <Box justify="center" align="start" pad="medium">
-          <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>
-            <Section key="utilization" pad="medium" full="horizontal">
-              <Form onSubmit={this.handleSubmit}>
-                <Header>
-                  <Heading tag="h2">Create New Group</Heading>
-                </Header>
-                <FormFields>
-                  <FormField label="Group Name">
-                    <TextInput
-                      onDOMChange={e => this.handleInputChange(e)}
-                      name="name"
-                    />
-                  </FormField>
-                </FormFields>
-                <Footer pad={{ vertical: "medium" }}>
-                  <Button label="Submit" type="submit" primary={true} />
-                </Footer>
-              </Form>
-            </Section>
-          </Article>
-        </Box>
-      </Split>
+      <div>
+        <Split flex="right" separator={false} fixed={false}>
+          <Box justify="center" align="start" pad="medium">
+            <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>
+              <Section key="utilization" pad="medium" full="horizontal">
+                <Form onSubmit={this.handleSubmit}>
+                  <Header>
+                    <Heading tag="h2">Create New Group</Heading>
+                  </Header>
+                  <FormFields>
+                    <FormField label="Group Name">
+                      <TextInput
+                        onDOMChange={e => this.handleInputChange(e)}
+                        name="name"
+                      />
+                    </FormField>
+                  </FormFields>
+                  <Footer pad={{ vertical: "medium" }}>
+                    <Button label="Submit" type="submit" primary={true} />
+                  </Footer>
+                </Form>
+              </Section>
+            </Article>
+          </Box>
+        </Split>
+      </div>
     );
   }
 }

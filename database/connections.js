@@ -31,6 +31,7 @@ const returnConnectionsCount = function(callback) {
         if (err) {
           console.log("redis error", err);
         }
+        callback(response);
       });
     }
   });

@@ -84,6 +84,7 @@ class CampaignTable extends React.Component {
             >
               {this.props.campaigns.campaigns.map((campaign, index) => (
                 <AccordionPanel
+                  key={index}
                   heading={`Status: ${
                     campaign.status
                   } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${

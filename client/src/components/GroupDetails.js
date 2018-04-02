@@ -47,7 +47,7 @@ class GroupDetails extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
+  getDerivedStateFromProps(nextProps) {
     // console.log("current contacts", this.props.contacts.contacts);
     // console.log("getting props within contacts", nextProps.contacts.contacts);
     //   this.props.dispatch(getContacts(this.props.match.params.id));
@@ -56,9 +56,11 @@ class GroupDetails extends Component {
   componentDidMount() {
     console.log(this.props.match.params.id, "here");
 
-    this.props.dispatch(getGroupContacts(this.props.match.params.id));
     this.props
-      .dispatch(getAllContacts(this.props.match.params.id))
+      .dispatch(getGroupContacts(this.props.match.params.id))
+      .then(() => {
+        this.props.dispatch(getAllContacts(this.props.match.params.id));
+      })
       .then(() => {
         this.setState({
           loading: true
@@ -89,31 +91,7 @@ class GroupDetails extends Component {
         console.log("reached!", this.state);
       }
     );
-    //   if (this.props.contacts.contacts.length === 0) {
-    //     this.shouldCampaignUpdate();
-    //   }
-    // } else {
-    //   this.setState({ badInputs: true });
   }
-
-  // shouldCampaignUpdate() {
-  //   console.log("Campaign update is running");
-  //   axios
-  //     .get("/shouldCampaignUpdate", {
-  //       params: {
-  //         id: this.props.match.params.id
-  //       }
-  //     })
-  //     .then(response => {
-  //       console.log("should campaign update?", response.data);
-  //       if (response.data === true) {
-  //         this.props.dispatch(updateCampaign(this.props.match.params.id));
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
 
   handleDelete(id, contactid, campaignid) {
     console.log("here", id, contactid, campaignid);
