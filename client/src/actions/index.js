@@ -4,16 +4,6 @@ import axios from "axios";
 // TODO: This should take some campagin info to pass to reducer
 // export const addCampaign = () => ({ type: types.ADD_CAMPAIGN }); // Add other fields when we know what needs to be passed to the reducer.
 //export const deleteTodo = id => ({ type: types.DELETE_CAMPAIGN, id, //other info })
-//conditional rendering of loading thing and keep new debugginh thing in the back of my head//
-//new debuggin ways
-//tsting a function
-//set abefore time and invoe funciton and
-// seta after time
-//function testspeed(cb{
-//beofe()=newData
-//callback
-//afternewdate()
-//}
 export function addCampaign(name, status, subject, userID) {
   const payload = { name, status, subject, userID };
   return function(dispatch) {
@@ -209,7 +199,7 @@ export function addGroupContacts(group, id, name, email) {
 }
 
 export function addContact(name, email, campaign) {
-  console.log("within add contact,", name, email, campaign);
+  // console.log("within add contact,", name, email, campaign);
   return function(dispatch) {
     axios
       .post("/newContact", {
@@ -218,7 +208,7 @@ export function addContact(name, email, campaign) {
         campaign: campaign
       })
       .then(response => {
-        console.log("add contact has a response in the action");
+        // console.log("add contact has a response in the action");
         dispatch({ type: types.ADD_CONTACT, payload: { name, email } });
       })
       .catch(err => {
@@ -231,10 +221,12 @@ export function deleteContact(id, contactid, campaignid) {
   // console.log('indelete', id, contactid, campaignid);
   return function(dispatch) {
     axios
-      .post("/deleteContact", {
-        id: id,
-        contactid: contactid,
-        campaignid: campaignid
+      .delete("/deleteContact", {
+        params: {
+          id: id,
+          contactid: contactid,
+          campaignid: campaignid
+        }
       })
       .then(response => {
         dispatch({

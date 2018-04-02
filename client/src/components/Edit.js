@@ -5,13 +5,17 @@ import {
   Section,
   Article,
   Box,
+  Split,
   Form,
   FormField,
+  FormFields,
+  Footer,
   TextInput,
   Value,
   Card,
   Button
 } from "grommet";
+import Sidebar from "./Sidebar";
 import axios from "axios";
 
 class Edit extends React.Component {
@@ -51,48 +55,55 @@ class Edit extends React.Component {
       [name]: value
     });
   }
+
   render() {
-    console.log(this.state);
     return (
-      <div>
-        <div style={{ fontSize: "30px" }}>Edit Profile</div>
-        <div>
+      <Split flex="right" separator={false} fixed={false}>
+        <Sidebar />
+        <Box justify="center" align="start" pad="medium">
           <Form>
-            <FormField>
-              <TextInput
-                placeHolder="Name"
-                onDOMChange={e => this.handleInputChange(e)}
-                name="name"
-              />
-            </FormField>
+            <Header>
+              <Heading>Edit Profile</Heading>
+            </Header>
+            <FormFields>
+              <FormField>
+                <TextInput
+                  placeHolder="Name"
+                  onDOMChange={e => this.handleInputChange(e)}
+                  name="name"
+                />
+              </FormField>
 
-            <FormField>
-              <TextInput
-                placeHolder="Email"
-                onDOMChange={e => this.handleInputChange(e)}
-                name="email"
+              <FormField>
+                <TextInput
+                  placeHolder="Email"
+                  onDOMChange={e => this.handleInputChange(e)}
+                  name="email"
+                />
+              </FormField>
+              <FormField>
+                <TextInput
+                  placeHolder="Bio"
+                  onDOMChange={e => this.handleInputChange(e)}
+                  name="bio"
+                  size="large"
+                />
+              </FormField>
+            </FormFields>
+            <Footer pad={{ vertical: "medium" }}>
+              <Button
+                label="save"
+                onClick={() => {
+                  this.handleSave();
+                }}
+                path="/"
               />
-            </FormField>
-            <FormField>
-              <TextInput
-                placeHolder="Bio"
-                onDOMChange={e => this.handleInputChange(e)}
-                name="bio"
-                size="large"
-              />
-            </FormField>
+            </Footer>
           </Form>
-
-          <Button
-            label="save"
-            onClick={() => {
-              this.handleSave();
-            }}
-            path="/"
-          />
-        </div>
-      </div>
+        </Box>
+      </Split>
     );
   }
 }
+
 export default Edit;

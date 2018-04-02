@@ -34,27 +34,30 @@ class Editor extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log("component will mount!");
     const campaignId = this.props.match.params.id;
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
     // Else, load the user template from the server (via S3)
     let that = this;
-    axios.get(`/templates/${campaignId}`).then(response => {
-      const templateJSON = response.data.templateJSON;
-      if (templateJSON !== "") {
-        const parsedJSON = JSON.parse(templateJSON);
-        const name = "Current Draft";
-        this.setState(
-          {
+    axios
+      .get(`/templates/${campaignId}`)
+      .then(response => {
+        const templateJSON = response.data.templateJSON;
+        if (templateJSON !== "") {
+          const parsedJSON = JSON.parse(templateJSON);
+          const name = "Current Draft";
+          this.setState({
             themes: [...this.state.themes, { name, content: parsedJSON }]
-          },
-          () => {
-            this.loadTemplateByName(name);
-          }
-        );
-      }
-    });
+          });
+          // this.loadTemplateByName(name);
+          this.editor.loadDesign(parsedJSON);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   loadTemplateByName = name => {
@@ -62,8 +65,7 @@ class Editor extends Component {
     // into the Editor.
     for (const theme of this.state.themes) {
       if (theme.name === name) {
-        this.editor.loadDesign(theme.content);
-        return;
+        return this.editor.loadDesign(theme.content);
       }
     }
     //
@@ -232,6 +234,7 @@ class Editor extends Component {
     this.editor.saveDesign(designJSON => {
       data.designJSON = designJSON;
       this.setState({ popup: true });
+
       axios
         .post("/templates", data)
         .then(response => {})

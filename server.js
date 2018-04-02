@@ -117,22 +117,21 @@ app.get("/:id/:cid/footer.png", (request, response) => {
     } else {
       console.log("sent file");
       db.userOpenedEmail(contactID, campaignID, results => {
-        console.log("response from user opened email", results);
+        // console.log("response from user opened email", results);
       });
     }
   });
 });
 
 app.get("/checkUser", (request, response) => {
-  db.checkUserExists(request.body, data => {
-    response.send(data);
-  });
-});
-
-app.post("/newUser", (request, response) => {
-  db.addNewUser(request.body, data => {
-    response.send(data);
-  });
+  db
+    .checkUserExists(request.body)
+    .then(data => {
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post("/send", (request, response) => {
@@ -148,10 +147,14 @@ app.post("/send", (request, response) => {
 
 app.get("/campaigns", (request, response) => {
   // console.log("Getting user campaigns in the server", request.query.userID);
-  db.getUserCampaigns(request.query.userID, data => {
-    // console.log("response from campaigns,", data);
-    response.send(data);
-  });
+  db
+    .getUserCampaigns(request.query.userID)
+    .then(data => {
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.get("/groups", (request, response) => {
@@ -164,11 +167,15 @@ app.get("/groups", (request, response) => {
 
 app.post("/newCampaign", (request, response) => {
   // console.log("hit new campgiang");
-  // console.log(request.body);
-  db.addNewCampaign(request.body, data => {
-    // console.log(data,"here")
-    response.send(data);
-  });
+  db
+    .addNewCampaign(request.body)
+    .then(data => {
+      console.log(data);
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.put("/updateCampaign", (request, response) => {
@@ -194,10 +201,15 @@ app.get("/shouldCampaignUpdate", (request, response) => {
 });
 
 app.get("/campaignContacts", (request, response) => {
-  db.campaignContacts(request.query.id, data => {
-    // console.log(data);
-    response.send(data);
-  });
+  db
+    .campaignContacts(request.query.id)
+    .then(data => {
+      console.log(data.rows, "in campaignconta");
+      response.send(data.rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.get("/groupContacts", (request, response) => {
@@ -227,12 +239,22 @@ app.get("/allContacts", (request, response) => {
 
 app.post("/newContact", (request, response) => {
   var campaign = request.body.campaign;
-  db.addNewContact(request.body.name, request.body.email, data => {
-    // console.log("contact id", data.rows[0].id, "campaign", campaign);
-    db.createCampaignContact(campaign, data.rows[0].id, res => {
-      response.send(res);
+  db
+    .addNewContact(request.body.name, request.body.email)
+    .then(data => {
+      // console.log(data)
+      db
+        .createCampaignContact(campaign, data.rows[0].id)
+        .then(data => {
+          response.send(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
 app.post("/groupToCampaigns", (request, response) => {
@@ -258,8 +280,9 @@ app.post("/unsubscribe/:contactId", (request, response) => {
 
 app.get("/templates/:campaignId", (request, response) => {
   // Get the id from the route
+  console.log("in here now");
   const campaignId = request.params.campaignId;
-  console.log(`campaignId: ${campaignId}`);
+  // console.log(`campaignId: ${campaignId}`);
   // Load the URL from the database
   db.retrieveDraft(campaignId, (err, results) => {
     if (err) {
@@ -267,25 +290,24 @@ app.get("/templates/:campaignId", (request, response) => {
     }
     // {templateURL: "https://s3.amazonaws.com/..."}
     console.log("campaignid templates", results);
+    // console.log(results);
     // Use the URL to get JSON from S3
     axios.get(results.templateurl).then(results => {
       // Send the JSON data back to the client
+
       response.send({ templateJSON: JSON.stringify(results.data) });
     });
   });
 });
 
 // TODO: Refactor constants into their own file, or `config.js`
-const BUCKET_NAME = "targ-templates";
 
 // TODO: this should be templates/:campaignId
+const BUCKET_NAME = "targ-templates";
+
 app.post("/templates", (request, response) => {
-  // console.log(request.body)
-  // console.log(request.session);
   const { campaignId, designJSON, userID } = request.body;
   var file = JSON.stringify(designJSON);
-  // console.log(designJSON);
-  console.log(userID, "server");
   uploadToS3(userID, campaignId, file, (err, result) => {
     if (err) {
       throw err;
@@ -317,8 +339,6 @@ const uploadToS3 = (userId, campaignId, file, callback) => {
         console.log(err);
       }
       console.log("Made it to s3bucket upload callback");
-      console.log(BUCKET_NAME);
-      console.log(data);
       // TODO: save to postgres database
       const url = `https://s3.amazonaws.com/${BUCKET_NAME}/${fileName}`;
       db.updateCampaignS3URL(url, campaignId, (err, result) => {
@@ -354,40 +374,71 @@ app.post("/drop", (request, response) => {
     }
   }
   // console.log(objData, campaign)
-  db.addContact(objData, data => {
-    // console.log(data[0].rows[0].id,'add contact')
-    // db.createCampaignContact(campaign, data.rows[0].id, res => {
-    // console.log("response from add", data);
-    db.createMultiCampaignContact(campaign, data, res => {
-      console.log(data, res);
-      response.send(data);
+  db
+    .addContact(objData)
+    .then(data => {
+      // console.log(data, "inserver");
+      db
+        .createMultiCampaignContact(campaign, data)
+        .then(res => {
+          response.send(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
+  // console.log(data[0].rows[0].id,'add contact')
+  // db.createCampaignContact(campaign, data.rows[0].id, res => {
+  // console.log("response from add", data);
 });
 
-app.post("/deleteContact", (request, response) => {
-  // console.log('here', request.body)
-  db.deletecampaignsContact(request.body, data => {
-    db.deleteContact(request.body, data => {
-      response.send(data);
+app.delete("/deleteContact", (request, response) => {
+  // console.log('here', request.query)
+  db
+    .deletecampaignsContact(request.query)
+    .then(data => {
+      db
+        .deleteContact(request.query)
+        .then(data => {
+          response.send(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
 app.get("/getProfile", (request, response) => {
   // console.log(request.query.userID)
-  db.getProfile(request.query.userID, data => {
-    response.send(data.rows[0]);
-  });
+  db
+    .getProfile(request.query.userID)
+    .then(data => {
+      // console.log(data.rows[0])
+      response.send(data.rows[0]);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post("/saveProfile", (request, response) => {
   // console.log(request.body.data)
   // console.log(request.body.user)
-  db.saveProfile(request.body, data => {
-    // console.log(data)
-    response.send(data);
-  });
+  db
+    .saveProfile(request.body)
+    .then(data => {
+      // console.log(data)
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 // AUTH ROUTES
@@ -409,20 +460,28 @@ app.post("/login", (request, response) => {
 
 app.post("/signup", (request, response) => {
   const { username, password } = request.body;
-  db.addNewUser({ email: username, password }, (err, res) => {
-    if (err) {
-      console.log(err);
-      console.log("How is this happening?");
-      response.status(400).send({ error: "Bad Request" });
-    } else {
-      const userID = res.rows[0].id;
+  db
+    .addNewUser({ email: username, password })
+    .then(data => {
+      console.log(data.rows[0].id);
+      const userID = data.rows[0].id;
       const token = auth.genToken();
-      // TODO: Remove hard coded userID
+      // // TODO: Remove hard coded userID
       auth.setSession(token, username);
       response.send({ token, userID });
-    }
-  });
+    })
+    .catch(err => {
+      response.status(400).send({ error: "Bad Request" });
+    });
 });
+
+// response.status(400).send({ error: "Bad Request" });
+// } else {
+// const userID = res.rows[0].id;
+// const token = auth.genToken();
+// // TODO: Remove hard coded userID
+// auth.setSession(token, username);
+// response.send({ token, userID });
 
 app.post("/logout", (request, response) => {
   if (request.session) {

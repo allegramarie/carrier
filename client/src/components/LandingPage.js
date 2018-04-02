@@ -65,6 +65,7 @@ export default class LandingPage extends Component {
             </Paragraph>
           </Box>
         </Box>
+        <InfoPage />
         <Box colorIndex="light-2" pad={{ vertical: "large" }} align="center">
           <Box
             align="center"
@@ -77,7 +78,6 @@ export default class LandingPage extends Component {
           </Box>
           <NewsFeed />
         </Box>
-        <InfoPage />
         <Footer justify="between" colorIndex="grey-1" size="large">
           <Title>
             <SendIcon style={{ marginLeft: "50px" }} />

@@ -19,7 +19,6 @@ import Unsubscribe from "../components/Unsubscribe.js";
 import Groups from "../components/Groups.js";
 import GroupDetails from "../components/GroupDetails.js";
 import Auth from "../Auth";
-import Edit from "../components/Edit.js";
 
 class App extends Component {
   componentDidMount() {
@@ -29,26 +28,20 @@ class App extends Component {
   render() {
     return (
       <Grommet.App centered={false}>
-        <Split flex="right" separator={false} fixed={false}>
-          <Sidebar />
-          <Box justify="center" align="start" pad="medium">
-            <Switch>
-              <PrivateRoute exact path="/" component={Dashboard} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <PrivateRoute path="/profile/:id" component={Profile} />
-              <PrivateRoute path="/createCampaign" component={NewCampaign} />
-              <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
-              <PrivateRoute path="/campaigns/:id" component={Campaigns} />
-              <PrivateRoute path="/groups/:id" component={GroupDetails} />
-              <PrivateRoute path="/groups" component={Groups} />
-              <PrivateRoute path="/drop" component={Drop} />
-              <PrivateRoute path="/edit/:id" component={Edit} />
-              <Route path="/LandingPage" component={LandingPage} />
-              <Route path="/unsubscribe/:id" component={Unsubscribe} />
-            </Switch>
-          </Box>
-        </Split>
+        <Switch>
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <PrivateRoute path="/profile/:id" component={Profile} />
+          <PrivateRoute path="/createCampaign" component={NewCampaign} />
+          <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
+          <PrivateRoute path="/campaigns/:id" component={Campaigns} />
+          <PrivateRoute path="/groups/:id" component={GroupDetails} />
+          <PrivateRoute path="/groups" component={Groups} />
+          <PrivateRoute path="/drop" component={Drop} />
+          <Route path="/about" component={LandingPage} />
+          <Route path="/unsubscribe/:id" component={Unsubscribe} />
+        </Switch>
       </Grommet.App>
     );
   }

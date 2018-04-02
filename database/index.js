@@ -63,51 +63,22 @@ const saveTemplateURL = function(input, callback) {
   );
 };
 
-const addNewUser = function(input, callback) {
+const addNewUser = function(input) {
   var values = [input.email, input.password];
-  pool.query(
+  return pool.query(
     `insert into users (email, password) values ($1, $2) returning id;`,
-    values,
-    (err, results) => {
-      if (err) {
-        callback(err);
-        //give a more detailed error message
-        console.log("Error saving new user", err, null);
-      } else {
-        callback(null, results);
-      }
-    }
+    values
   );
 };
 
-const checkUserExists = function(input, callback) {
+const checkUserExists = function(input) {
   let values = [input];
-  pool.query(
-    `Select id from users where email = $1`,
-    values,
-    (err, results) => {
-      if (err) {
-        console.log("Error checking if user exists", err);
-      } else {
-        callback(results);
-      }
-    }
-  );
+  return pool.query(`Select id from users where email = $1`, values);
 };
 
-const getUserCampaigns = function(input, callback) {
+const getUserCampaigns = function(input) {
   // console.log("inside database for campaigns", input);
-  pool.query(
-    `select * from campaigns where userID = '${input}'`,
-    (err, results) => {
-      if (err) {
-        console.log("Error getting user campaigns", err);
-      } else {
-        // console.log("results from the database", results);
-        callback(results);
-      }
-    }
-  );
+  return pool.query(`select * from campaigns where userID = '${input}'`);
 };
 
 const getUserGroups = function(input, callback) {
@@ -138,32 +109,18 @@ const userOpenedEmail = function(contact, campaign, callback) {
   );
 };
 
-const addNewContact = function(name, email, callback) {
+const addNewContact = function(name, email) {
   let values = [name, email];
-  pool.query(
+  return pool.query(
     `insert into contacts (name, email, unsubscribe) values ($1, $2, false) returning id;`,
-    values,
-    (err, results) => {
-      if (err) {
-        console.log("Error adding new contacts", err);
-      } else {
-        callback(results);
-      }
-    }
+    values
   );
 };
 
-const createCampaignContact = function(campaign, contact, callback) {
+const createCampaignContact = function(campaign, contact) {
   // console.log("Data for join,", campaign, contact);
-  pool.query(
-    `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`,
-    (err, results) => {
-      if (err) {
-        console.log("Error creating campaign contacts", err);
-      } else {
-        callback(results);
-      }
-    }
+  return pool.query(
+    `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`
   );
 };
 
@@ -198,23 +155,9 @@ const addNewCampaign = function({ name, subject, userID }, callback) {
   const status = "Draft";
   let values = [name, status, subject, userID];
   // console.log(name, subject, status, userID);
-  pool.query(
+  return pool.query(
     `insert into campaigns (name, status, subject, userID) values ($1, $2, $3, $4) returning id;`,
-    values,
-    (err, results) => {
-      if (err) {
-        console.log("Error adding a new campaign", err);
-      } else {
-        const campaignObj = {
-          name,
-          status,
-          subject,
-          userID,
-          id: results.rows[0].id
-        };
-        callback(campaignObj);
-      }
-    }
+    values
   );
 };
 
@@ -248,21 +191,10 @@ const checkCampaignTemplate = function(campaign, callback) {
   );
 };
 
-const campaignContacts = function(input, callback) {
+const campaignContacts = function(input) {
   // console.log(input);
-  pool.query(
-    `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
-    (err, results) => {
-      if (err) {
-        console.log(err, "here in campaign contacts");
-        callback(err, null);
-      } else {
-        console.log(results);
-        // TODO: There is some code which expects the first argument to be
-        // error, but it is instead results
-        callback(results.rows);
-      }
-    }
+  return pool.query(
+    `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`
   );
 };
 
@@ -302,8 +234,10 @@ const allContacts = function(input, callback) {
   );
 };
 
-const addContact = function(input, callback) {
-  // console.log(input)
+const addContact = function(input, response) {
+  // console.log(input,"add contact")
+  const name = input.name;
+  const email = input.email;
   return Promise.all(
     input.name.map((data, i) => {
       return pool.query(
@@ -314,15 +248,17 @@ const addContact = function(input, callback) {
     })
   )
     .then(res => {
-      // console.log(res,"database")
-      callback(res);
+      // console.log(res[0].rows,'in db')
+      // console.log(res)
+      // response.send(res);
+      return Promise.resolve(res);
     })
     .catch(err => {
-      callback(err);
+      console.log(err);
     });
 };
-const createMultiCampaignContact = function(campaign, contact, callback) {
-  console.log("Data for join,", campaign, contact[0].rows[0].id);
+const createMultiCampaignContact = function(campaign, contact) {
+  // console.log("Data for join,", campaign, contact);
   return Promise.all(
     contact.map(data => {
       // console.log(data)
@@ -334,69 +270,34 @@ const createMultiCampaignContact = function(campaign, contact, callback) {
     })
   )
     .then(res => {
-      callback(res);
+      return Promise.resolve(res);
     })
     .catch(err => {
-      callback(err);
+      console.log(err);
     });
 };
-const deletecampaignsContact = function(data, callback) {
+const deletecampaignsContact = function(data) {
   // console.log(data)
-  pool.query(
+  return pool.query(
     `DELETE from campaignContacts where contactid = '${
       data.contactid
-    }' and campaignid = '${data.campaignid}';`,
-    // `DELETE from Contacts where id = '${data.id}';`,
-    (err, result) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(result);
-      }
-    }
+    }' and campaignid = '${data.campaignid}';`
   );
 };
-const deleteContact = function(data, callback) {
-  // console.log(data);
-  pool.query(`DELETE from contacts where id = '${data.id}';`, (err, result) => {
-    if (err) {
-      console.log("Error deleting a contact", err);
-    } else {
-      callback(result);
-    }
-  });
+const deleteContact = function(data) {
+  return pool.query(`DELETE from contacts where id = '${data.id}';`);
 };
 
-const getProfile = function(input, callback) {
-  console.log(input, "inquery");
-  // `SELECT * FROM contacts JOIN campaignContacts ON contacts.id = contactid WHERE campaignContacts.campaignid = '${input}'`,
-
-  pool.query(
-    `Select email, name, bio from users WHERE users.id = '${input}'`,
-    (err, result) => {
-      if (err) {
-        console.log(err, "err in getting profile");
-      } else {
-        callback(result);
-      }
-    }
+const getProfile = function(input) {
+  return pool.query(
+    `Select email, name, bio from users WHERE users.id = '${input}'`
   );
 };
-const saveProfile = function(input, callback) {
-  console.log(input);
-  // pool.query(`UPDATE users (email, name, bio) values ('${input.data.email}', '${input.data.name}',
-  // '${input.data.bio}') WHERE id = '${input.user}'`,
-  pool.query(
+const saveProfile = function(input) {
+  return pool.query(
     `update users set email='${input.data.email}', name='${
       input.data.name
-    }', bio='${input.data.bio}' where id=${input.user}`,
-    (err, result) => {
-      if (err) {
-        console.log(err, "in insert");
-      } else {
-        callback(result);
-      }
-    }
+    }', bio='${input.data.bio}' where id=${input.user}`
   );
 };
 

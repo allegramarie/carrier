@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Title, Sidebar as GrommetSidebar, Header, Box } from "grommet";
+import { Title, Sidebar as GrommetSidebar, Header, Box, Anchor } from "grommet";
 import SidebarMenu from "./SidebarMenu";
 
 class Sidebar extends Component {
@@ -13,7 +13,9 @@ class Sidebar extends Component {
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
         <Header pad="medium" justify="start">
-          <Title>MailAppTitle</Title>
+          <Title>
+            <Anchor path="/">MailAppTitle</Anchor>
+          </Title>
         </Header>
         <Box flex="grow" justify="start">
           <SidebarMenu />

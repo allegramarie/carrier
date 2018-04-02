@@ -53,11 +53,6 @@ class Campaigns extends Component {
     this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
     this.addGroupToContacts = this.addGroupToContacts.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    // console.log("current contacts", this.props.contacts.contacts);
-    // console.log("getting props within contacts", nextProps.contacts.contacts);
-    //   this.props.dispatch(getContacts(this.props.match.params.id));
-  }
 
   componentDidMount() {
     // console.log(Auth.userID,"here")
@@ -77,9 +72,11 @@ class Campaigns extends Component {
   }
 
   handleClick() {
+    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (
-      this.state.emailInput.indexOf("@") !== -1 &&
+      checker.test(this.state.emailInput) &&
       this.state.nameInput.length > 0
+      // this.state.emailInput.indexOf("@") !== -1 &&
     ) {
       this.props.dispatch(
         addContact(
@@ -88,16 +85,12 @@ class Campaigns extends Component {
           this.props.match.params.id
         )
       );
-      this.setState(
-        {
-          emailInput: "",
-          nameInput: "",
-          badInputs: false
-        },
-        function() {
-          // console.log('reached!', this.state)
-        }
-      );
+      this.setState({
+        emailInput: "",
+        nameInput: "",
+        badInputs: false,
+        loading: true
+      });
       if (this.props.contacts.contacts.length === 0) {
         this.shouldCampaignUpdate();
       }
@@ -107,7 +100,7 @@ class Campaigns extends Component {
   }
 
   shouldCampaignUpdate() {
-    console.log("Campaign update is running");
+    // console.log("Campaign update is running");
     axios
       .get("/shouldCampaignUpdate", {
         params: {
@@ -115,7 +108,7 @@ class Campaigns extends Component {
         }
       })
       .then(response => {
-        console.log("should campaign update?", response.data);
+        // console.log("should campaign update?", response.data);
         if (response.data === true) {
           this.props.dispatch(updateCampaign(this.props.match.params.id));
         }
@@ -126,7 +119,7 @@ class Campaigns extends Component {
   }
 
   handleDelete(id, contactid, campaignid) {
-    console.log("here", id, contactid, campaignid);
+    // console.log("here", id, contactid, campaignid);
     this.props.dispatch(deleteContact(id, contactid, campaignid));
     this.props.dispatch(getContacts(this.props.match.params.id));
   }
@@ -141,7 +134,7 @@ class Campaigns extends Component {
     });
   }
   sendEmail() {
-    console.log("send");
+    // console.log("send");
     this.setState({
       show: true
     });
@@ -172,137 +165,137 @@ class Campaigns extends Component {
   render() {
     return (
       <div>
-        <Button icon={<RevertIcon />} path="/" />
+        <Split fixed={false} separator={false} showOnResponsive="both">
+          <Sidebar />
+          <Box>
+            <Button icon={<RevertIcon />} path="/" />
+            <Form>
+              <Header>
+                <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
+              </Header>
+              <FormFields>
+                <TextInput
+                  value={this.state.nameInput}
+                  onDOMChange={e => {
+                    this.handleName(e);
+                  }}
+                  placeHolder="Name"
+                />
+                <TextInput
+                  value={this.state.emailInput}
+                  onDOMChange={e => {
+                    this.handleEmail(e);
+                  }}
+                  placeHolder="Email"
+                />
+              </FormFields>
+              {this.state.badInputs === true ? (
+                <p>
+                  <Status value="warning" /> Email must be valid.
+                </p>
+              ) : (
+                <p />
+              )}
 
-        <Form>
-          <Header>
-            <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
-          </Header>
-          <FormFields>
-            <TextInput
-              value={this.state.nameInput}
-              onDOMChange={e => {
-                this.handleName(e);
-              }}
-              placeHolder="Name"
-            />
-            <TextInput
-              value={this.state.emailInput}
-              onDOMChange={e => {
-                this.handleEmail(e);
-              }}
-              placeHolder="Email"
-            />
-          </FormFields>
-          {this.state.badInputs === true ? (
-            <Notification
-              style={{ width: "100%" }}
-              message="Please Enter a Valid Email"
-              size="small"
-              status="critical"
-            />
+              <Footer pad={{ vertical: "medium" }}>
+                <Button
+                  label="Add"
+                  onClick={() => {
+                    this.handleClick();
+                  }}
+                />
+              </Footer>
+              <Drop campaign={this.props.match.params.id} />
+              <Heading style={{ fontSize: "25px" }}>
+                Add Group Contacts to Campaign
+              </Heading>
+              {console.log("groups,", this.props.groups.groups)}
+              <Select
+                placeHolder="None"
+                value={this.state.value}
+                options={this.props.groups.groups.map(function(group, key) {
+                  return {
+                    value: group.name,
+                    id: group.id,
+                    key: key,
+                    label: (
+                      <Box direction="row" justify="start">
+                        <span>{group.name}</span>
+                      </Box>
+                    )
+                  };
+                })}
+                onChange={event => {
+                  this.setState(
+                    {
+                      value: event.option.value,
+                      id: event.option.id
+                    },
+                    function() {
+                      console.log("clicked!", this.state.id);
+                    }
+                  );
+                }}
+              />
+              <Footer pad={{ vertical: "medium" }}>
+                <Button
+                  label="Add"
+                  onClick={() => {
+                    this.addGroupToContacts();
+                  }}
+                />
+              </Footer>
+            </Form>
+            <Box align="end">
+              <Button
+                label="Edit Template"
+                path={`/campaigns/${this.props.match.params.id}/edit`}
+              />
+            </Box>
+          </Box>
+          {this.state.loading === true ? (
+            <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
+              {!this.props.contacts.contacts[0] ? (
+                <Pulse />
+              ) : (
+                <Form style={{ width: "600px" }}>
+                  <FormFields>
+                    <Table
+                      scrollable={true}
+                      style={{
+                        height: "700px",
+                        overflow: "auto",
+                        border: "solid",
+                        borderRadius: "1%"
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Subscribed</th>
+                          <th />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.props.contacts.contacts.map((contact, index) => (
+                          <Recipients
+                            contact={contact}
+                            key={index}
+                            handleDelete={this.handleDelete}
+                          />
+                        ))}
+                      </tbody>
+                    </Table>
+                  </FormFields>
+                </Form>
+              )}
+              {/*   </div>*/}
+            </Box>
           ) : (
-            <p />
-          )}
-
-          <Footer pad={{ vertical: "medium" }}>
-            <Button
-              label="Add"
-              onClick={() => {
-                this.handleClick();
-              }}
-            />
-          </Footer>
-        </Form>
-        <Drop campaign={this.props.match.params.id} />
-        <Heading style={{ fontSize: "25px" }}>
-          Add Group Contacts to Campaign
-        </Heading>
-        {console.log("groups,", this.props.groups.groups)}
-        <Select
-          placeHolder="None"
-          value={this.state.value}
-          options={this.props.groups.groups.map(function(group, key) {
-            return {
-              value: group.name,
-              id: group.id,
-              key: key,
-              label: (
-                <Box direction="row" justify="start">
-                  <span>{group.name}</span>
-                </Box>
-              )
-            };
-          })}
-          onChange={event => {
-            this.setState(
-              {
-                value: event.option.value,
-                id: event.option.id
-              },
-              function() {
-                console.log("clicked!", this.state.id);
-              }
-            );
-          }}
-        />
-        <Footer pad={{ vertical: "medium" }}>
-          <Button
-            label="Add"
-            onClick={() => {
-              this.addGroupToContacts();
-            }}
-          />
-        </Footer>
-        <Box align="end">
-          <Button
-            label="Edit Template"
-            path={`/campaigns/${this.props.match.params.id}/edit`}
-          />
-        </Box>
-        {this.state.loading === true ? (
-          <div style={{ position: "absolute", right: 70, top: 60 }}>
-            {!this.props.contacts.contacts[0] ? (
-              <Pulse />
-            ) : (
-              <Form style={{ width: "500px" }}>
-                <FormFields>
-                  <Table
-                    scrollable={true}
-                    style={{
-                      height: "700px",
-                      overflow: "auto",
-                      border: "solid",
-                      borderRadius: "1%"
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subscribed</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.props.contacts.contacts.map((contact, index) => (
-                        <Recipients
-                          contact={contact}
-                          key={index}
-                          handleDelete={this.handleDelete}
-                        />
-                      ))}
-                    </tbody>
-                  </Table>
-                </FormFields>
-              </Form>
-            )}
-          </div>
-        ) : (
-          <div>
             <Spinning />
-          </div>
-        )}
+          )}
+        </Split>
       </div>
     );
   }

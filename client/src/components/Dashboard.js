@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Header, Article, Section, Heading, Box } from "grommet";
+import { Header, Article, Section, Heading, Box, Split } from "grommet";
 import CampaignTable from "./CampaignTable";
 import { connect } from "react-redux";
 import { getCampaigns } from "../actions";
 import Auth from "../Auth";
+import Sidebar from "./Sidebar";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -11,24 +12,27 @@ class Dashboard extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.props.dispatch(getCampaigns(Auth.userID));
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(getCampaigns(Auth.userID));
+  // }
 
   render() {
     return (
-      <Box justify="center" align="start" pad="medium">
-        <Article ref="content" pad="none">
-          <Section key="utilization" pad="medium" full="horizontal">
-            <Header justify="between">
-              <Heading tag="h2" margin="none">
-                Campaigns
-              </Heading>
-            </Header>
-            <CampaignTable />
-          </Section>
-        </Article>
-      </Box>
+      <Split flex="right" separator={false} fixed={false}>
+        <Sidebar />
+        <Box justify="center" align="start" pad="medium">
+          <Article ref="content" pad="none">
+            <Section key="utilization" pad="medium" full="horizontal">
+              <Header justify="between">
+                <Heading tag="h2" margin="none">
+                  Campaigns
+                </Heading>
+              </Header>
+              <CampaignTable />
+            </Section>
+          </Article>
+        </Box>
+      </Split>
     );
   }
 }
