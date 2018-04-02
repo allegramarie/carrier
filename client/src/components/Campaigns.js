@@ -290,7 +290,6 @@ class Campaigns extends Component {
                   </FormFields>
                 </Form>
               )}
-              {/*   </div>*/}
             </Box>
           ) : (
             <Spinning />

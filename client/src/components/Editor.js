@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import DateTimePicker from "react-datetime-picker";
+import { Redirect } from "react-router-dom";
 
 class Editor extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class Editor extends Component {
         { name: "custom", content: custom }
       ],
       popup: false,
-      sendPopup: false
+      sendPopup: false,
+      show: false
     };
     this.exportHtml = this.exportHtml.bind(this);
     this.saveDesign = this.saveDesign.bind(this);
@@ -106,6 +108,10 @@ class Editor extends Component {
 
   render() {
     // console.log(Auth.userID,"here")
+    if (this.state.show === true) {
+      // console.log(this.state.cid.id)
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         {this.state.popup === true ? (
@@ -237,7 +243,11 @@ class Editor extends Component {
 
       axios
         .post("/templates", data)
-        .then(response => {})
+        .then(response => {
+          this.setState({
+            show: true
+          });
+        })
         .catch(err => {});
     });
   };
