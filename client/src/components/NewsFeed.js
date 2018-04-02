@@ -86,17 +86,11 @@ export default class NewsFeed extends Component {
         colorIndex="light-1"
         margin="small"
         contentPad="medium"
-        onClick={this._onClickCard.bind(this, grommetPath)}
+        onClick={this._onClickCard.bind(this, "/signup")}
         thumbnail="http://www.mayatechnosoft.com/images/slider/email-marketing.jpg"
         direction="column"
         label="Featured Post"
-        link={
-          <Anchor
-            href={grommetPath}
-            label="Learn More"
-            icon={<LinkNextIcon />}
-          />
-        }
+        link={<Anchor label="Learn More" icon={<LinkNextIcon />} />}
       >
         <Heading tag="h2">Send Custom Templated Emails in 3 Steps</Heading>
       </Card>
@@ -107,17 +101,11 @@ export default class NewsFeed extends Component {
         colorIndex="light-1"
         margin="small"
         contentPad="medium"
-        onClick={this._onClickCard.bind(this, grommetPath)}
+        onClick={this._onClickCard.bind(this, "https:www.hackreactor.com")}
         thumbnail="https://scontent-sea1-1.cdninstagram.com/vp/f88286294fc87fd7f34f844a6e3a67b2/5B00643B/t51.2885-15/s480x480/e35/c135.0.809.809/16230225_651402525043606_7862890074390659072_n.jpg?ig_cache_key=MTQ0NDc0NzY3MTQzNzEwMTM5MA%3D%3D.2.c"
         direction="column"
         label="Featured"
-        link={
-          <Anchor
-            href={grommetPath}
-            label="Learn More"
-            icon={<LinkNextIcon />}
-          />
-        }
+        link={<Anchor label="Learn More" icon={<LinkNextIcon />} />}
       >
         <Heading tag="h2">This Project was Created in HackReactor NYC</Heading>
       </Card>
@@ -128,16 +116,12 @@ export default class NewsFeed extends Component {
         colorIndex="light-1"
         margin="small"
         contentPad="medium"
-        onClick={this._onClickCard.bind(this, grommetPath)}
+        onClick={this._onClickCard.bind(this, "/signup")}
         thumbnail="https://techfrag.com/wp-content/uploads/2017/04/MacBook-Pro.jpg"
         direction="column"
         label="Featured"
         link={
-          <Anchor
-            href={grommetPath}
-            label="Learn More"
-            icon={<LinkNextIcon />}
-          />
+          <Anchor href="/signup" label="Learn More" icon={<LinkNextIcon />} />
         }
       >
         <Heading tag="h2">Join Now!</Heading>
