@@ -59,16 +59,12 @@ class GroupDetails extends Component {
     this.props
       .dispatch(getGroupContacts(this.props.match.params.id))
       .then(() => {
-        console.log("dispatching state", this.props.match.params.id);
         this.props.dispatch(getAllContacts(Auth.userID));
       })
       .then(() => {
         this.setState({
           loading: true
-        }),
-          function() {
-            console.log("state should be", this.state.loading);
-          };
+        });
       })
       .catch(err => {
         console.log(err);
@@ -84,17 +80,12 @@ class GroupDetails extends Component {
         this.state.sub
       )
     );
-    this.setState(
-      {
-        value: "",
-        sub: "",
-        id: "",
-        badInputs: false
-      },
-      function() {
-        console.log("reached!", this.state);
-      }
-    );
+    this.setState({
+      value: "",
+      sub: "",
+      id: "",
+      badInputs: false
+    });
   }
 
   handleDelete(id, contactid, campaignid) {

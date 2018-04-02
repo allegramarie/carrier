@@ -96,9 +96,7 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       }
       sgMail
         .send(emails)
-        .then(sgResponse => {
-          db.updateCampaignStatusToSent(campaignId);
-        })
+        .then(sgResponse => console.log("sgMail -> Sent!"))
         .catch(error => console.log("sgMail -> FAILED"));
     });
   });
@@ -137,8 +135,7 @@ app.get("/checkUser", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
-  console.log("You're sending a message!");
-  console.log(request);
+  console.log("You're sending a message!", request);
   sendgrid(request, response)
     .then(data => {
       response.send();
@@ -158,6 +155,14 @@ app.get("/campaigns", (request, response) => {
     .catch(err => {
       console.log(err);
     });
+});
+
+app.get("/groups", (request, response) => {
+  // console.log("Getting user campaigns in the server", request.query.userID);
+  db.getUserGroups(request.query.userID, data => {
+    // console.log("response from campaigns,", data);
+    response.send(data);
+  });
 });
 
 app.post("/newCampaign", (request, response) => {
@@ -220,6 +225,31 @@ app.get("/campaignContacts", (request, response) => {
     });
 });
 
+app.get("/groupContacts", (request, response) => {
+  db.groupContacts(request.query.id, data => {
+    console.log("group contacts data", data);
+    response.send(data);
+  });
+});
+
+app.post("/groupContacts", (request, response) => {
+  // console.log("Adding group contact server", request.body)
+  db.createGroupContact(
+    request.body.params.group,
+    request.body.params.id,
+    data => {
+      response.send(data);
+    }
+  );
+});
+
+app.get("/allContacts", (request, response) => {
+  db.allContacts(request.query.id, data => {
+    // console.log(data);
+    response.send(data);
+  });
+});
+
 app.post("/newContact", (request, response) => {
   var campaign = request.body.campaign;
   db
@@ -240,6 +270,20 @@ app.post("/newContact", (request, response) => {
     });
 });
 
+app.post("/groupToCampaigns", (request, response) => {
+  console.log("server groups to campaigns", request.body);
+  var campaign = request.body.campaign;
+  db.groupContacts(request.body.id, data => {
+    data.forEach(contact => {
+      //probably need to query for contact information here
+      db.createCampaignContact(campaign, contact.contactid, res => {
+        console.log("Campaign contact should be created", res);
+      });
+      response.send();
+    });
+  });
+});
+
 app.post("/unsubscribe/:contactId", (request, response) => {
   var contactId = request.params.contactId;
   db.unsubscribeContact(contactId, data => {
@@ -258,6 +302,7 @@ app.get("/templates/:campaignId", (request, response) => {
       throw err;
     }
     // {templateURL: "https://s3.amazonaws.com/..."}
+    console.log("campaignid templates", results);
     // console.log(results);
     // Use the URL to get JSON from S3
     axios.get(results.templateurl).then(results => {
@@ -280,7 +325,6 @@ app.post("/templates", (request, response) => {
     if (err) {
       throw err;
     }
-    db.updateCampaignStatus(campaignId);
     response.send({ msg: "Saved!" });
   });
 });
