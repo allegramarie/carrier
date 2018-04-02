@@ -2,7 +2,7 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-const pool = false
+const pool = true
   ? // If true, use production.
     new Pool({
       host: config.host,
@@ -173,17 +173,14 @@ const addNewGroup = function({ name, userID }, callback) {
 
 const updateCampaignStatus = function(campaign, callback) {
   // console.log("Campaign to be updated,", campaign.params.id);
-  pool.query(
-    `update campaigns set status = 'Active' where id = '${campaign.params.id}'`,
-    (err, results) => {
-      if (err) {
-        console.log("Error updating the campaign status", err);
-      } else {
-        // console.log("campaign should be updated,", results);
-        callback(results);
-      }
-    }
-  );
+  console.log("inside updateCampaignStatus", campaign);
+  pool.query(`update campaigns set status = 'Active' where id = '${campaign}'`);
+};
+
+const updateCampaignStatusToSent = function(campaign, callback) {
+  // console.log("Campaign to be updated,", campaign.params.id);
+  console.log("inside updateCampaignStatusToSent", campaign);
+  pool.query(`update campaigns set status = 'Sent' where id = '${campaign}'`);
 };
 
 const checkCampaignTemplate = function(campaign, callback) {
@@ -365,5 +362,7 @@ module.exports = {
   getUserGroups,
   allContacts,
   createGroupContact,
-  addNewGroup
+  addNewGroup,
+  updateCampaignStatus,
+  updateCampaignStatusToSent
 };

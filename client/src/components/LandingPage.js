@@ -42,9 +42,9 @@ export default class LandingPage extends Component {
                   Sign Up for a free acount for a full User experience
                 </p>
               }
-              label={<p style={{ color: "orange" }}>Thesis Name</p>}
+              label={<p style={{ color: "orange" }}>CarrierPigeon</p>}
               size="large"
-              link={<Anchor href="#" primary={true} label="Learn More" />}
+              link={<Anchor href="/signup" primary={true} label="Learn More" />}
             />
           </Hero>
         </Box>
@@ -81,11 +81,16 @@ export default class LandingPage extends Component {
         <Footer justify="between" colorIndex="grey-1" size="medium">
           <Title>
             <SendIcon style={{ marginLeft: "50px" }} />
-            Come Up With a Name Allegra
+            CarrierPigeon
           </Title>
           <Box direction="row" align="center" pad={{ between: "medium" }}>
-            <Paragraph margin="none">© Our Thesis Group</Paragraph>
-            <Menu direction="row" size="medium" dropAlign={{ right: "right" }}>
+            <Paragraph margin="none">© CarrierPigeon</Paragraph>
+            <Menu
+              direction="row"
+              size="medium"
+              dropAlign={{ right: "right" }}
+              style={{ marginRight: "50px" }}
+            >
               <Anchor href="/signup">Sign Up</Anchor>
               <Anchor href="/login">Login</Anchor>
               <Anchor href="#">About</Anchor>

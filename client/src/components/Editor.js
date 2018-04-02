@@ -51,8 +51,8 @@ class Editor extends Component {
           this.setState({
             themes: [...this.state.themes, { name, content: parsedJSON }]
           });
-          // this.loadTemplateByName(name);
-          this.editor.loadDesign(parsedJSON);
+          this.loadTemplateByName(name);
+          // this.editor.loadDesign(parsedJSON);
         }
       })
       .catch(err => {
