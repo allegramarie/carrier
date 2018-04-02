@@ -226,6 +226,7 @@ class Campaigns extends Component {
             return {
               value: group.name,
               id: group.id,
+              key: key,
               label: (
                 <Box direction="row" justify="start">
                   <span>{group.name}</span>
