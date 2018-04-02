@@ -61,9 +61,11 @@ class Campaigns extends Component {
 
   componentDidMount() {
     // console.log(Auth.userID,"here")
-    this.props.dispatch(getGroups(this.props.match.params.id));
     this.props
-      .dispatch(getContacts(this.props.match.params.id))
+      .dispatch(getGroups(this.props.match.params.id))
+      .then(() => {
+        this.props.dispatch(getContacts(this.props.match.params.id));
+      })
       .then(() => {
         this.setState({
           loading: true
@@ -216,7 +218,7 @@ class Campaigns extends Component {
         <Heading style={{ fontSize: "25px" }}>
           Add Group Contacts to Campaign
         </Heading>
-        {console.log(this.props.groups.groups)}
+        {console.log("groups,", this.props.groups.groups)}
         <Select
           placeHolder="None"
           value={this.state.value}
