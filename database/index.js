@@ -224,7 +224,7 @@ const groupContacts = function(input, callback) {
 };
 
 const allContacts = function(input, callback) {
-  // console.log(input);
+  console.log("userID", input);
   pool.query(
     `SELECT DISTINCT contacts.name, contacts.id, contacts.email FROM campaigns JOIN campaignContacts ON campaigns.id = campaignContacts.campaignId JOIN contacts on contacts.id = campaignContacts.contactId WHERE campaigns.userID = '${input}'`,
     (err, results) => {

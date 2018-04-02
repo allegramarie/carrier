@@ -57,7 +57,7 @@ class Campaigns extends Component {
   componentDidMount() {
     // console.log(Auth.userID,"here")
     this.props
-      .dispatch(getGroups(this.props.match.params.id))
+      .dispatch(getGroups(Auth.userID))
       .then(() => {
         this.props.dispatch(getContacts(this.props.match.params.id));
       })

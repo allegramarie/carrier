@@ -59,12 +59,16 @@ class GroupDetails extends Component {
     this.props
       .dispatch(getGroupContacts(this.props.match.params.id))
       .then(() => {
-        this.props.dispatch(getAllContacts(this.props.match.params.id));
+        console.log("dispatching state", this.props.match.params.id);
+        this.props.dispatch(getAllContacts(Auth.userID));
       })
       .then(() => {
         this.setState({
           loading: true
-        });
+        }),
+          function() {
+            console.log("state should be", this.state.loading);
+          };
       })
       .catch(err => {
         console.log(err);
@@ -156,7 +160,7 @@ class GroupDetails extends Component {
             </Form>
           </Box>
           <Box style={{ marginLeft: "150px", marginTop: "50px" }}>
-            {!this.props.contacts.contacts[0] ? (
+            {!this.props.contacts[0] ? (
               <Pulse />
             ) : (
               <Form style={{ width: "650px" }}>
@@ -179,7 +183,7 @@ class GroupDetails extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.contacts.contacts.map((contact, index) => (
+                      {this.props.contacts.map((contact, index) => (
                         <GroupMembers
                           contact={contact}
                           key={index}
@@ -202,7 +206,7 @@ class GroupDetails extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    contacts: state.contacts,
+    contacts: state.contacts.contacts,
     groups: state.groups,
     allContacts: state.allContacts.allContacts
   };
