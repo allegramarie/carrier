@@ -51,7 +51,7 @@ export default class infoPage extends Component {
         align="center"
         full={true}
         pad="medium"
-        colorIndex="neutral-3-a"
+        colorIndex="neutral-3"
       >
         <Box className="infographic-start" direction="column">
           <Box justify="center" align="start">
@@ -168,78 +168,48 @@ export default class infoPage extends Component {
                   continent: "NorthAmerica",
                   label: "North America",
                   colorIndex: "graph-1",
-                  flag: (
-                    <Box pad="small" colorIndex="graph-1">
-                      {" "}
-                      North America
-                    </Box>
-                  ),
+                  flag: <Box colorIndex="graph-1" />,
                   onClick: "..."
                 },
                 {
                   continent: "SouthAmerica",
                   label: "South America",
                   colorIndex: "accent-2",
-                  flag: (
-                    <Box pad="small" colorIndex="accent-2">
-                      {" "}
-                      SouthAmerica
-                    </Box>
-                  ),
+                  flag: <Box colorIndex="accent-2" />,
                   onClick: "..."
                 },
                 {
                   continent: "Europe",
                   label: "Europe",
                   colorIndex: "unset",
-                  flag: (
-                    <Box pad="small" colorIndex="unset">
-                      {" "}
-                      Europe
-                    </Box>
-                  ),
+                  flag: <Box colorIndex="unset" />,
                   onClick: "..."
                 },
                 {
                   continent: "Africa",
                   label: "Africa",
                   colorIndex: "graph-2",
-                  flag: (
-                    <Box pad="small" colorIndex="graph-2">
-                      {" "}
-                      Africa
-                    </Box>
-                  ),
+                  flag: <Box colorIndex="graph-2" />,
                   onClick: "..."
                 },
                 {
                   continent: "Asia",
                   label: "Asia",
-                  colorIndex: "graph-3",
-                  flag: (
-                    <Box pad="small" colorIndex="graph-3">
-                      {" "}
-                      Asia
-                    </Box>
-                  ),
+                  colorIndex: "graph-1",
+                  flag: <Box colorIndex="graph-1" />,
                   onClick: "..."
                 },
                 {
                   continent: "Australia",
                   label: "Australia",
                   colorIndex: "graph-4",
-                  flag: (
-                    <Box pad="small" colorIndex="graph-4">
-                      {" "}
-                      Australia
-                    </Box>
-                  ),
+                  flag: <Box colorIndex="graph-4" />,
                   onClick: "...",
                   onHover: "..."
                 }
               ]}
             />
-            <Heading tag="h3">
+            <Heading tag="h3" style={{ marginBottom: "100px" }}>
               {
                 "Based on Statistics, eMail has an Average ROI of $38/dollar spent. 80% of professionals said email marketing drives customer aquisition and retention. And most importantly, eMail has a higher conversion rate than social mediaand search combined."
               }

@@ -76,15 +76,24 @@ class CampaignTable extends React.Component {
       );
     } else {
       return (
-        <Accordion openMulti={true} style={{ width: "70%" }}>
+        <Accordion
+          openMulti={true}
+          style={{ width: "73%", height: "600px", overflow: "auto" }}
+        >
           {this.props.campaigns.campaigns.map((campaign, index) => (
             <AccordionPanel
-              heading={`Status: ${
+              /*              heading={`Status: ${
                 campaign.status
               } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
                 campaign.name
               }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
-              `}
+              `}*/
+
+              heading={
+                `Status: ${campaign.status}`.padEnd(70) +
+                `\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0` +
+                `Subject: ${campaign.name}`.padEnd(40)
+              }
             >
               {campaign.status === "Sent" ? (
                 <Paragraph>
