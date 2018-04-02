@@ -17,13 +17,8 @@ import Editor from "../components/Editor.js";
 import LandingPage from "../components/LandingPage.js";
 import Unsubscribe from "../components/Unsubscribe.js";
 import Auth from "../Auth";
-import Edit from "../components/Edit.js";
 
 class App extends Component {
-  // componentDidMount() {
-  //   this.props.dispatch(getCampaigns(Auth.userID))
-  // }
-
   render() {
     return (
       <Grommet.App centered={false}>
@@ -39,7 +34,6 @@ class App extends Component {
               <PrivateRoute path="/campaigns/:id/edit" component={Editor} />
               <PrivateRoute path="/campaigns/:id" component={Campaigns} />
               <PrivateRoute path="/drop" component={Drop} />
-              <PrivateRoute path="/edit/:id" component={Edit} />
               <Route path="/LandingPage" component={LandingPage} />
               <Route path="/unsubscribe/:id" component={Unsubscribe} />
             </Switch>

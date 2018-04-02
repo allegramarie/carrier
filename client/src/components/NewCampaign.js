@@ -52,19 +52,6 @@ class NewCampaign extends Component {
       .catch(err => {
         console.log(err);
       });
-    // setTimeout(() => {
-    //   this.setState(
-    //     {
-    //       cid: this.props.campaigns.campaigns[
-    //         this.props.campaigns.campaigns.length - 1
-    //       ],
-    //       nameInput: "",
-    //       subjectInput: "",
-    //       show: true
-    //     },
-    //     function() {}
-    //   );
-    // }, 500);
   }
 
   handleInputChange(event) {
@@ -80,7 +67,7 @@ class NewCampaign extends Component {
   }
 
   render() {
-    console.log(this.state.cid);
+    // console.log(this.state.cid);
     if (this.state.show === true) {
       // console.log(this.state.cid.id)
       return <Redirect to={`/campaigns/${this.state.cid.rows[0].id}`} />;

@@ -193,7 +193,7 @@ const addContact = function(input, response) {
     });
 };
 const createMultiCampaignContact = function(campaign, contact) {
-  console.log("Data for join,", campaign, contact);
+  // console.log("Data for join,", campaign, contact);
   return Promise.all(
     contact.map(data => {
       // console.log(data)
@@ -205,7 +205,7 @@ const createMultiCampaignContact = function(campaign, contact) {
     })
   )
     .then(res => {
-      console.log(res);
+      return Promise.resolve(res);
     })
     .catch(err => {
       console.log(err);

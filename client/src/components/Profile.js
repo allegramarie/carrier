@@ -65,9 +65,9 @@ class Profile extends React.Component {
   handleKeyPress = event => {
     if (event.key == "Enter") {
       if (this.state.email.length > 1) {
-        console.log("enter press here! ");
-        console.log("enter press here! ");
-        console.log(this.state.name);
+        // console.log("enter press here! ");
+        // console.log("enter press hxere! ");
+        // console.log(this.state.name);
         axios
           .post("/saveProfile", {
             data: this.state,
@@ -96,10 +96,10 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log("This runs when profile is rendered");
+    // console.log("This runs when profile is rendered");
     return (
       <div style={{ width: "100%" }}>
-        <h1>Settings</h1>
+        <h1>Profile</h1>
         <List selectable={true} onSelect={() => {}} style={{ width: "100%" }}>
           <ListItem
             justify="between"
@@ -199,41 +199,3 @@ class Profile extends React.Component {
 }
 
 export default Profile;
-
-// return (
-//   <div>
-//     <Image src={icon} size="small" onClick={console.log("click")} />
-//     <Box
-//       direction="row"
-//       justify="start"
-//       align="center"
-//       wrap={false}
-//       colorIndex="light-1"
-//       size="full"
-//     >
-//       <Value
-//         style={{ fontSize: "10px" }}
-//         value={`Name: ${this.state.name}`}
-//       />
-//     </Box>
-//     <Box
-//       direction="row"
-//       justify="start"
-//       align="center"
-//       wrap={false}
-//       colorIndex="light-1"
-//     >
-//       <Value value={`Email: ${this.state.email}`} />
-//     </Box>
-//     <Box
-//       direction="row"
-//       justify="start"
-//       align="center"
-//       wrap={false}
-//       colorIndex="light-1"
-//     >
-//       <Value value={`Bio: ${this.state.bio}`} />
-//     </Box>
-//     <Button label="Edit" path={`/edit/${this.props.match.params.id}`} />
-//   </div>
-// );
