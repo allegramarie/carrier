@@ -13,6 +13,12 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import DateTimePicker from "react-datetime-picker";
 import { Redirect } from "react-router-dom";
+import Footer from "grommet/components/Footer";
+import Anchor from "grommet/components/Anchor";
+import SendIcon from "grommet/components/icons/base/Send";
+import Title from "grommet/components/Title";
+import Menu from "grommet/components/Menu";
+import Paragraph from "grommet/components/Paragraph";
 
 class Editor extends Component {
   constructor(props) {
@@ -108,10 +114,10 @@ class Editor extends Component {
 
   render() {
     // console.log(Auth.userID,"here")
-    if (this.state.show === true) {
-      // console.log(this.state.cid.id)
-      return <Redirect to="/" />;
-    }
+    // if (this.state.show === true) {
+    //   // console.log(this.state.cid.id)
+    //   return <Redirect to="/" />;
+    // }
     return (
       <div>
         {this.state.popup === true ? (
@@ -203,6 +209,30 @@ class Editor extends Component {
           primary={true}
           onClick={this.exportHtml}
         />
+        <Footer
+          justify="between"
+          colorIndex="unknown"
+          size="medium"
+          style={{ marginTop: "100px" }}
+        >
+          <Title>
+            <SendIcon style={{ marginLeft: "50px" }} />
+            CarrierPigeon
+          </Title>
+          <Box direction="row" align="center" pad={{ between: "medium" }}>
+            <Paragraph margin="none">© CarrierPigeon</Paragraph>
+            <Menu
+              direction="row"
+              size="medium"
+              dropAlign={{ right: "right" }}
+              style={{ marginRight: "50px" }}
+            >
+              <Anchor href="/">Main Menu</Anchor>
+              <Anchor href={`/profile/${Auth.userID}`}>Profile</Anchor>
+              <Anchor href="/about">About</Anchor>
+            </Menu>
+          </Box>
+        </Footer>
       </div>
     );
   }
@@ -210,7 +240,9 @@ class Editor extends Component {
   //Need to Keep this here to test and for Regex reference
   exportHtml = () => {
     // TODO: Scheduling?
-    var sendAt = `${Date.now()}`.slice(0, 10);
+    console.log(this.state.date);
+    var sendAt = this.state.date || `${Date.now()}`.slice(0, 10);
+    console.log(sendAt);
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
       const { html } = data;
@@ -223,7 +255,7 @@ class Editor extends Component {
       console.log(result);
       console.log(this.props.contacts.contacts);
       axios.post("/exportHTML", {
-        sendAt,
+        sendAt: sendAt,
         htmlEmailContent: a,
         contacts: this.props.contacts.contacts.filter(
           contact => !contact.unsubscribe

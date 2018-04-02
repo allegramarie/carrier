@@ -51,56 +51,70 @@ const apiLimiter = function(request, response, next) {
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");
   let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
-  sendAt = parseInt(sendAt);
-
+  // sendAt = parseInt(sendAt);
+  console.log(sendAt);
+  // console.log(campaignId)
+  console.log(contacts);
   // Get the list of email recipients
-  db.campaignContacts(campaignId, results => {
-    const contacts = results;
-    db.getCampaignSubject(campaignId, (error, results) => {
-      const subject = results.rows[0].subject;
-      sgMail.setApiKey(`${config.TOKEN}`);
-      sgMail.setSubstitutionWrappers("{{", "}}");
-      const emails = [];
-      //for each campaign contact, build their message object and add it to
-      //the emails array.
-      for (const contact of contacts) {
-        // TODO: Make this nicer(?)
-        // If they are unsubscribe, skip 'em
-        if (contact.unsubscribe) {
-          continue;
-        }
-        console.log(`Making message for ${JSON.stringify(contact)}`);
-        const msg = {
-          sendAt,
-          subject,
-          to: contact.email,
-          from: "thealex@umich.edu", // TODO: This should be `request.session.username`,
-          // TODO: Add substitution string to HTML email
-          content: [
-            {
-              type: "text/html",
-              value: htmlEmailContent
-            }
-          ],
-          // Assuming contact.id is userId
-          substitutions: {
-            trackingImageURL: `${contact.contactid}/${campaignId}/footer.png`,
-            // TODO: Change url for production
-            unsubscribeURL: `http://localhost:3000/unsubscribe/${
-              contact.contactid
-            }`,
-            foo: "BAR"
-          }
-        };
-        emails.push(msg);
+  // var contact
+  // db.campaignContacts(campaignId)
+  // .then((response)=>{
+  //   console.log(response.rows, 'fuck')
+  //   contacts = response.rows.map((a)=>{
+  //     return a.email
+  //   })
+  //   console.log(contact)
+  // })
+  // })
+  // const contacts = results;
+  // console.log('fuck')
+  // console.log(contacts)
+
+  db.getCampaignSubject(campaignId, (error, results) => {
+    const subject = results.rows[0].subject;
+    sgMail.setApiKey(`${config.TOKEN}`);
+    sgMail.setSubstitutionWrappers("{{", "}}");
+    const emails = [];
+    //for each campaign contact, build their message object and add it to
+    //the emails array.
+    for (const contact of contacts) {
+      // TODO: Make this nicer(?)
+      // If they are unsubscribe, skip 'em
+      if (contact.unsubscribe) {
+        continue;
       }
-      sgMail
-        .send(emails)
-        .then(sgResponse => console.log("sgMail -> Sent!"))
-        .catch(error => console.log("sgMail -> FAILED"));
-    });
+      console.log(`Making message for ${JSON.stringify(contact)}`);
+      const msg = {
+        subject,
+        to: contact.email,
+        from: "thealex@umich.edu", // TODO: This should be `request.session.username`,
+        // TODO: Add substitution string to HTML email
+        content: [
+          {
+            type: "text/html",
+            value: htmlEmailContent
+          }
+        ],
+        // Assuming contact.id is userId
+        substitutions: {
+          trackingImageURL: `${contact.contactid}/${campaignId}/footer.png`,
+          // TODO: Change url for production
+          unsubscribeURL: `http://localhost:3000/unsubscribe/${
+            contact.contactid
+          }`,
+          foo: "BAR"
+        },
+        sendAt: parseInt(`${sendAt}`)
+      };
+      emails.push(msg);
+    }
+    sgMail
+      .send(emails)
+      .then(sgResponse => db.updateCampaignStatusToSent(campaignId))
+      .catch(error => console.log("sgMail -> FAILED"));
   });
 });
+// });
 
 app.get("/", (request, response) => {
   response.send("Hello");
@@ -325,6 +339,7 @@ app.post("/templates", (request, response) => {
     if (err) {
       throw err;
     }
+    db.updateCampaignStatus(campaignId);
     response.send({ msg: "Saved!" });
   });
 });

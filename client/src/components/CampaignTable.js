@@ -104,23 +104,41 @@ class CampaignTable extends React.Component {
                         />
                       </Box>
                       This Campaign is complete and has been sent. You can view
-                      your stats here. Thanks for using us.
+                      your stats here. Thanks for using CarrierPigeon.
                     </Paragraph>
-                  ) : (
+                  ) : campaign.status === "Active" ? (
                     <Paragraph>
                       <Box>
-                        <Value value={50} units="% Complete" align="start" />
+                        <Value value={66} units="% Complete" align="start" />
                         <Meter
                           vertical={false}
-                          value={50}
+                          value={66}
                           onActive={() => {}}
                           colorIndex="critical"
                         />
                       </Box>
-                      This draft is currently incomplete.(Campaign email has not
-                      been sent). To complete this draft, edit any remaining
-                      data and press send.
+                      This campaign is currently Active.(Campaign email has not
+                      been sent). To complete this draft, edit the remaining
+                      template and press send.
                     </Paragraph>
+                  ) : campaign.status === "Draft" ? (
+                    <Paragraph>
+                      <Box>
+                        <Value value={33} units="% Complete" align="start" />
+                        <Meter
+                          vertical={false}
+                          value={33}
+                          onActive={() => {}}
+                          colorIndex="critical"
+                        />
+                      </Box>
+                      This draft is currently incomplete.(Email Template has not
+                      been saved/sent). To complete this draft, continue adding
+                      more contact emails and start editing your custom campaign
+                      template.
+                    </Paragraph>
+                  ) : (
+                    <p />
                   )}
                   {campaign.status === "Sent" ? (
                     <p />

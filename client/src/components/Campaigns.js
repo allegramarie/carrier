@@ -255,7 +255,7 @@ class Campaigns extends Component {
               {!this.props.contacts[0] ? (
                 <Pulse />
               ) : (
-                <Form style={{ width: "600px" }}>
+                <Form style={{ width: "600px", marginRight: "100px" }}>
                   <FormFields>
                     <Table
                       scrollable={true}
