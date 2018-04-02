@@ -135,6 +135,7 @@ class Campaigns extends Component {
     return (
       <div>
         <Split fixed={false} separator={false} showOnResponsive="both">
+          <Sidebar />
           <Box>
             <Button icon={<RevertIcon />} path="/" />
             <Form>
