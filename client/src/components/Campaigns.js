@@ -120,8 +120,14 @@ class Campaigns extends Component {
 
   handleDelete(id, contactid, campaignid) {
     // console.log("here", id, contactid, campaignid);
-    this.props.dispatch(deleteContact(id, contactid, campaignid));
-    this.props.dispatch(getContacts(this.props.match.params.id));
+    this.props
+      .dispatch(deleteContact(id, contactid, campaignid))
+      .then(() => {
+        this.props.dispatch(getContacts(this.props.match.params.id));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   handleName(e) {
     this.setState({

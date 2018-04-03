@@ -230,7 +230,7 @@ const groupContacts = function(input, callback) {
         console.log(err, "here in group contacts");
         callback(err, null);
       } else {
-        console.log("contacts from groups", results.rows);
+        // console.log("contacts from groups", results.rows);
         // TODO: There is some code which expects the first argument to be
         // error, but it is instead results
         callback(results.rows);
@@ -248,7 +248,7 @@ const allContacts = function(input, callback) {
         console.log(err, "here in all users contacts");
         callback(err, null);
       } else {
-        console.log("Getting all contacts", results.rows);
+        // console.log("Getting all contacts", results.rows);
         // TODO: There is some code which expects the first argument to be
         // error, but it is instead results
         callback(results.rows);
@@ -308,6 +308,7 @@ const deletecampaignsContact = function(data) {
   );
 };
 const deleteContact = function(data) {
+  console.log(data);
   return pool.query(`DELETE from contacts where id = '${data.id}';`);
 };
 
@@ -321,6 +322,15 @@ const saveProfile = function(input) {
     `update users set email='${input.data.email}', name='${
       input.data.name
     }', bio='${input.data.bio}' where id=${input.user}`
+  );
+};
+
+const deleteGroupContact = function(input) {
+  // console.log(input)
+  return pool.query(
+    `DELETE FROM groupcontacts where contactid = '${
+      input.contactid
+    }' and groupid = '${input.groupid}'`
   );
 };
 
@@ -380,5 +390,6 @@ module.exports = {
   createGroupContact,
   addNewGroup,
   updateCampaignStatus,
-  updateCampaignStatusToSent
+  updateCampaignStatusToSent,
+  deleteGroupContact
 };
