@@ -1,4 +1,5 @@
 const db = require("../database");
+const connections = require("./database/connections");
 
 // TODO: Sessions should be stored in a database, or a cache, but not in
 // volatile memory.
@@ -6,27 +7,27 @@ const db = require("../database");
 // Token->SessionInfo pairs
 let sessions = {};
 
-// Returns the session given a token, else null.
-const getSession = token => {
-  return sessions[token] ? sessions[token] : null;
-};
+// // Returns the session given a token, else null.
+// const getSession = token => {
+//   return sessions[token] ? sessions[token] : null;
+// };
 
-const deleteSession = token => {
-  delete sessions[token];
-};
+// const deleteSession = token => {
+//   delete sessions[token];
+// };
 
 // Returns a new token.
 const genToken = () => {
   return "token-" + new Date().toISOString();
 };
 
-const setSession = (token, items) => {
-  // Rebuild the session with old key-value pairs, and overwrite with new
-  // ones from `items`
-  const newSession = { ...sessions[token], ...items };
-  sessions[token] = newSession;
-  return newSession;
-};
+// const setSession = (token, items) => {
+//   // Rebuild the session with old key-value pairs, and overwrite with new
+//   // ones from `items`
+//   const newSession = { ...sessions[token], ...items };
+//   sessions[token] = newSession;
+//   return newSession;
+// };
 
 const validateUserLogin = (username, password) => {
   return db.getUserLoginInfo(username, password).then(results => {
