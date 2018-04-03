@@ -17,7 +17,6 @@ import Auth from "../Auth";
 import { addGroup } from "../actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import Sidebar from "./Sidebar";
 
 class NewGroup extends Component {
   constructor(props) {

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import Drop from "./dropzone";
-import axios from "axios";
 import { connect } from "react-redux";
 import {
-  TextInput,
   Form,
   Button,
   Header,
-  Anchor,
   Heading,
   Footer,
   Table,
@@ -15,20 +11,16 @@ import {
   Box,
   Select
 } from "grommet";
-import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
 import GroupMembers from "./GroupMembers.js";
-import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import {
   getGroupContacts,
-  addContact,
   deleteGroupContact,
   getAllContacts,
   addGroupContacts
 } from "../actions";
 import Auth from "../Auth";
-import Notification from "grommet/components/Notification";
 import Split from "grommet/components/Split";
 import Sidebar from "./Sidebar";
 

@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Header, Article, Section, Heading, Box, Split } from "grommet";
 import CampaignTable from "./CampaignTable";
 import { connect } from "react-redux";
-import { getCampaigns } from "../actions";
-import Auth from "../Auth";
 import Sidebar from "./Sidebar";
 
 class Dashboard extends Component {
@@ -11,10 +9,6 @@ class Dashboard extends Component {
     super(props);
     this.state = {};
   }
-
-  // componentDidMount() {
-  //   this.props.dispatch(getCampaigns(Auth.userID));
-  // }
 
   render() {
     return (

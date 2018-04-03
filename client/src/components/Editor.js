@@ -11,11 +11,8 @@ import Auth from "../Auth";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
-import DateTimePicker from "react-datetime-picker";
-import { Redirect } from "react-router-dom";
 import Footer from "grommet/components/Footer";
 import Anchor from "grommet/components/Anchor";
-import SendIcon from "grommet/components/icons/base/Send";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import Paragraph from "grommet/components/Paragraph";
@@ -49,7 +46,6 @@ class Editor extends Component {
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
     // Else, load the user template from the server (via S3)
-    let that = this;
     axios
       .get(`/templates/${campaignId}`)
       .then(response => {

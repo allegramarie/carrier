@@ -1,23 +1,6 @@
 import React from "react";
-import {
-  Header,
-  Heading,
-  Section,
-  Article,
-  Box,
-  Form,
-  FormField,
-  TextInput,
-  Value,
-  Card,
-  Button,
-  Split
-} from "grommet";
-import Tiles from "grommet/components/Tiles";
-import Tile from "grommet/components/Tile";
+import { Box, Form, TextInput, Button, Split } from "grommet";
 import axios from "axios";
-import Image from "grommet/components/Image";
-import icon from "./user-128.png";
 import List from "grommet/components/List";
 import ListItem from "grommet/components/ListItem";
 import EditIcon from "grommet/components/icons/base/Edit";

@@ -10,7 +10,6 @@ import Header from "./Header";
 import NewsFeed from "./NewsFeed";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
-import SendIcon from "grommet/components/icons/base/Send";
 import InfoPage from "./InfoPage.js";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 

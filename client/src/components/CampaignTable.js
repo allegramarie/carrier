@@ -1,13 +1,10 @@
 import React from "react";
-import { Table, Paragraph, Box, Value } from "grommet";
-import CampaignTableRow from "./CampaignTableRow";
+import { Paragraph, Box, Value } from "grommet";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
-import Sidebar from "./Sidebar";
 // import { createBrowserHistory } from "history";
-import Split from "grommet/components/Split";
 import Accordion from "grommet/components/Accordion";
 import AccordionPanel from "grommet/components/AccordionPanel";
 import Button from "grommet/components/Button";

@@ -3,7 +3,6 @@ import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
 import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
-import bird from "./bird.png";
 import carrierpigeon2 from "./carrier-pigeon2.png";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 
