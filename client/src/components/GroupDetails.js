@@ -23,7 +23,7 @@ import RevertIcon from "grommet/components/icons/base/Revert";
 import {
   getGroupContacts,
   addContact,
-  deleteContact,
+  deleteGroupContact,
   getAllContacts,
   addGroupContacts
 } from "../actions";
@@ -39,7 +39,7 @@ class GroupDetails extends Component {
       contacts: [],
       value: "",
       sub: "",
-      id: "",
+      contactid: "",
       show: false,
       badInputs: false,
       loading: false
@@ -72,32 +72,48 @@ class GroupDetails extends Component {
   }
 
   handleClick() {
-    this.props.dispatch(
-      addGroupContacts(
-        this.props.match.params.id,
-        this.state.id,
-        this.state.value,
-        this.state.sub
+    console.log(this.state, "click");
+    console.log(this.props.match.params, "in store");
+    this.props
+      .dispatch(
+        addGroupContacts(
+          this.props.match.params.id,
+          this.state.contactid,
+          this.state.value,
+          this.state.sub
+        )
       )
-    );
-    this.setState({
-      value: "",
-      sub: "",
-      id: "",
-      badInputs: false
-    });
+      .then(() => {
+        this.setState({
+          value: "",
+          sub: "",
+          contactid: "",
+          badInputs: false
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  handleDelete(id, contactid, campaignid) {
-    console.log("here", id, contactid, campaignid);
-    this.props.dispatch(deleteContact(id, contactid, campaignid));
-    this.props.dispatch(getGroupContacts(this.props.match.params.id));
+  handleDelete(contact) {
+    // console.log("here", contact.id,contact.groupid,contact.contactid);
+    console.log(contact, "delete");
+    this.props
+      .dispatch(
+        deleteGroupContact(contact.id, contact.contactid, contact.groupid)
+      )
+      .then(() => {
+        this.props.dispatch(getGroupContacts(this.props.match.params.id));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
     return (
       <div>
-        {console.log("all contacts", this.props.allContacts)}
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box>
@@ -116,7 +132,7 @@ class GroupDetails extends Component {
                     return {
                       value: contact.name,
                       sub: contact.email,
-                      id: contact.id,
+                      contactid: contact.id,
                       label: (
                         <Box direction="row" justify="start">
                           <span>{contact.name}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="secondary">
@@ -131,10 +147,10 @@ class GroupDetails extends Component {
                       {
                         value: event.option.value,
                         sub: event.option.sub,
-                        id: event.option.id
+                        contactid: event.option.contactid
                       },
                       function() {
-                        console.log("clicked!", this.state.id);
+                        console.log("clicked!", this.state.contactid);
                       }
                     );
                   }}
@@ -178,7 +194,9 @@ class GroupDetails extends Component {
                         <GroupMembers
                           contact={contact}
                           key={index}
-                          handleDelete={this.handleDelete}
+                          handleDelete={() => {
+                            this.handleDelete(contact);
+                          }}
                         />
                       ))}
                     </tbody>

@@ -217,7 +217,7 @@ app.get("/campaignContacts", (request, response) => {
   db
     .campaignContacts(request.query.id)
     .then(data => {
-      console.log(data.rows, "in campaignconta");
+      // console.log(data.rows, "in campaignconta");
       response.send(data.rows);
     })
     .catch(err => {
@@ -227,16 +227,16 @@ app.get("/campaignContacts", (request, response) => {
 
 app.get("/groupContacts", (request, response) => {
   db.groupContacts(request.query.id, data => {
-    console.log("group contacts data", data);
+    // console.log("group contacts data", data);
     response.send(data);
   });
 });
 
 app.post("/groupContacts", (request, response) => {
-  // console.log("Adding group contact server", request.body)
+  console.log("Adding group contact server", request.body);
   db.createGroupContact(
-    request.body.params.group,
-    request.body.params.id,
+    request.body.params.groupid,
+    request.body.params.contactid,
     data => {
       response.send(data);
     }
@@ -413,14 +413,7 @@ app.delete("/deleteContact", (request, response) => {
   db
     .deletecampaignsContact(request.query)
     .then(data => {
-      db
-        .deleteContact(request.query)
-        .then(data => {
-          response.send(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      response.send(data);
     })
     .catch(err => {
       console.log(err);
@@ -447,6 +440,17 @@ app.post("/saveProfile", (request, response) => {
     .saveProfile(request.body)
     .then(data => {
       // console.log(data)
+      response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+app.delete("/deleteGroupContact", (request, response) => {
+  // console.log('here', request.query)
+  db
+    .deleteGroupContact(request.query)
+    .then(data => {
       response.send(data);
     })
     .catch(err => {

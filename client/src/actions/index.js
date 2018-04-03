@@ -197,17 +197,20 @@ export function getAllContacts(id) {
   };
 }
 
-export function addGroupContacts(group, id, name, email) {
+export function addGroupContacts(groupid, contactid, name, email) {
   return function(dispatch) {
     return axios
       .post("/groupContacts", {
         params: {
-          group: group,
-          id: id
+          groupid: groupid,
+          contactid: contactid
         }
       })
       .then(response => {
-        dispatch({ type: types.ADD_CONTACT, payload: { name, email } });
+        dispatch({
+          type: types.ADD_CONTACT,
+          payload: { name, email, groupid, contactid }
+        });
       })
       .catch(err => {
         console.log(err);
@@ -237,7 +240,7 @@ export function addContact(name, email, campaign) {
 export function deleteContact(id, contactid, campaignid) {
   // console.log('indelete', id, contactid, campaignid);
   return function(dispatch) {
-    axios
+    return axios
       .delete("/deleteContact", {
         params: {
           id: id,
@@ -249,6 +252,29 @@ export function deleteContact(id, contactid, campaignid) {
         dispatch({
           type: types.DELETE_CONTACT,
           payload: { id, contactid, campaignid }
+        });
+      })
+      .catch(err => {
+        console.log(err, "indelete");
+      });
+  };
+}
+export function deleteGroupContact(id, contactid, groupid) {
+  // console.log('indelete', id, contactid, campaignid);
+  // console.log('here')
+  return function(dispatch) {
+    return axios
+      .delete("/deleteGroupContact", {
+        params: {
+          id: id,
+          contactid: contactid,
+          groupid: groupid
+        }
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_GROUP_CONTACT,
+          payload: { id, contactid, groupid }
         });
       })
       .catch(err => {

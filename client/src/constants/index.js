@@ -10,3 +10,4 @@ export const GET_GROUPS = "GET_GROUPS";
 export const ADD_GROUP = "ADD_GROUP";
 export const UPDATE_GROUP = "UPDATE_GROUP";
 export const GET_ALL_CONTACTS = "GET_ALL_CONTACTS";
+export const DELETE_GROUP_CONTACT = "DELETE_GROUP_CONTACT";
