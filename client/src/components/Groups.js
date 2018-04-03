@@ -78,17 +78,17 @@ class Groups extends React.Component {
           <Split flex="right" separator={false} fixed={false}>
             <Sidebar />
             {this.state.loading === true ? (
-              <div>
+              <div style={{ marginLeft: "100px" }}>
                 <NewGroup />
                 <Heading tag="h2">All Groups</Heading>
                 <Accordion
                   openMulti={true}
-                  style={{ width: "70%", height: "625px", overflow: "auto" }}
+                  style={{ width: "70%", height: "305px", overflow: "auto" }}
                 >
                   {this.props.groups.map((group, index) => (
                     <AccordionPanel
                       key={index}
-                      heading={`\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
+                      heading={`\u00A0\u00A0\u00A0\u00A0\u00A0 Group Name: ${
                         group.name
                       }`}
                     >
@@ -101,7 +101,7 @@ class Groups extends React.Component {
                           onClick={() => {
                             this.handleClick(group.id);
                           }}
-                          style={{ width: "150px" }}
+                          style={{ width: "150px", marginLeft: "45px" }}
                         />
                       )}
                     </AccordionPanel>

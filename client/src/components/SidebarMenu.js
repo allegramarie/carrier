@@ -4,10 +4,11 @@ import Auth from "../Auth";
 
 const SidebarMenu = () => (
   <Menu primary={true}>
-    <Anchor path="/about">About</Anchor>
+    <Anchor path="/">Dashboard</Anchor>
     <Anchor path={`/profile/${Auth.userID}`}>Profile</Anchor>
     <Anchor path="/createCampaign">Create Campaign</Anchor>
     <Anchor path="/groups">Groups</Anchor>
+    <Anchor path="/contactus">Contact Us</Anchor>
     <Anchor path="/login" onClick={Auth.logout.bind(Auth)}>
       Logout
     </Anchor>

@@ -13,7 +13,7 @@ class Sidebar extends Component {
     // Always open, for now.
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
-        <Anchor href="/">
+        <Anchor href="/about">
           <img
             src={carrierpigeon3}
             style={{

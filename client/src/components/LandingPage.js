@@ -103,6 +103,7 @@ export default class LandingPage extends Component {
             >
               <Anchor path="/signup">Sign Up</Anchor>
               <Anchor path="/login">Login</Anchor>
+              <Anchor path="/contactus">Contact Us</Anchor>
               <Anchor path="#">About</Anchor>
             </Menu>
           </Box>

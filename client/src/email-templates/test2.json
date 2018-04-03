@@ -22,7 +22,7 @@
                     "htmlClassNames": "u_content_text"
                   },
                   "text":
-                    "<p style=\"font-size: 14px; line-height: 120%;\"><span style=\"text-decoration: underline; font-size: 14px; line-height: 16.8px;\"><span style=\"font-size: 24px; line-height: 28.8px; font-family: 'comic sans ms', sans-serif;\"><strong>Welcome to RavenMail</strong></span></span></p>",
+                    "<p style=\"font-size: 14px; line-height: 120%;\"><span style=\"text-decoration: underline; font-size: 14px; line-height: 16.8px;\"><span style=\"font-size: 24px; line-height: 28.8px; font-family: 'comic sans ms', sans-serif;\"><strong>Welcome to CarrierPigeon</strong></span></span></p>",
                   "draggable": true,
                   "containerPadding": "10px",
                   "deletable": true,
