@@ -44,7 +44,7 @@ export default class LandingPage extends Component {
               }
               label={<p style={{ color: "orange" }}>CarrierPigeon</p>}
               size="large"
-              link={<Anchor href="/signup" primary={true} label="Learn More" />}
+              link={<Anchor path="/signup" primary={true} label="Learn More" />}
             />
           </Hero>
         </Box>
@@ -101,9 +101,9 @@ export default class LandingPage extends Component {
               dropAlign={{ right: "right" }}
               style={{ marginRight: "50px" }}
             >
-              <Anchor href="/signup">Sign Up</Anchor>
-              <Anchor href="/login">Login</Anchor>
-              <Anchor href="#">About</Anchor>
+              <Anchor path="/signup">Sign Up</Anchor>
+              <Anchor path="/login">Login</Anchor>
+              <Anchor path="#">About</Anchor>
             </Menu>
           </Box>
         </Footer>
