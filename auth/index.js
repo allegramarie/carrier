@@ -101,15 +101,19 @@ const deleteSession = (token, callback) => {
   });
 };
 
-const setDraftInSession = (token, templateJSON, callback) => {
-  client.hmset(token, ["templateJSON", templateJSON], (err, response) => {
-    console.log("storeDraftInSession: ", response);
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, response);
+const setDraftInSession = (token, campaignId, templateJSON, callback) => {
+  client.hmset(
+    token,
+    [`campaign-draft-${campaignId}`, templateJSON],
+    (err, response) => {
+      console.log("storeDraftInSession: ", response);
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, response);
+      }
     }
-  });
+  );
 };
 
 const getDraftInSession = (token, callback) => {
