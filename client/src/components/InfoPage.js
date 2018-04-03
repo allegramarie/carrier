@@ -8,7 +8,6 @@ import LinkNext from "grommet/components/icons/base/LinkNext";
 import people from "./people.svg";
 import Meter from "grommet/components/Meter";
 import Value from "grommet/components/Value";
-// import iMap from './iMap.js'
 import WorldMap from "grommet/components/WorldMap";
 
 export default class infoPage extends Component {
@@ -153,13 +152,6 @@ export default class infoPage extends Component {
             pad={{ horizontal: "medium" }}
             align="center"
           >
-            {/*            <Meter type='circle'
-              label={<Value value={40}
-              units='GB' />}
-              threshold={90}
-              max={100}
-              value={40}
-              onActive={()=>{}} />*/}
             <WorldMap
               zoom={false}
               colorIndex=""

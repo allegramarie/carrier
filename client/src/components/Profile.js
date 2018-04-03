@@ -27,7 +27,6 @@ class Profile extends React.Component {
   }
 
   getUserProfile(event) {
-    // console.log('here')
     axios
       .get("/getProfile", {
         params: {
@@ -35,7 +34,6 @@ class Profile extends React.Component {
         }
       })
       .then(response => {
-        // console.log(response)
         this.setState({
           email: response.data.email,
           name: response.data.name,
@@ -48,19 +46,14 @@ class Profile extends React.Component {
   }
 
   handleKeyPress = event => {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       if (this.state.email.length > 1) {
-        // console.log("enter press here! ");
-        // console.log("enter press hxere! ");
-        // console.log(this.state.name);
         axios
           .post("/saveProfile", {
             data: this.state,
             user: this.props.match.params.id
           })
-          .then(response => {
-            // console.log(response)
-          })
+          .then(response => {})
           .catch(err => {
             console.log(err);
           });
@@ -81,7 +74,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    // console.log("This runs when profile is rendered");
     return (
       <Split flex="right" separator={false} fixed={false}>
         <Sidebar />

@@ -55,20 +55,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log(sendAt);
   // console.log(campaignId)
   console.log(contacts);
-  // Get the list of email recipients
-  // var contact
-  // db.campaignContacts(campaignId)
-  // .then((response)=>{
-  //   console.log(response.rows, 'fuck')
-  //   contacts = response.rows.map((a)=>{
-  //     return a.email
-  //   })
-  //   console.log(contact)
-  // })
-  // })
-  // const contacts = results;
-  // console.log('fuck')
-  // console.log(contacts)
 
   db.getCampaignSubject(campaignId, (error, results) => {
     const subject = results.rows[0].subject;
@@ -114,11 +100,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       .catch(error => console.log("sgMail -> FAILED"));
   });
 });
-// });
-
-app.get("/", (request, response) => {
-  response.send("Hello");
-});
 
 app.get("/:id/:cid/footer.png", (request, response) => {
   var contactID = request.params.id;
@@ -160,7 +141,6 @@ app.post("/send", (request, response) => {
 });
 
 app.get("/campaigns", (request, response) => {
-  // console.log("Getting user campaigns in the server", request.query.userID);
   db
     .getUserCampaigns(request.query.userID)
     .then(data => {
@@ -172,19 +152,15 @@ app.get("/campaigns", (request, response) => {
 });
 
 app.get("/groups", (request, response) => {
-  // console.log("Getting user campaigns in the server", request.query.userID);
-  db.getUserGroups(request.query.userID, data => {
-    // console.log("response from campaigns,", data);
+  db.getUserGroups(request.query.userID).then(data => {
     response.send(data);
   });
 });
 
 app.post("/newCampaign", (request, response) => {
-  // console.log("hit new campgiang");
   db
     .addNewCampaign(request.body)
     .then(data => {
-      console.log(data);
       response.send(data);
     })
     .catch(err => {
@@ -197,7 +173,6 @@ app.post("/newGroup", (request, response) => {
   db
     .addNewGroup(request.body)
     .then(data => {
-      console.log(data);
       response.send(data);
     })
     .catch(err => {
@@ -206,25 +181,14 @@ app.post("/newGroup", (request, response) => {
 });
 
 app.put("/updateCampaign", (request, response) => {
-  // console.log("inside update campaign", request);
-  db.updateCampaignStatus(request.body, data => {
-    response.send(data.id);
-  });
-});
-
-app.get("/shouldCampaignUpdate", (request, response) => {
-  // console.log("should campaign update", request.query.id);
-  var campaign = request.query.id;
-  db.checkCampaignTemplate(campaign, data => {
-    db.campaignContacts(campaign, res => {
-      // console.log('campaign status,', data.length, 'template', res.length)
-      if (data.length === 0 && res.length !== 0) {
-        response.send(true);
-      } else {
-        response.send(false);
-      }
+  db
+    .updateCampaignStatus(request.body)
+    .then(data => {
+      response.send(data.id);
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
 app.get("/campaignContacts", (request, response) => {
@@ -240,28 +204,40 @@ app.get("/campaignContacts", (request, response) => {
 });
 
 app.get("/groupContacts", (request, response) => {
-  db.groupContacts(request.query.id, data => {
-    // console.log("group contacts data", data);
-    response.send(data);
-  });
+  db
+    .groupContacts(request.query.id)
+    .then(data => {
+      // console.log(data,"get in groupd")
+      response.send(data.rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post("/groupContacts", (request, response) => {
-  console.log("Adding group contact server", request.body);
-  db.createGroupContact(
-    request.body.params.groupid,
-    request.body.params.contactid,
-    data => {
+  db
+    .createGroupContact(
+      request.body.params.groupid,
+      request.body.params.contactid
+    )
+    .then(data => {
       response.send(data);
-    }
-  );
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.get("/allContacts", (request, response) => {
-  db.allContacts(request.query.id, data => {
-    // console.log(data);
-    response.send(data);
-  });
+  db
+    .allContacts(request.query.id)
+    .then(data => {
+      response.send(data.rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post("/newContact", (request, response) => {
@@ -269,7 +245,6 @@ app.post("/newContact", (request, response) => {
   db
     .addNewContact(request.body.name, request.body.email)
     .then(data => {
-      // console.log(data)
       db
         .createCampaignContact(campaign, data.rows[0].id)
         .then(data => {
@@ -285,17 +260,27 @@ app.post("/newContact", (request, response) => {
 });
 
 app.post("/groupToCampaigns", (request, response) => {
-  console.log("server groups to campaigns", request.body);
   var campaign = request.body.campaign;
-  db.groupContacts(request.body.id, data => {
-    data.forEach(contact => {
-      //probably need to query for contact information here
-      db.createCampaignContact(campaign, contact.contactid, res => {
-        console.log("Campaign contact should be created", res);
-      });
-      response.send();
+  db
+    .groupContacts(request.body.id)
+    .then(data => {
+      return Promise.all(
+        data.rows.map(data => {
+          db.createCampaignContact(campaign, data.contactid);
+        })
+      )
+        .then(data => {
+          // console.log(data,"onserver")
+          // return Promise.resolve(data)
+          response.send(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
 app.post("/unsubscribe/:contactId", (request, response) => {
@@ -307,24 +292,20 @@ app.post("/unsubscribe/:contactId", (request, response) => {
 
 app.get("/templates/:campaignId", (request, response) => {
   // Get the id from the route
-  console.log("in here now");
   const campaignId = request.params.campaignId;
-  // console.log(`campaignId: ${campaignId}`);
   // Load the URL from the database
-  db.retrieveDraft(campaignId, (err, results) => {
-    if (err) {
-      throw err;
-    }
-    // {templateURL: "https://s3.amazonaws.com/..."}
-    console.log("campaignid templates", results);
-    // console.log(results);
-    // Use the URL to get JSON from S3
-    axios.get(results.templateurl).then(results => {
-      // Send the JSON data back to the client
-
-      response.send({ templateJSON: JSON.stringify(results.data) });
+  db
+    .retrieveDraft(campaignId)
+    .then(results => {
+      // Use the URL to get JSON from S3
+      axios.get(results.rows[0].templateurl).then(results => {
+        // Send the JSON data back to the client
+        response.send({ templateJSON: JSON.stringify(results.data) });
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
 // TODO: Refactor constants into their own file, or `config.js`
@@ -380,7 +361,6 @@ const uploadToS3 = (userId, campaignId, file, callback) => {
 };
 
 app.post("/drop", (request, response) => {
-  // console.log(request.body,"inserver")
   const campaign = request.body.campaign;
   const newData = request.body.data.split("\n");
   var newsplitData = [];
@@ -401,11 +381,9 @@ app.post("/drop", (request, response) => {
       objData.email.push(newArray[j]);
     }
   }
-  // console.log(objData, campaign)
   db
     .addContact(objData)
     .then(data => {
-      // console.log(data, "inserver");
       db
         .createMultiCampaignContact(campaign, data)
         .then(res => {
@@ -418,13 +396,9 @@ app.post("/drop", (request, response) => {
     .catch(err => {
       console.log(err);
     });
-  // console.log(data[0].rows[0].id,'add contact')
-  // db.createCampaignContact(campaign, data.rows[0].id, res => {
-  // console.log("response from add", data);
 });
 
 app.delete("/deleteContact", (request, response) => {
-  // console.log('here', request.query)
   db
     .deletecampaignsContact(request.query)
     .then(data => {
@@ -436,11 +410,9 @@ app.delete("/deleteContact", (request, response) => {
 });
 
 app.get("/getProfile", (request, response) => {
-  // console.log(request.query.userID)
   db
     .getProfile(request.query.userID)
     .then(data => {
-      // console.log(data.rows[0])
       response.send(data.rows[0]);
     })
     .catch(err => {
@@ -449,12 +421,9 @@ app.get("/getProfile", (request, response) => {
 });
 
 app.post("/saveProfile", (request, response) => {
-  // console.log(request.body.data)
-  // console.log(request.body.user)
   db
     .saveProfile(request.body)
     .then(data => {
-      // console.log(data)
       response.send(data);
     })
     .catch(err => {
@@ -462,11 +431,46 @@ app.post("/saveProfile", (request, response) => {
     });
 });
 app.delete("/deleteGroupContact", (request, response) => {
-  // console.log('here', request.query)
   db
     .deleteGroupContact(request.query)
     .then(data => {
       response.send(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.delete("/deleteCampaign", (request, response) => {
+  db
+    .deleteAllCampaignsContact(request.query)
+    .then(() => {
+      db
+        .deleteCampaign(request.query)
+        .then(data => {
+          response.send(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+app.delete("/deleteGroup", (request, response) => {
+  console.log(request.query);
+  db
+    .deleteAllGroupContacts(request.query)
+    .then(() => {
+      db
+        .deleteGroup(request.query)
+        .then(data => {
+          response.send(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     })
     .catch(err => {
       console.log(err);

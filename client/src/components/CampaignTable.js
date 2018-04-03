@@ -4,14 +4,14 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
-// import { createBrowserHistory } from "history";
 import Accordion from "grommet/components/Accordion";
 import AccordionPanel from "grommet/components/AccordionPanel";
 import Button from "grommet/components/Button";
 import EditIcon from "grommet/components/icons/base/Edit";
 import Meter from "grommet/components/Meter";
 import Auth from "../Auth";
-import { getCampaigns } from "../actions";
+import { getCampaigns, deleteCampaign } from "../actions";
+import ClearIcon from "grommet/components/icons/base/Clear";
 
 class CampaignTable extends React.Component {
   constructor(props) {
@@ -24,9 +24,15 @@ class CampaignTable extends React.Component {
       loading: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.getCampaigns = this.getCampaigns.bind(this);
   }
 
   componentDidMount() {
+    this.getCampaigns();
+  }
+
+  getCampaigns() {
     this.props
       .dispatch(getCampaigns(Auth.userID))
       .then(() => {
@@ -38,16 +44,19 @@ class CampaignTable extends React.Component {
         console.log(err);
       });
   }
-  componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   "getting props within campaign table",
-    //   nextProps.campaigns.campaigns,
-    //   this.props
-    // );
+
+  handleDelete(campaign) {
+    this.props
+      .dispatch(deleteCampaign(campaign.userid, campaign.id))
+      .then(() => {
+        this.getCampaigns();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleClick(campaigns, status) {
-    console.log(campaigns, status);
     if (status !== "Sent") {
       this.setState({
         show: true,
@@ -56,7 +65,6 @@ class CampaignTable extends React.Component {
     }
   }
   render() {
-    // console.log(this.props.campaigns.campaigns)
     if (this.state.show === true) {
       return <Redirect to={`/campaigns/${this.state.id}`} />;
     }
@@ -140,14 +148,25 @@ class CampaignTable extends React.Component {
                   {campaign.status === "Sent" ? (
                     <p />
                   ) : (
-                    <Button
-                      icon={<EditIcon />}
-                      label="Edit"
-                      onClick={() => {
-                        this.handleClick(campaign.id, campaign.status);
-                      }}
-                      style={{ width: "150px" }}
-                    />
+                    <div>
+                      <Button
+                        icon={<EditIcon />}
+                        label="Edit"
+                        onClick={() => {
+                          this.handleClick(campaign.id, campaign.status);
+                        }}
+                        style={{ width: "150px" }}
+                      />
+                      <Button
+                        icon={<ClearIcon />}
+                        primary="true"
+                        label="Delete"
+                        onClick={() => {
+                          this.handleDelete(campaign);
+                        }}
+                        style={{ width: "150px" }}
+                      />
+                    </div>
                   )}
                 </AccordionPanel>
               ))}

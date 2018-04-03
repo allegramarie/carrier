@@ -10,12 +10,31 @@ export function addCampaign(name, status, subject, userID) {
     return axios
       .post("/newCampaign", payload)
       .then(response => {
-        // console.log(response.data)
         dispatch({ type: types.ADD_CAMPAIGN, payload: response.data });
         return response.data;
       })
       .catch(err => {
-        // console.log(err);
+        return err;
+      });
+  };
+}
+
+export function deleteCampaign(userId, campaignId) {
+  return function(dispatch) {
+    return axios
+      .delete("/deleteCampaign", {
+        params: {
+          userId: userId,
+          campaignId: campaignId
+        }
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_CAMPAIGN,
+          payload: { userId, campaignId }
+        });
+      })
+      .catch(err => {
         return err;
       });
   };
@@ -34,7 +53,6 @@ export function checkUser(user) {
       })
       .catch(err => {
         console.log(err);
-        // dispatch({type:'FETCH_USERS_REJECTED',payload:err})
       });
   };
 }
@@ -50,13 +68,11 @@ export function newUser(user) {
       })
       .catch(err => {
         console.log(err);
-        // dispatch({type:'FETCH_USERS_REJECTED',payload:err})
       });
   };
 }
 
 export function getCampaigns(userID) {
-  // console.log("getting campaigns", userID);
   return function(dispatch) {
     return axios
       .get("/campaigns", {
@@ -65,7 +81,6 @@ export function getCampaigns(userID) {
         }
       })
       .then(response => {
-        // console.log("returned campaigns", response);
         dispatch({ type: types.GET_CAMPAIGNS, payload: response.data.rows });
       })
       .catch(err => {
@@ -75,7 +90,6 @@ export function getCampaigns(userID) {
 }
 
 export function updateCampaign(id) {
-  // console.log("updating campaigns id", id);
   return function(dispatch) {
     axios
       .post("/updateCampaign", {
@@ -84,7 +98,6 @@ export function updateCampaign(id) {
         }
       })
       .then(response => {
-        // console.log("update campaign,", response);
         dispatch({ type: types.UPDATE_CAMPAIGN, payload: response.data });
       })
       .catch(err => {
@@ -94,7 +107,6 @@ export function updateCampaign(id) {
 }
 
 export function getGroups(userID) {
-  // console.log("getting groups", userID);
   return function(dispatch) {
     return axios
       .get("/groups", {
@@ -103,7 +115,6 @@ export function getGroups(userID) {
         }
       })
       .then(response => {
-        // console.log("returned campaigns", response);
         dispatch({ type: types.GET_GROUPS, payload: response.data.rows });
       })
       .catch(err => {
@@ -118,12 +129,10 @@ export function addGroup(name, userID) {
     return axios
       .post("/newGroup", payload)
       .then(response => {
-        // console.log(response.data)
         dispatch({ type: types.ADD_GROUP, payload: response.data });
         return response.data;
       })
       .catch(err => {
-        // console.log(err);
         return err;
       });
   };
@@ -154,7 +163,6 @@ export function groupToCampaigns(campaign, id) {
         id: id
       })
       .then(response => {
-        console.log(response.data);
         dispatch({ type: types.ADD_CONTACT, payload: response.data });
       })
       .catch(err => {
@@ -219,7 +227,6 @@ export function addGroupContacts(groupid, contactid, name, email) {
 }
 
 export function addContact(name, email, campaign) {
-  // console.log("within add contact,", name, email, campaign);
   return function(dispatch) {
     axios
       .post("/newContact", {
@@ -228,7 +235,6 @@ export function addContact(name, email, campaign) {
         campaign: campaign
       })
       .then(response => {
-        // console.log("add contact has a response in the action");
         dispatch({ type: types.ADD_CONTACT, payload: { name, email } });
       })
       .catch(err => {
@@ -238,7 +244,6 @@ export function addContact(name, email, campaign) {
 }
 
 export function deleteContact(id, contactid, campaignid) {
-  // console.log('indelete', id, contactid, campaignid);
   return function(dispatch) {
     return axios
       .delete("/deleteContact", {
@@ -259,9 +264,8 @@ export function deleteContact(id, contactid, campaignid) {
       });
   };
 }
+
 export function deleteGroupContact(id, contactid, groupid) {
-  // console.log('indelete', id, contactid, campaignid);
-  // console.log('here')
   return function(dispatch) {
     return axios
       .delete("/deleteGroupContact", {
@@ -279,6 +283,27 @@ export function deleteGroupContact(id, contactid, groupid) {
       })
       .catch(err => {
         console.log(err, "indelete");
+      });
+  };
+}
+
+export function deleteGroup(id, userid) {
+  return function(dispatch) {
+    return axios
+      .delete("/deleteGroup", {
+        params: {
+          id: id,
+          userid: userid
+        }
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_GROUP,
+          payload: { id, userid }
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
 }

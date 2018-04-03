@@ -72,5 +72,3 @@ insert into campaignContacts (campaignID, contactID) values ('3', '2');
 insert into groups (name, userID) values ('Spring Emails', '1');
 insert into groupContacts (groupID, contactID) values ('1', '1');
 insert into groupContacts (groupID, contactID) values ('1', '2');
--- insert into campaignContacts (campaignID, contactID) values ('4', '1');
--- insert into campaignContacts (campaignID, contactID) values ('4', '2');

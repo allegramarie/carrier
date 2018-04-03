@@ -41,7 +41,6 @@ class Editor extends Component {
   }
 
   componentDidMount() {
-    console.log("component will mount!");
     const campaignId = this.props.match.params.id;
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
@@ -57,7 +56,6 @@ class Editor extends Component {
             themes: [...this.state.themes, { name, content: parsedJSON }]
           });
           this.loadTemplateByName(name);
-          // this.editor.loadDesign(parsedJSON);
         }
       })
       .catch(err => {
@@ -94,27 +92,9 @@ class Editor extends Component {
           .slice(0, -6)
       )
     });
-    console.log("date", moment.unix(date).utc()._i);
-    // console.log('old date', this.state.startDate)
-    // console.log('this is the date', date)
-    console.log(
-      "moment test",
-      parseInt(
-        moment
-          .unix(date)
-          .utc()
-          ._i.toString()
-          .slice(0, -6)
-      )
-    );
   }
 
   render() {
-    // console.log(Auth.userID,"here")
-    // if (this.state.show === true) {
-    //   // console.log(this.state.cid.id)
-    //   return <Redirect to="/" />;
-    // }
     return (
       <div>
         {this.state.popup === true ? (
@@ -252,9 +232,7 @@ class Editor extends Component {
   //Need to Keep this here to test and for Regex reference
   exportHtml = () => {
     // TODO: Scheduling?
-    console.log(this.state.date);
     var sendAt = this.state.date || `${Date.now()}`.slice(0, 10);
-    console.log(sendAt);
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {
       const { html } = data;
@@ -264,8 +242,6 @@ class Editor extends Component {
           return m.trim();
         })
         .replace(/(\r\n|\n|\r)/gm, " ");
-      console.log(result);
-      console.log(this.props.contacts.contacts);
       axios.post("/exportHTML", {
         sendAt: sendAt,
         htmlEmailContent: a,

@@ -7,10 +7,7 @@ import Heading from "grommet/components/Heading";
 import SocialTwitterIcon from "grommet/components/icons/base/SocialTwitter";
 import SocialFacebookIcon from "grommet/components/icons/base/SocialFacebook";
 import SocialInstagramIcon from "grommet/components/icons/base/SocialInstagram";
-
 import LinkNextIcon from "grommet/components/icons/base/LinkNext";
-
-const grommetPath = "http://grommet.github.io";
 
 export default class NewsFeed extends Component {
   _onClickCard(path, event) {
@@ -142,13 +139,11 @@ export default class NewsFeed extends Component {
           maxCount={3}
           responsive={true}
         >
-          {/*          {blogPostCard}*/}
           {featuredPostCard}
           {twitterFeedCard1}
           {facebookFeedCard2}
           {blogPostCard}
           {featuredPostCard2}
-          {/*          {featuredPostCard3}*/}
           {instagramFeedCard3}
         </Columns>
       </Box>
