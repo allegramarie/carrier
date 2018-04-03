@@ -12,6 +12,7 @@ import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import SendIcon from "grommet/components/icons/base/Send";
 import InfoPage from "./InfoPage.js";
+import carrierpigeon3 from "./carrier-pigeon3.png";
 
 export default class LandingPage extends Component {
   render() {
@@ -78,9 +79,19 @@ export default class LandingPage extends Component {
           </Box>
           <NewsFeed />
         </Box>
-        <Footer justify="between" colorIndex="grey-1" size="medium">
+        <Footer justify="between" colorIndex="grey-1" size="small">
           <Title>
-            <SendIcon style={{ marginLeft: "50px" }} />
+            <img
+              src={carrierpigeon3}
+              style={{
+                position: "relative",
+                float: "left",
+                height: "60px",
+                marginTop: "5px",
+                marginLeft: "65px",
+                marginBottom: "5px"
+              }}
+            />
             CarrierPigeon
           </Title>
           <Box direction="row" align="center" pad={{ between: "medium" }}>

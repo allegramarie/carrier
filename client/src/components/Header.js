@@ -5,6 +5,7 @@ import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
 import bird from "./bird.png";
 import carrierpigeon2 from "./carrier-pigeon2.png";
+import carrierpigeon3 from "./carrier-pigeon3.png";
 
 export default function AppHeader(props) {
   return (
@@ -24,15 +25,19 @@ export default function AppHeader(props) {
         pad={{ horizontal: "medium" }}
         flex="grow"
       >
-        <img
-          src={bird}
-          style={{
-            position: "relative",
-            float: "left",
-            height: "100px",
-            marginTop: "30px"
-          }}
-        />
+        <Anchor href="/">
+          <img
+            src={carrierpigeon3}
+            style={{
+              position: "relative",
+              float: "left",
+              height: "65px",
+              marginTop: "5px",
+              marginLeft: "65px",
+              marginBottom: "5px"
+            }}
+          />
+        </Anchor>
         {/*        <MailIcon colorIndex="brand" size="large" />*/}
         <Box pad="small" />
         <Menu label="Label" inline={true} direction="row" flex="grow">
@@ -55,8 +60,8 @@ export default function AppHeader(props) {
             Login
           </Anchor>
         </Menu>
-        <img
-          src={carrierpigeon2}
+        {/*        <img
+          src={carrierpigeon3}
           style={{
             position: "relative",
             float: "left",
@@ -65,7 +70,7 @@ export default function AppHeader(props) {
             marginLeft: "65px",
             marginBottom: "5px"
           }}
-        />
+        />*/}
       </Box>
     </Header>
   );

@@ -19,6 +19,7 @@ import SendIcon from "grommet/components/icons/base/Send";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import Paragraph from "grommet/components/Paragraph";
+import carrierpigeon3 from "./carrier-pigeon3.png";
 
 class Editor extends Component {
   constructor(props) {
@@ -211,14 +212,26 @@ class Editor extends Component {
         />
         <Footer
           justify="between"
-          colorIndex="unknown"
-          size="medium"
-          style={{ marginTop: "100px" }}
+          colorIndex="grey-1"
+          size="small"
+          style={{ marginTop: "50px" }}
         >
-          <Title>
-            <SendIcon style={{ marginLeft: "50px" }} />
-            CarrierPigeon
-          </Title>
+          <Anchor href="/">
+            <Title>
+              <img
+                src={carrierpigeon3}
+                style={{
+                  position: "relative",
+                  float: "left",
+                  height: "60px",
+                  marginTop: "5px",
+                  marginLeft: "65px",
+                  marginBottom: "5px"
+                }}
+              />
+              CarrierPigeon
+            </Title>
+          </Anchor>
           <Box direction="row" align="center" pad={{ between: "medium" }}>
             <Paragraph margin="none">© CarrierPigeon</Paragraph>
             <Menu
@@ -227,9 +240,11 @@ class Editor extends Component {
               dropAlign={{ right: "right" }}
               style={{ marginRight: "50px" }}
             >
-              <Anchor href="/">Main Menu</Anchor>
-              <Anchor href={`/profile/${Auth.userID}`}>Profile</Anchor>
-              <Anchor href="/about">About</Anchor>
+              <Anchor href="/">Home</Anchor>
+              <Anchor href={`/campaigns/${this.props.match.params.id}`}>
+                Back
+              </Anchor>
+              <Anchor href="#">About</Anchor>
             </Menu>
           </Box>
         </Footer>

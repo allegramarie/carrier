@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Title, Sidebar as GrommetSidebar, Header, Box, Anchor } from "grommet";
 import SidebarMenu from "./SidebarMenu";
+import carrierpigeon3 from "./carrier-pigeon3.png";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -12,6 +13,20 @@ class Sidebar extends Component {
     // Always open, for now.
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
+        <Anchor href="/">
+          <img
+            src={carrierpigeon3}
+            style={{
+              position: "relative",
+              float: "left",
+              height: "70px",
+              width: "70px",
+              marginLeft: "75px",
+              marginTop: "50px",
+              marginBottom: "5px"
+            }}
+          />
+        </Anchor>
         <Header pad="medium" justify="start">
           <Title>
             <Anchor path="/">CarrierPigeon</Anchor>
