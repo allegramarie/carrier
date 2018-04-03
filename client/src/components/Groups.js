@@ -12,7 +12,8 @@ import AccordionPanel from "grommet/components/AccordionPanel";
 import Button from "grommet/components/Button";
 import EditIcon from "grommet/components/icons/base/Edit";
 import Auth from "../Auth";
-import { getGroups } from "../actions";
+import { getGroups, deleteGroup } from "../actions";
+import ClearIcon from "grommet/components/icons/base/Clear";
 
 class Groups extends React.Component {
   constructor(props) {
@@ -25,9 +26,14 @@ class Groups extends React.Component {
       loading: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.getGroups = this.getGroups.bind(this);
   }
 
   componentDidMount() {
+    this.getGroups();
+  }
+  getGroups() {
     this.props
       .dispatch(getGroups(Auth.userID))
       .then(() => {
@@ -39,6 +45,7 @@ class Groups extends React.Component {
         console.log(err);
       });
   }
+
   getDerivedStateFromProps(nextProps) {
     // console.log(
     //   "getting props within campaign table",
@@ -46,7 +53,17 @@ class Groups extends React.Component {
     //   this.props
     // );
   }
-
+  handleDelete(group) {
+    // console.log(group)
+    this.props
+      .dispatch(deleteGroup(group.id, group.userid))
+      .then(() => {
+        this.getGroups();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   handleClick(group) {
     // console.log(campaigns, status)
     this.setState({
@@ -56,23 +73,11 @@ class Groups extends React.Component {
   }
 
   render() {
-    console.log("groups", this.props.groups, "state", this.state.id);
+    // console.log("groups", this.props.groups, "state", this.state.id);
     if (this.state.show === true) {
-      console.log("show", this.state.show);
+      // console.log("show", this.state.show);
       return <Redirect to={`/groups/${this.state.id}`} />;
     } else {
-      // if (this.state.addCampaign === true) {
-      //   return <Redirect to={"/createCampaign"} />;
-      // }
-      // if (!this.props.campaigns.campaigns[0]) {
-      //   return (
-      //     <Pulse
-      //       onClick={() => {
-      //         this.setState({ addCampaign: true });
-      //       }}
-      //     />
-      //   );
-      // }
       return (
         <div>
           <Split flex="right" separator={false} fixed={false}>
@@ -95,14 +100,25 @@ class Groups extends React.Component {
                       {group.status === "Sent" ? (
                         <p />
                       ) : (
-                        <Button
-                          icon={<EditIcon />}
-                          label="Edit"
-                          onClick={() => {
-                            this.handleClick(group.id);
-                          }}
-                          style={{ width: "150px" }}
-                        />
+                        <div>
+                          <Button
+                            icon={<EditIcon />}
+                            label="Edit"
+                            onClick={() => {
+                              this.handleClick(group.id);
+                            }}
+                            style={{ width: "150px" }}
+                          />
+                          <Button
+                            icon={<ClearIcon />}
+                            primary="true"
+                            label="Delete"
+                            onClick={() => {
+                              this.handleDelete(group);
+                            }}
+                            style={{ width: "150px" }}
+                          />
+                        </div>
                       )}
                     </AccordionPanel>
                   ))}

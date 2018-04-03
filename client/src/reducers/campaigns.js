@@ -1,4 +1,9 @@
-import { ADD_CAMPAIGN, GET_CAMPAIGNS, UPDATE_CAMPAIGN } from "../constants";
+import {
+  ADD_CAMPAIGN,
+  GET_CAMPAIGNS,
+  UPDATE_CAMPAIGN,
+  DELETE_CAMPAIGN
+} from "../constants";
 
 const initialState = {
   campaigns: []
@@ -30,6 +35,16 @@ export default function campaigns(state = initialState, action) {
         // userID: action.payload.userID
       };
     case UPDATE_CAMPAIGN:
+      return {
+        campaigns: [...state.campaigns, action.payload]
+        // id: action.payload.id,
+        // name: action.payload.name,
+        // subject: action.payload.subject,
+        // fromID: action.payload.fromID,
+        // content: action.payload.content,
+        // userID: action.payload.userID
+      };
+    case DELETE_CAMPAIGN:
       return {
         campaigns: [...state.campaigns, action.payload]
         // id: action.payload.id,

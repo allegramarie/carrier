@@ -21,6 +21,28 @@ export function addCampaign(name, status, subject, userID) {
   };
 }
 
+export function deleteCampaign(userId, campaignId) {
+  console.log(userId, campaignId, "in actions");
+  return function(dispatch) {
+    return axios
+      .delete("/deleteCampaign", {
+        params: {
+          userId: userId,
+          campaignId: campaignId
+        }
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_CAMPAIGN,
+          payload: { userId, campaignId }
+        });
+      })
+      .catch(err => {
+        return err;
+      });
+  };
+}
+
 export function checkUser(user) {
   return function(dispatch) {
     axios
@@ -259,9 +281,8 @@ export function deleteContact(id, contactid, campaignid) {
       });
   };
 }
+
 export function deleteGroupContact(id, contactid, groupid) {
-  // console.log('indelete', id, contactid, campaignid);
-  // console.log('here')
   return function(dispatch) {
     return axios
       .delete("/deleteGroupContact", {
@@ -279,6 +300,27 @@ export function deleteGroupContact(id, contactid, groupid) {
       })
       .catch(err => {
         console.log(err, "indelete");
+      });
+  };
+}
+
+export function deleteGroup(id, userid) {
+  return function(dispatch) {
+    return axios
+      .delete("/deleteGroup", {
+        params: {
+          id: id,
+          userid: userid
+        }
+      })
+      .then(response => {
+        dispatch({
+          type: types.DELETE_GROUP,
+          payload: { id, userid }
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
 }

@@ -50,7 +50,7 @@ class Campaigns extends Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
+    // this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
     this.addGroupToContacts = this.addGroupToContacts.bind(this);
   }
 
@@ -91,31 +91,7 @@ class Campaigns extends Component {
         badInputs: false,
         loading: true
       });
-      if (this.props.contacts.length === 0) {
-        this.shouldCampaignUpdate();
-      }
-    } else {
-      this.setState({ badInputs: true });
     }
-  }
-
-  shouldCampaignUpdate() {
-    // console.log("Campaign update is running");
-    axios
-      .get("/shouldCampaignUpdate", {
-        params: {
-          id: this.props.match.params.id
-        }
-      })
-      .then(response => {
-        // console.log("should campaign update?", response.data);
-        if (response.data === true) {
-          this.props.dispatch(updateCampaign(this.props.match.params.id));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   handleDelete(id, contactid, campaignid) {
@@ -150,18 +126,20 @@ class Campaigns extends Component {
     this.props
       .dispatch(groupToCampaigns(this.props.match.params.id, this.state.id))
       .then(() => {
-        this.setState(
-          {
-            value: "",
-            id: ""
-          },
-          function() {
-            console.log("reached groups to contacts!", this.props.contacts);
-          }
-        );
+        this.props
+          .dispatch(getContacts(this.props.match.params.id))
+          .then(() => {
+            this.setState({
+              value: "",
+              id: ""
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
-      .then(() => {
-        this.props.dispatch(getContacts(this.props.match.params.id));
+      .catch(err => {
+        console.log(err);
       });
   }
 
@@ -212,7 +190,6 @@ class Campaigns extends Component {
               <Heading style={{ fontSize: "25px" }}>
                 Add Group Contacts to Campaign
               </Heading>
-              {console.log("groups,", this.props.groups)}
               <Select
                 placeHolder="None"
                 value={this.state.value}
