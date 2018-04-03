@@ -74,7 +74,7 @@ class NewGroup extends Component {
       <div>
         <Split flex="right" separator={false} fixed={false}>
           <Box justify="center" align="start" pad="medium">
-            <Article ref="content" pad="none" style={{ marginLeft: "2%" }}>
+            <Article ref="content" pad="none" style={{ marginLeft: "-3%" }}>
               <Section key="utilization" pad="medium" full="horizontal">
                 <Form onSubmit={this.handleSubmit}>
                   <Header>

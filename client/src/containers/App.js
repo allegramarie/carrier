@@ -20,6 +20,7 @@ import Groups from "../components/Groups.js";
 import GroupDetails from "../components/GroupDetails.js";
 import NewGroup from "../components/NewGroup.js";
 import Auth from "../Auth";
+import ContactUs from "../components/ContactUs.js";
 
 class App extends Component {
   componentDidMount() {
@@ -43,6 +44,7 @@ class App extends Component {
           <PrivateRoute path="/drop" component={Drop} />
           <Route path="/about" component={LandingPage} />
           <Route path="/unsubscribe/:id" component={Unsubscribe} />
+          <Route path="/contactUs" component={ContactUs} />
         </Switch>
       </Grommet.App>
     );

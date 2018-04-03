@@ -172,7 +172,7 @@ class Campaigns extends Component {
           <Sidebar />
           <Box>
             <Button icon={<RevertIcon />} path="/" />
-            <Form>
+            <Form style={{ marginLeft: "50px" }}>
               <Header>
                 <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
               </Header>
@@ -257,11 +257,18 @@ class Campaigns extends Component {
             </Box>
           </Box>
           {this.state.loading === true ? (
-            <Box style={{ marginLeft: "200px", marginTop: "50px" }}>
+            <Box
+              style={{
+                position: "relative",
+                marginLeft: "100px",
+                marginTop: "50px",
+                marginRight: "50px"
+              }}
+            >
               {!this.props.contacts[0] ? (
                 <Pulse />
               ) : (
-                <Form style={{ width: "600px", marginRight: "100px" }}>
+                <Form style={{ width: "550px", overflow: "auto" }}>
                   <FormFields>
                     <Table
                       scrollable={true}
@@ -272,7 +279,7 @@ class Campaigns extends Component {
                         borderRadius: "1%"
                       }}
                     >
-                      <thead>
+                      <thead style={{ overflow: "auto" }}>
                         <tr>
                           <th>Name</th>
                           <th>Email</th>

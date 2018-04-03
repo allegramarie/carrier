@@ -112,13 +112,27 @@ class GroupDetails extends Component {
   }
 
   render() {
+    var thing = [];
+    var emailchecker = [];
+    if (this.props.allContacts) {
+      var arr = this.props.allContacts;
+      for (var i = 0; i < arr.length; i++) {
+        if (emailchecker.indexOf(arr[i].email) === -1) {
+          emailchecker.push(arr[i].email);
+          thing.push(arr[i]);
+        }
+      }
+    }
+
+    console.log(emailchecker);
+    console.log(thing);
     return (
       <div>
         <Split flex="right" separator={false} fixed={false}>
           <Sidebar />
           <Box>
             <Button icon={<RevertIcon />} path="/groups" />
-            <Form>
+            <Form style={{ marginLeft: "50px" }}>
               <Header>
                 <Heading style={{ fontSize: "25px" }}>
                   Add Contacts to Group
@@ -128,7 +142,7 @@ class GroupDetails extends Component {
                 <Select
                   placeHolder="None"
                   value={this.state.value}
-                  options={this.props.allContacts.map(function(contact, key) {
+                  options={thing.map(function(contact, key) {
                     return {
                       value: contact.name,
                       sub: contact.email,
@@ -166,11 +180,18 @@ class GroupDetails extends Component {
               </Footer>
             </Form>
           </Box>
-          <Box style={{ marginLeft: "150px", marginTop: "50px" }}>
+          <Box
+            style={{
+              position: "relative",
+              marginLeft: "100px",
+              marginTop: "50px",
+              marginRight: "50px"
+            }}
+          >
             {!this.props.contacts[0] ? (
               <Pulse />
             ) : (
-              <Form style={{ width: "650px" }}>
+              <Form style={{ width: "550px", overflow: "auto" }}>
                 <FormFields>
                   <Table
                     scrollable={true}
