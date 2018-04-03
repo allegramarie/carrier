@@ -18,6 +18,7 @@ import Groups from "../components/Groups.js";
 import GroupDetails from "../components/GroupDetails.js";
 import NewGroup from "../components/NewGroup.js";
 import Auth from "../Auth";
+import NotFound from "../components/NotFound";
 
 class App extends Component {
   componentDidMount() {
@@ -41,6 +42,8 @@ class App extends Component {
           <PrivateRoute path="/drop" component={Drop} />
           <Route path="/about" component={LandingPage} />
           <Route path="/unsubscribe/:id" component={Unsubscribe} />
+          {/* 404 must be last path to match any remaining paths */}
+          <Route path="/*" component={NotFound} />
         </Switch>
       </Grommet.App>
     );
