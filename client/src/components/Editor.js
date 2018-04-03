@@ -216,12 +216,12 @@ class Editor extends Component {
               dropAlign={{ right: "right" }}
               style={{ marginRight: "50px" }}
             >
-              <Anchor path="/">Home</Anchor>
-              <Anchor path={`/campaigns/${this.props.match.params.id}`}>
+              <Anchor href="/">Home</Anchor>
+              <Anchor href={`/campaigns/${this.props.match.params.id}`}>
                 Back
               </Anchor>
-              <Anchor path="/contactus">Contact Us</Anchor>
-              <Anchor path="#">About</Anchor>
+              <Anchor href="/contactus">Contact Us</Anchor>
+              <Anchor href="#">About</Anchor>
             </Menu>
           </Box>
         </Footer>
