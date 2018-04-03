@@ -463,9 +463,12 @@ app.post("/login", (request, response) => {
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
-      connections.createSession({ token, username, userID }, results => {
-        console.log("results from redis", results);
-        response.send(results);
+      auth.setSession({ token, username, userID }, results => {
+        console.log(
+          "server.js :: /login :: setSession callback :: results -> ",
+          results
+        );
+        response.send({ token, userID });
       });
       // auth.setSession(token, { username, userID });
       // response.send({ token, userID });
@@ -483,32 +486,26 @@ app.post("/signup", (request, response) => {
       console.log(data.rows[0].id);
       const userID = data.rows[0].id;
       const token = auth.genToken();
-      // // TODO: Remove hard coded userID
-      connections.createSession({ token, username, userID }, results => {
-        console.log("results from redis", results);
-        response.send(results);
+      auth.setSession({ token, username, userID }, (err, results) => {
+        console.log(
+          "server.js :: /signup :: setSession callback :: results -> ",
+          results
+        );
+        response.send({ token, userID });
       });
-      // auth.setSession(token, username);
-      // response.send({ token, userID });
     })
     .catch(err => {
       response.status(400).send({ error: "Bad Request" });
     });
 });
 
-// response.status(400).send({ error: "Bad Request" });
-// } else {
-// const userID = res.rows[0].id;
-// const token = auth.genToken();
-// // TODO: Remove hard coded userID
-// auth.setSession(token, username);
-// response.send({ token, userID });
-
 app.post("/logout", (request, response) => {
+  console.log(request.session);
   if (request.session) {
-    connections.deleteSession(request.session.token, results => {
+    auth.deleteSession(request.session.token, (err, results) => {
       console.log("User session destroyed");
-      response.send(results);
+      console.log(results);
+      response.send({ msg: "Success!" });
     });
     // auth.deleteSession(request.session.token);
     // response.send({ msg: "User session destroyed" });
