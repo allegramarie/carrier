@@ -87,10 +87,11 @@ const deleteSession = (input, callback) => {
 const createSessionTemplate = (input, callback) => {
   const session = input.token;
   const campaign = input.campaign;
+  const sessioncampaign = `${session}:${campaign}`;
   const template = input.template;
-  client.hexists("session", session, (err, reply) => {
+  client.hexists(session, (err, reply) => {
     if (reply) {
-      client.hmset((session: campaign), template, (err, response) => {
+      client.hmset(sessioncampaign, template, (err, response) => {
         if (err) {
           console.log("redis error creating session template", err);
         } else {
@@ -99,7 +100,7 @@ const createSessionTemplate = (input, callback) => {
         }
       });
     } else {
-      console.log("no user session set");
+      console.log("no user session set", err);
     }
   });
 };
@@ -107,10 +108,11 @@ const createSessionTemplate = (input, callback) => {
 const getSessionTemplate = (input, callback) => {
   const session = input.token;
   const campaign = input.campaign;
+  const sessioncampaign = `${session}:${campaign}`;
   const template = input.template;
-  client.hexists((session: campaign), (err, reply) => {
+  client.hexists(sessioncampaign, (err, reply) => {
     if (reply) {
-      client.hget((session: campaign), (err, reply) => {
+      client.hget(sessioncampaign, (err, reply) => {
         console.log("getting session template", reply);
         callback(reply);
       });

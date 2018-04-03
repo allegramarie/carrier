@@ -506,8 +506,12 @@ app.post("/signup", (request, response) => {
 
 app.post("/logout", (request, response) => {
   if (request.session) {
-    auth.deleteSession(request.session.token);
-    response.send({ msg: "User session destroyed" });
+    connections.deleteSession(request.session.token, results => {
+      console.log("User session destroyed");
+      response.send(results);
+    });
+    // auth.deleteSession(request.session.token);
+    // response.send({ msg: "User session destroyed" });
   } else {
     response.status(401).send({ msg: "Session not valid" });
   }

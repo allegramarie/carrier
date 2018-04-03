@@ -42,8 +42,10 @@ const validateUserLogin = (username, password) => {
 // Middleware that allows every session to access request.session
 const attachSession = (request, response, next) => {
   const { token } = request.body;
-  request.session = getSession(token);
-  next();
+  connections.getSession(token, reply => {
+    request.session = reply;
+    next();
+  });
 };
 
 // Routes with this middleware will require a token be sent with request.
