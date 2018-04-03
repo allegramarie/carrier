@@ -3,7 +3,6 @@ import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
 import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
-import carrierpigeon2 from "./carrier-pigeon2.png";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 
 export default function AppHeader(props) {
@@ -37,7 +36,6 @@ export default function AppHeader(props) {
             }}
           />
         </Anchor>
-        {/*        <MailIcon colorIndex="brand" size="large" />*/}
         <Box pad="small" />
         <Menu label="Label" inline={true} direction="row" flex="grow">
           <Anchor
@@ -59,20 +57,7 @@ export default function AppHeader(props) {
             Login
           </Anchor>
         </Menu>
-        {/*        <img
-          src={carrierpigeon3}
-          style={{
-            position: "relative",
-            float: "left",
-            height: "60px",
-            marginTop: "5px",
-            marginLeft: "65px",
-            marginBottom: "5px"
-          }}
-        />*/}
       </Box>
     </Header>
   );
 }
-
-// https://www.emailvendorselection.com/wp-content/uploads/2015/05/personalised-campaign.png

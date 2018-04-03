@@ -11,7 +11,6 @@ export default function addContact(state = initialState, action) {
         allContacts: action.payload
       };
     case DELETE_GROUP_CONTACT:
-      // console.log('in reducer')
       return {
         contacts: [...state.contacts, action.payload]
       };

@@ -59,13 +59,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-// <img
-//   src={Bird}
-//   style={{
-//     position: "absolute",
-//     left: "42%",
-//     height: "100px",
-//     marginTop: "30px"
-//   }}
-// />

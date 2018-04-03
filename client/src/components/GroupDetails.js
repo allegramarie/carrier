@@ -39,11 +39,6 @@ class GroupDetails extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
-  getDerivedStateFromProps(nextProps) {
-    // console.log("current contacts", this.props.contacts.contacts);
-    // console.log("getting props within contacts", nextProps.contacts.contacts);
-    //   this.props.dispatch(getContacts(this.props.match.params.id));
-  }
 
   componentDidMount() {
     console.log(this.props.match.params.id, "here");
@@ -64,8 +59,6 @@ class GroupDetails extends Component {
   }
 
   handleClick() {
-    console.log(this.state, "click");
-    console.log(this.props.match.params, "in store");
     this.props
       .dispatch(
         addGroupContacts(
@@ -89,8 +82,6 @@ class GroupDetails extends Component {
   }
 
   handleDelete(contact) {
-    // console.log("here", contact.id,contact.groupid,contact.contactid);
-    console.log(contact, "delete");
     this.props
       .dispatch(
         deleteGroupContact(contact.id, contact.contactid, contact.groupid)
@@ -196,7 +187,6 @@ class GroupDetails extends Component {
                 </FormFields>
               </Form>
             )}
-            {/*   </div>*/}
           </Box>
         </Split>
       </div>

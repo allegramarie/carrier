@@ -46,15 +46,7 @@ class Groups extends React.Component {
       });
   }
 
-  getDerivedStateFromProps(nextProps) {
-    // console.log(
-    //   "getting props within campaign table",
-    //   nextProps.campaigns.campaigns,
-    //   this.props
-    // );
-  }
   handleDelete(group) {
-    // console.log(group)
     this.props
       .dispatch(deleteGroup(group.id, group.userid))
       .then(() => {
@@ -65,7 +57,6 @@ class Groups extends React.Component {
       });
   }
   handleClick(group) {
-    // console.log(campaigns, status)
     this.setState({
       show: true,
       id: group
@@ -73,9 +64,7 @@ class Groups extends React.Component {
   }
 
   render() {
-    // console.log("groups", this.props.groups, "state", this.state.id);
     if (this.state.show === true) {
-      // console.log("show", this.state.show);
       return <Redirect to={`/groups/${this.state.id}`} />;
     } else {
       return (

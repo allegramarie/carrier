@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinning from "grommet/components/icons/Spinning";
 import Pulse from "grommet/components/icons/Pulse";
-// import { createBrowserHistory } from "history";
 import Accordion from "grommet/components/Accordion";
 import AccordionPanel from "grommet/components/AccordionPanel";
 import Button from "grommet/components/Button";
@@ -32,13 +31,7 @@ class CampaignTable extends React.Component {
   componentDidMount() {
     this.getCampaigns();
   }
-  componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   "getting props within campaign table",
-    //   nextProps.campaigns.campaigns,
-    //   this.props
-    // );
-  }
+
   getCampaigns() {
     this.props
       .dispatch(getCampaigns(Auth.userID))
@@ -53,11 +46,9 @@ class CampaignTable extends React.Component {
   }
 
   handleDelete(campaign) {
-    // console.log('campagin', campaign.id, campaign.userid)
     this.props
       .dispatch(deleteCampaign(campaign.userid, campaign.id))
       .then(() => {
-        console.log("after delete");
         this.getCampaigns();
       })
       .catch(err => {
@@ -66,7 +57,6 @@ class CampaignTable extends React.Component {
   }
 
   handleClick(campaigns, status) {
-    // console.log(campaigns, status);
     if (status !== "Sent") {
       this.setState({
         show: true,
@@ -75,7 +65,6 @@ class CampaignTable extends React.Component {
     }
   }
   render() {
-    // console.log(this.props.campaigns.campaigns)
     if (this.state.show === true) {
       return <Redirect to={`/campaigns/${this.state.id}`} />;
     }

@@ -22,7 +22,6 @@ export default class LandingPage extends Component {
           <Hero
             size="large"
             backgroundImage="https://www.emailvendorselection.com/wp-content/uploads/2015/05/personalised-campaign.png"
-            // backgroundImage="https://www.colourflutter.com/images/email-marketing-colour-flutter.jpg?crc=232461541"
             colorIndex="light-1"
           >
             <Card

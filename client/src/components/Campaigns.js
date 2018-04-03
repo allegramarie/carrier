@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import Drop from "./dropzone";
-import axios from "axios";
 import { connect } from "react-redux";
 import {
   TextInput,
   Form,
   Button,
   Header,
-  Anchor,
   Heading,
   Footer,
   Table,
@@ -24,12 +22,10 @@ import {
   getContacts,
   addContact,
   deleteContact,
-  updateCampaign,
   getGroups,
   groupToCampaigns
 } from "../actions";
 import Auth from "../Auth";
-import Notification from "grommet/components/Notification";
 import Split from "grommet/components/Split";
 import Sidebar from "./Sidebar";
 
@@ -50,12 +46,10 @@ class Campaigns extends Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.sendEmail = this.sendEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    // this.shouldCampaignUpdate = this.shouldCampaignUpdate.bind(this);
     this.addGroupToContacts = this.addGroupToContacts.bind(this);
   }
 
   componentDidMount() {
-    // console.log(Auth.userID,"here")
     this.props
       .dispatch(getGroups(Auth.userID))
       .then(() => {
@@ -76,7 +70,6 @@ class Campaigns extends Component {
     if (
       checker.test(this.state.emailInput) &&
       this.state.nameInput.length > 0
-      // this.state.emailInput.indexOf("@") !== -1 &&
     ) {
       this.props.dispatch(
         addContact(
@@ -95,7 +88,6 @@ class Campaigns extends Component {
   }
 
   handleDelete(id, contactid, campaignid) {
-    // console.log("here", id, contactid, campaignid);
     this.props
       .dispatch(deleteContact(id, contactid, campaignid))
       .then(() => {
@@ -116,7 +108,6 @@ class Campaigns extends Component {
     });
   }
   sendEmail() {
-    // console.log("send");
     this.setState({
       show: true
     });
@@ -206,15 +197,10 @@ class Campaigns extends Component {
                   };
                 })}
                 onChange={event => {
-                  this.setState(
-                    {
-                      value: event.option.value,
-                      id: event.option.id
-                    },
-                    function() {
-                      console.log("clicked!", this.state.id);
-                    }
-                  );
+                  this.setState({
+                    value: event.option.value,
+                    id: event.option.id
+                  });
                 }}
               />
               <Footer pad={{ vertical: "medium" }}>

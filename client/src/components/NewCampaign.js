@@ -35,7 +35,6 @@ class NewCampaign extends Component {
 
   // Action addCampaign is kind of specific; maybe you want to handle the data
   // differently.
-  // var cid = []
   handleSubmit(e) {
     e.preventDefault();
     const { nameInput, subjectInput } = this.state;
@@ -58,20 +57,15 @@ class NewCampaign extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    // Get the name of the inputfield
     const { name, value } = target;
-
     // This assigns the changed value to state using the name of the changed
-    // input fiel
     this.setState({
       [name]: value
     });
   }
 
   render() {
-    // console.log(this.state.cid);
     if (this.state.show === true) {
-      // console.log(this.state.cid.id)
       return <Redirect to={`/campaigns/${this.state.cid.rows[0].id}`} />;
     }
     return (

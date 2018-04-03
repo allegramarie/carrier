@@ -10,7 +10,6 @@ class Sidebar extends Component {
   }
 
   render() {
-    // Always open, for now.
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
         <Anchor href="/">
