@@ -252,14 +252,15 @@ app.get("/allContacts", (request, response) => {
 });
 
 app.post("/newContact", (request, response) => {
-  var campaign = request.body.campaign;
+  var campaignid = request.body.campaignid;
   db
     .addNewContact(request.body.name, request.body.email)
     .then(data => {
       db
-        .createCampaignContact(campaign, data.rows[0].id)
-        .then(data => {
-          response.send(data);
+        .createCampaignContact(campaignid, data.rows[0].id)
+        .then(res => {
+          console.log(res, "inserver");
+          response.send(res);
         })
         .catch(err => {
           console.log(err);
@@ -406,6 +407,7 @@ app.post("/drop", (request, response) => {
 });
 
 app.delete("/deleteContact", (request, response) => {
+  console.log(request.query);
   db
     .deletecampaignsContact(request.query)
     .then(data => {

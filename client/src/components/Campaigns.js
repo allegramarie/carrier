@@ -71,6 +71,7 @@ class Campaigns extends Component {
       checker.test(this.state.emailInput) &&
       this.state.nameInput.length > 0
     ) {
+      // console.log("here")
       this.props.dispatch(
         addContact(
           this.state.nameInput,
@@ -87,9 +88,10 @@ class Campaigns extends Component {
     }
   }
 
-  handleDelete(id, contactid, campaignid) {
+  handleDelete(contactid, campaignid) {
+    // console.log(contactid, campaignid)
     this.props
-      .dispatch(deleteContact(id, contactid, campaignid))
+      .dispatch(deleteContact(contactid, campaignid))
       .then(() => {
         this.props.dispatch(getContacts(this.props.match.params.id));
       })
@@ -114,6 +116,7 @@ class Campaigns extends Component {
   }
 
   addGroupToContacts() {
+    console.log(this.props);
     this.props
       .dispatch(groupToCampaigns(this.props.match.params.id, this.state.id))
       .then(() => {
