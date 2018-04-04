@@ -65,6 +65,7 @@ app.post("/contactUs", (req, res) => {
       console.log("failed");
     });
 });
+
 // TODO: This should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");
@@ -114,7 +115,8 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     sgMail
       .send(emails)
       .then(sgResponse => db.updateCampaignStatusToSent(campaignId))
-      .catch(error => console.log("sgMail -> FAILED"));
+      .then(response.status(202).send({ msg: "Created and sent emails!" }))
+      .catch(error => response.status(500).send({ error }));
   });
 });
 
