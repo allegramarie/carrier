@@ -9,7 +9,6 @@ import people from "./people.svg";
 import Meter from "grommet/components/Meter";
 import Value from "grommet/components/Value";
 import WorldMap from "grommet/components/WorldMap";
-import Label from "grommet/components/Label";
 
 export default class infoPage extends Component {
   constructor() {
