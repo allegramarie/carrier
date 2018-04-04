@@ -536,7 +536,7 @@ app.post("/auth", (request, response) => {
 
 // SERVER SETUP ------------------------------------------------
 
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 8080;
 
 let server = app.listen(port, function() {
   console.log(`listening on port ${port}`);
