@@ -30,15 +30,12 @@ class Edit extends React.Component {
     this.handleSave = this.handleSave.bind(this);
   }
   handleSave() {
-    console.log("save");
     axios
       .post("/saveProfile", {
         data: this.state,
         user: this.props.match.params.id
       })
-      .then(response => {
-        // console.log(response)
-      })
+      .then(response => {})
       .catch(err => {
         console.log(err);
       });

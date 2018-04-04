@@ -162,6 +162,7 @@ export default class ContactUs extends Component {
             <Title>
               <img
                 src={carrierpigeon3}
+                alt="LOGO"
                 style={{
                   position: "relative",
                   float: "left",

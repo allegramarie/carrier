@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Section, Box, Heading, Paragraph } from "grommet";
+import { Section, Heading, Paragraph } from "grommet";
 
 class NotFound extends React.Component {
   render() {

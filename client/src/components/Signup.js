@@ -17,12 +17,10 @@ class Signup extends Component {
 
   handleSubmit(event) {
     const { username, password } = event;
-    console.log("Signing up!");
     var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (checker.test(username)) {
       Auth.signup({ username, password })
         .then(results => {
-          console.log("Successfully created new account!");
           this.setState({ redirect: true });
         })
         .catch(error => {
