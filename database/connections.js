@@ -27,11 +27,15 @@ const returnConnectionsCount = function(callback) {
         callback(reply);
       });
     } else {
+      // This case only happens when `connections`
+      // has not been set.
       client.set(["connections", 1, "EX", expiration], (err, response) => {
         if (err) {
           console.log("redis error", err);
         }
-        callback(response);
+        // Return 1, since response from set is string
+        // (ex: `OK`)
+        callback(1);
       });
     }
   });
