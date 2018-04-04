@@ -41,7 +41,7 @@ export default class LandingPage extends Component {
                   Sign Up for a free acount for a full User experience
                 </p>
               }
-              label={<p style={{ color: "orange" }}>CarrierPigeon</p>}
+              label={<p style={{ color: "orange" }}>CARRIER</p>}
               size="large"
               link={<Anchor path="/signup" primary={true} label="Learn More" />}
             />
@@ -90,10 +90,10 @@ export default class LandingPage extends Component {
                 marginBottom: "5px"
               }}
             />
-            CarrierPigeon
+            Carrier
           </Title>
           <Box direction="row" align="center" pad={{ between: "medium" }}>
-            <Paragraph margin="none">© CarrierPigeon</Paragraph>
+            <Paragraph margin="none">© CARRIER</Paragraph>
             <Menu
               direction="row"
               size="medium"

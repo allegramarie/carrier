@@ -24,6 +24,8 @@ import Image from "grommet/components/Image";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 import yuyu from "./yuyu.png";
 import allegra from "./allegra.png";
+import eric from "./eric.png";
+import axios from "axios";
 
 export default class ContactUs extends Component {
   constructor(props) {
@@ -33,12 +35,23 @@ export default class ContactUs extends Component {
       email: "",
       message: ""
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    console.log("in here now");
+    axios
+      .post("/contactUs", this.state)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
-    console.log(this.state.name);
-    console.log(this.state.email);
-    console.log(this.state.message);
     return (
       <Box style={{ backgroundColor: "white" }}>
         <Headers />
@@ -98,11 +111,13 @@ export default class ContactUs extends Component {
               label="Submit"
               type="submit"
               primary={true}
-              onClick={() => {}}
+              onClick={() => {
+                this.handleClick();
+              }}
             />
           </Footer>
           <Box style={{ height: "50px" }}>
-            <Box style={{ position: "absolute", right: -880, top: 42 }}>
+            <Box style={{ position: "absolute", right: -880, top: 39 }}>
               <Image
                 src={yuyu}
                 size="small"
@@ -111,7 +126,7 @@ export default class ContactUs extends Component {
                 alt="Sample alt"
               />
               <Image
-                src={chojnacki}
+                src={eric}
                 size="small"
                 full="vertical"
                 caption={"Developer-Eric Shum"}
@@ -164,11 +179,11 @@ export default class ContactUs extends Component {
                   marginBottom: "5px"
                 }}
               />
-              CarrierPigeon
+              CARRIER
             </Title>
           </Anchor>
           <Box direction="row" align="center" pad={{ between: "medium" }}>
-            <Paragraph margin="none">© CarrierPigeon</Paragraph>
+            <Paragraph margin="none">© CARRIER</Paragraph>
             <Menu
               direction="row"
               size="medium"

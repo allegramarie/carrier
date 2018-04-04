@@ -47,6 +47,24 @@ const apiLimiter = function(request, response, next) {
 
 //app.use("/exportHTML", apiLimiter);
 
+app.post("/contactUs", (req, res) => {
+  console.log(req.body);
+  sgMail.setApiKey(`${config.TOKEN}`);
+  const msg = {
+    to: "eshum89@gmail.com",
+    from: req.body.email,
+    subject: "A User is Contacting Us",
+    text: req.body.message
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("sent");
+    })
+    .catch(() => {
+      console.log("failed");
+    });
+});
 // TODO: This should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");

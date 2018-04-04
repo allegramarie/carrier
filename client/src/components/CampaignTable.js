@@ -84,7 +84,7 @@ class CampaignTable extends React.Component {
         <div>
           {this.state.loading === true ? (
             <Accordion
-              openMulti={true}
+              openMulti={false}
               style={{ width: "70%", overflow: "auto", height: "600px" }}
             >
               {this.props.campaigns.campaigns.map((campaign, index) => (

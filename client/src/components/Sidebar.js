@@ -27,8 +27,8 @@ class Sidebar extends Component {
           />
         </Anchor>
         <Header pad="medium" justify="start">
-          <Title>
-            <Anchor path="/">CarrierPigeon</Anchor>
+          <Title style={{ marginLeft: "35px" }}>
+            <Anchor path="/">CARRIER</Anchor>
           </Title>
         </Header>
         <Box flex="grow" justify="start">

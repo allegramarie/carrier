@@ -205,11 +205,11 @@ class Editor extends Component {
                   marginBottom: "5px"
                 }}
               />
-              CarrierPigeon
+              CARRIER
             </Title>
           </Anchor>
           <Box direction="row" align="center" pad={{ between: "medium" }}>
-            <Paragraph margin="none">© CarrierPigeon</Paragraph>
+            <Paragraph margin="none">© CARRIER</Paragraph>
             <Menu
               direction="row"
               size="medium"
