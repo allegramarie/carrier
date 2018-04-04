@@ -1,24 +1,16 @@
 import React, { Component } from "react";
 import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
-import Card from "grommet/components/Card";
 import Footer from "grommet/components/Footer";
 import Heading from "grommet/components/Heading";
-import Hero from "grommet/components/Hero";
 import Paragraph from "grommet/components/Paragraph";
 import Headers from "./Header";
-import NewsFeed from "./NewsFeed";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
-import SendIcon from "grommet/components/icons/base/Send";
-import InfoPage from "./InfoPage.js";
 import chojnacki from "./chojnacki.png";
 import Form from "grommet/components/Form";
-import FormFields from "grommet/components/FormFields";
 import FormField from "grommet/components/FormField";
-import CheckBox from "grommet/components/CheckBox";
 import Button from "grommet/components/Button";
-import Header from "grommet/components/Header";
 import TextInput from "grommet/components/TextInput";
 import Image from "grommet/components/Image";
 import carrierpigeon3 from "./carrier-pigeon3.png";
@@ -36,9 +28,6 @@ export default class ContactUs extends Component {
   }
 
   render() {
-    console.log(this.state.name);
-    console.log(this.state.email);
-    console.log(this.state.message);
     return (
       <Box style={{ backgroundColor: "white" }}>
         <Headers />

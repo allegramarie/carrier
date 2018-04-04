@@ -53,7 +53,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
   let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
   // sendAt = parseInt(sendAt);
   console.log(sendAt);
-  // console.log(campaignId)
   console.log(contacts);
 
   db.getCampaignSubject(campaignId, (error, results) => {
@@ -111,9 +110,7 @@ app.get("/:id/:cid/footer.png", (request, response) => {
       console.log("sending the file", err);
     } else {
       console.log("sent file");
-      db.userOpenedEmail(contactID, campaignID, results => {
-        // console.log("response from user opened email", results);
-      });
+      db.userOpenedEmail(contactID, campaignID, results => {});
     }
   });
 });
@@ -130,7 +127,6 @@ app.get("/checkUser", (request, response) => {
 });
 
 app.post("/send", (request, response) => {
-  console.log("You're sending a message!", request);
   sendgrid(request, response)
     .then(data => {
       response.send();
@@ -169,7 +165,6 @@ app.post("/newCampaign", (request, response) => {
 });
 
 app.post("/newGroup", (request, response) => {
-  console.log("hit new group in server");
   db
     .addNewGroup(request.body)
     .then(data => {
@@ -195,7 +190,6 @@ app.get("/campaignContacts", (request, response) => {
   db
     .campaignContacts(request.query.id)
     .then(data => {
-      // console.log(data.rows, "in campaignconta");
       response.send(data.rows);
     })
     .catch(err => {
@@ -207,7 +201,6 @@ app.get("/groupContacts", (request, response) => {
   db
     .groupContacts(request.query.id)
     .then(data => {
-      // console.log(data,"get in groupd")
       response.send(data.rows);
     })
     .catch(err => {
@@ -270,8 +263,6 @@ app.post("/groupToCampaigns", (request, response) => {
         })
       )
         .then(data => {
-          // console.log(data,"onserver")
-          // return Promise.resolve(data)
           response.send(data);
         })
         .catch(err => {
@@ -344,10 +335,8 @@ const uploadToS3 = (userId, campaignId, file, callback) => {
 
     s3bucket.upload(params, function(err, data) {
       if (err) {
-        console.log("error in callback");
         console.log(err);
       }
-      console.log("Made it to s3bucket upload callback");
       // TODO: save to postgres database
       const url = `https://s3.amazonaws.com/${BUCKET_NAME}/${fileName}`;
       db.updateCampaignS3URL(url, campaignId, (err, result) => {
@@ -430,6 +419,7 @@ app.post("/saveProfile", (request, response) => {
       console.log(err);
     });
 });
+
 app.delete("/deleteGroupContact", (request, response) => {
   db
     .deleteGroupContact(request.query)
@@ -458,8 +448,8 @@ app.delete("/deleteCampaign", (request, response) => {
       console.log(err);
     });
 });
+
 app.delete("/deleteGroup", (request, response) => {
-  console.log(request.query);
   db
     .deleteAllGroupContacts(request.query)
     .then(() => {
@@ -499,7 +489,6 @@ app.post("/signup", (request, response) => {
   db
     .addNewUser({ email: username, password })
     .then(data => {
-      console.log(data.rows[0].id);
       const userID = data.rows[0].id;
       const token = auth.genToken();
       // // TODO: Remove hard coded userID
