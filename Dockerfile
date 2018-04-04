@@ -19,4 +19,5 @@ RUN yarn install
 # RUN npm install --only=production
 
 EXPOSE 8080
-CMD [ "yarn", "run", "dev" ]
+CMD [ "yarn", "run", "install" ]
+CMD [ "npm", "start" ]
