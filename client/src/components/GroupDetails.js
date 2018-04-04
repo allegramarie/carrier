@@ -41,8 +41,6 @@ class GroupDetails extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.id, "here");
-
     this.props
       .dispatch(getGroupContacts(this.props.match.params.id))
       .then(() => {
@@ -107,8 +105,6 @@ class GroupDetails extends Component {
       }
     }
 
-    console.log(emailchecker);
-    console.log(thing);
     return (
       <div>
         <Split flex="right" separator={false} fixed={false}>

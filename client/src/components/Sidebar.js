@@ -15,6 +15,7 @@ class Sidebar extends Component {
         <Anchor href="/about">
           <img
             src={carrierpigeon3}
+            alt="LOGO"
             style={{
               position: "relative",
               float: "left",

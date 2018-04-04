@@ -23,9 +23,10 @@ export default function AppHeader(props) {
         pad={{ horizontal: "medium" }}
         flex="grow"
       >
-        <Anchor href="/">
+        <Anchor path="/">
           <img
             src={carrierpigeon3}
+            alt="LOGO"
             style={{
               position: "relative",
               float: "left",
@@ -40,19 +41,19 @@ export default function AppHeader(props) {
         <Menu label="Label" inline={true} direction="row" flex="grow">
           <Anchor
             style={{ marginLeft: "auto", marginRight: "auto" }}
-            href="/signup"
+            path="/signup"
           >
             Sign Up
           </Anchor>
-          <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} href="#">
+          <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} path="#">
             Services
           </Anchor>
-          <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} href="#">
+          <Anchor style={{ marginLeft: "auto", marginRight: "auto" }} path="#">
             About Us
           </Anchor>
           <Anchor
             style={{ marginLeft: "auto", marginRight: "50px" }}
-            href="/login"
+            path="/login"
           >
             Login
           </Anchor>

@@ -192,10 +192,11 @@ class Editor extends Component {
           size="small"
           style={{ marginTop: "50px" }}
         >
-          <Anchor href="/">
+          <Anchor path="/">
             <Title>
               <img
                 src={carrierpigeon3}
+                alt="LOGO"
                 style={{
                   position: "relative",
                   float: "left",
@@ -216,12 +217,12 @@ class Editor extends Component {
               dropAlign={{ right: "right" }}
               style={{ marginRight: "50px" }}
             >
-              <Anchor href="/">Home</Anchor>
-              <Anchor href={`/campaigns/${this.props.match.params.id}`}>
+              <Anchor path="/">Home</Anchor>
+              <Anchor path={`/campaigns/${this.props.match.params.id}`}>
                 Back
               </Anchor>
-              <Anchor href="/contactus">Contact Us</Anchor>
-              <Anchor href="#">About</Anchor>
+              <Anchor path="/contactus">Contact Us</Anchor>
+              <Anchor path="#">About</Anchor>
             </Menu>
           </Box>
         </Footer>
