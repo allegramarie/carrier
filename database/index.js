@@ -100,7 +100,7 @@ const addNewContact = function(name, email) {
 
 const createCampaignContact = function(campaign, contact) {
   return pool.query(
-    `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}')`
+    `insert into campaignContacts (campaignID, contactID) values ('${campaign}', '${contact}') returning id`
   );
 };
 
@@ -141,13 +141,13 @@ const addNewGroup = function({ name, userID }, callback) {
   );
 };
 
-const updateCampaignStatus = function(campaign, callback) {
+const updateCampaignStatus = function(campaign) {
   return pool.query(
     `update campaigns set status = 'Active' where id = '${campaign}'`
   );
 };
 
-const updateCampaignStatusToSent = function(campaign, callback) {
+const updateCampaignStatusToSent = function(campaign) {
   return pool.query(
     `update campaigns set status = 'Sent' where id = '${campaign}'`
   );
@@ -209,8 +209,9 @@ const createMultiCampaignContact = function(campaign, contact) {
     });
 };
 const deletecampaignsContact = function(data) {
+  console.log(data);
   return pool.query(
-    `DELETE from campaignContacts where contactid = '${
+    `DELETE from campaigncontacts where id = '${
       data.contactid
     }' and campaignid = '${data.campaignid}';`
   );

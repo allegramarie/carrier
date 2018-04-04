@@ -197,6 +197,7 @@ export function getAllContacts(id) {
         }
       })
       .then(response => {
+        // console.log(response.data,"get all contact")
         dispatch({ type: types.GET_ALL_CONTACTS, payload: response.data });
       })
       .catch(err => {
@@ -215,9 +216,33 @@ export function addGroupContacts(groupid, contactid, name, email) {
         }
       })
       .then(response => {
+        // console.log(name, email, groupid, contactid)
         dispatch({
           type: types.ADD_CONTACT,
           payload: { name, email, groupid, contactid }
+        });
+        // console.log(payload)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
+export function addContact(name, email, campaignid) {
+  return function(dispatch) {
+    axios
+      .post("/newContact", {
+        name: name,
+        email: email,
+        campaignid: campaignid
+      })
+      .then(response => {
+        // console.log(response.data.rows[0].id,"payload")
+        var id = response.data.rows[0].id;
+        dispatch({
+          type: types.ADD_CONTACT,
+          payload: { name, email, campaignid, id }
         });
       })
       .catch(err => {
@@ -226,29 +251,11 @@ export function addGroupContacts(groupid, contactid, name, email) {
   };
 }
 
-export function addContact(name, email, campaign) {
-  return function(dispatch) {
-    axios
-      .post("/newContact", {
-        name: name,
-        email: email,
-        campaign: campaign
-      })
-      .then(response => {
-        dispatch({ type: types.ADD_CONTACT, payload: { name, email } });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-}
-
-export function deleteContact(id, contactid, campaignid) {
+export function deleteContact(contactid, campaignid) {
   return function(dispatch) {
     return axios
       .delete("/deleteContact", {
         params: {
-          id: id,
           contactid: contactid,
           campaignid: campaignid
         }
@@ -256,7 +263,7 @@ export function deleteContact(id, contactid, campaignid) {
       .then(response => {
         dispatch({
           type: types.DELETE_CONTACT,
-          payload: { id, contactid, campaignid }
+          payload: { contactid, campaignid }
         });
       })
       .catch(err => {

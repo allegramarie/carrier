@@ -5,6 +5,7 @@ import Status from "grommet/components/icons/Status";
 import { Button } from "grommet";
 
 const Recipients = props => (
+  // console.log(props)
   <TableRow>
     <td>{props.contact.name}</td>
     <td>{props.contact.email}</td>
@@ -19,11 +20,7 @@ const Recipients = props => (
       <Button
         icon={<Close />}
         onClick={() => {
-          props.handleDelete(
-            props.contact.id,
-            props.contact.contactid,
-            props.contact.campaignid
-          );
+          props.handleDelete(props.contact.id, props.contact.campaignid);
         }}
       />
     </td>

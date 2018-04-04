@@ -57,26 +57,34 @@ class GroupDetails extends Component {
   }
 
   handleClick() {
-    this.props
-      .dispatch(
-        addGroupContacts(
-          this.props.match.params.id,
-          this.state.contactid,
-          this.state.value,
-          this.state.sub
+    // console.log(this.props.contacts)
+    var a = this.props.contacts.map(data => {
+      return data.email;
+    });
+    // console.log(this.state.sub)
+    if (a.includes(this.state.sub)) {
+    } else {
+      this.props
+        .dispatch(
+          addGroupContacts(
+            this.props.match.params.id,
+            this.state.contactid,
+            this.state.value,
+            this.state.sub
+          )
         )
-      )
-      .then(() => {
-        this.setState({
-          value: "",
-          sub: "",
-          contactid: "",
-          badInputs: false
+        .then(() => {
+          this.setState({
+            value: "",
+            sub: "",
+            contactid: "",
+            badInputs: false
+          });
+        })
+        .catch(err => {
+          console.log(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }
   }
 
   handleDelete(contact) {

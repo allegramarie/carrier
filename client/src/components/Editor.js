@@ -238,11 +238,6 @@ class Editor extends Component {
     this.editor.exportHtml(data => {
       const { html } = data;
       var a = html;
-      var result = a
-        .replace(/>\s+|\s+</g, function(m) {
-          return m.trim();
-        })
-        .replace(/(\r\n|\n|\r)/gm, " ");
       axios.post("/exportHTML", {
         sendAt: sendAt,
         htmlEmailContent: a,
