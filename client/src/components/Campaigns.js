@@ -20,6 +20,7 @@ import Status from "grommet/components/icons/Status";
 import RevertIcon from "grommet/components/icons/base/Revert";
 import {
   getContacts,
+  getCampaigns,
   addContact,
   deleteContact,
   getGroups,
@@ -54,6 +55,9 @@ class Campaigns extends Component {
       .dispatch(getGroups(Auth.userID))
       .then(() => {
         this.props.dispatch(getContacts(this.props.match.params.id));
+      })
+      .then(() => {
+        this.props.dispatch(getCampaigns(Auth.userID));
       })
       .then(() => {
         this.setState({
@@ -310,7 +314,8 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     contacts: state.contacts.contacts,
-    groups: state.groups.groups
+    groups: state.groups.groups,
+    campaigns: state.campaigns.campaigns
   };
 }
 
