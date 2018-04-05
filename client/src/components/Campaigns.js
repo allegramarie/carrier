@@ -89,6 +89,10 @@ class Campaigns extends Component {
           loading: true
         });
       }
+    } else {
+      this.setState({
+        badInputs: true
+      });
     }
   }
 
