@@ -20,6 +20,7 @@ import NewGroup from "../components/NewGroup.js";
 import Auth from "../Auth";
 import NotFound from "../components/NotFound";
 import ContactUs from "../components/ContactUs.js";
+import Data from "../components/datagraph.js";
 
 class App extends Component {
   componentDidMount() {
@@ -44,6 +45,7 @@ class App extends Component {
           <Route path="/about" component={LandingPage} />
           <Route path="/unsubscribe/:id" component={Unsubscribe} />
           <Route path="/contactUs" component={ContactUs} />
+          <PrivateRoute path="/data/:id" component={Data} />
           {/* 404 must be last path to match any remaining paths */}
           <Route path="/*" component={NotFound} />
         </Switch>

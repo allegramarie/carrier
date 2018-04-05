@@ -285,7 +285,7 @@ app.post("/newContact", (request, response) => {
       db
         .createCampaignContact(campaignid, data.rows[0].id)
         .then(res => {
-          console.log(res, "inserver");
+          // console.log(res, "inserver");
           response.send(res);
         })
         .catch(err => {
@@ -507,6 +507,19 @@ app.delete("/deleteGroup", (request, response) => {
         .catch(err => {
           console.log(err);
         });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.get("/getData", (request, response) => {
+  // console.log(request.query)
+  db
+    .getData(request.query)
+    .then(data => {
+      // console.log(data,"inserver")
+      response.send(data);
     })
     .catch(err => {
       console.log(err);

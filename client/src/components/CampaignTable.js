@@ -12,6 +12,7 @@ import Meter from "grommet/components/Meter";
 import Auth from "../Auth";
 import { getCampaigns, deleteCampaign } from "../actions";
 import ClearIcon from "grommet/components/icons/base/Clear";
+import BarChartIcon from "grommet/components/icons/base/BarChart";
 
 class CampaignTable extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class CampaignTable extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.getCampaigns = this.getCampaigns.bind(this);
+    // this.handleData = this.handleData.bind(this)
   }
 
   componentDidMount() {
@@ -55,6 +57,8 @@ class CampaignTable extends React.Component {
         console.log(err);
       });
   }
+
+  // this.handleData
 
   handleClick(campaigns, status) {
     if (status !== "Sent") {
@@ -146,7 +150,14 @@ class CampaignTable extends React.Component {
                     <p />
                   )}
                   {campaign.status === "Sent" ? (
-                    <p />
+                    <div>
+                      <Button
+                        icon={<BarChartIcon />}
+                        label="Data"
+                        path={`/data/${campaign.id}`}
+                        style={{ width: "150px" }}
+                      />
+                    </div>
                   ) : (
                     <div>
                       <Button

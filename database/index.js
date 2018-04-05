@@ -208,6 +208,7 @@ const createMultiCampaignContact = function(campaign, contact) {
       console.log(err);
     });
 };
+
 const deletecampaignsContact = function(data) {
   console.log(data);
   return pool.query(
@@ -216,6 +217,7 @@ const deletecampaignsContact = function(data) {
     }' and campaignid = '${data.campaignid}';`
   );
 };
+
 const deleteContact = function(data) {
   return pool.query(`DELETE from contacts where id = '${data.id}';`);
 };
@@ -225,6 +227,7 @@ const getProfile = function(input) {
     `Select email, name, bio from users WHERE users.id = '${input}'`
   );
 };
+
 const saveProfile = function(input) {
   return pool.query(
     `update users set email='${input.data.email}', name='${
@@ -248,19 +251,50 @@ const deleteCampaign = function(input) {
     }'`
   );
 };
+
 const deleteAllCampaignsContact = function(input) {
   return pool.query(
     `DELETE FROM campaigncontacts WHERE campaignid = '${input.campaignId}'`
   );
 };
+
 const deleteAllGroupContacts = function(input) {
   return pool.query(`DELETE FROM groupcontacts WHERE groupid = '${input.id}'`);
 };
+
 const deleteGroup = function(input) {
   return pool.query(
     `DELETE FROM groups WHERE id = '${input.id}' and userid = '${input.userid}'`
   );
 };
+
+const getData = function(campaignid) {
+  console.log(campaignid);
+  return pool.query(
+    `select * from campaigncontacts INNER JOIN contacts ON campaigncontacts.contactid = contacts.id where campaigncontacts.campaignid = '${
+      campaignid.campaignid
+    }'`
+  );
+  // .then((data)=>{
+  //   console.log(data.rows,"in database")
+  //   return Promise.all(data.rows.map((each) => {
+  //     console.log(each.contactid, "in promise")
+  //     return pool.query(`SELECT * FROM contacts WHERE id = '${each.contactid}'`)
+  //   }))
+  //   .then((res)=>{
+  //     console.log(res[0].rows,"hey")
+  //     return Promise.resolve(res)
+  //
+  //   })
+  //   .catch((err)=>{
+  //     console.log(err)
+  //   })
+  // })
+  // .catch((err)=>{
+  //   console.log(err)
+  // })
+};
+
 pool.connect((err, client, done) => {
   if (err) {
     return console.error("connection error", err.stack);
@@ -321,5 +355,6 @@ module.exports = {
   deleteCampaign,
   deleteAllCampaignsContact,
   deleteAllGroupContacts,
-  deleteGroup
+  deleteGroup,
+  getData
 };
