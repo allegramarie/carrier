@@ -17,6 +17,7 @@ import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import Paragraph from "grommet/components/Paragraph";
 import carrierpigeon3 from "./carrier-pigeon3.png";
+import { getContacts } from "../actions";
 
 class Editor extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Editor extends Component {
 
   componentDidMount() {
     const campaignId = this.props.match.params.id;
+    this.props.dispatch(getContacts(this.props.match.params.id));
     // If the selected template is one of the base templates, load the JSON
     // into the Editor.
     // Else, load the user template from the server (via S3)
