@@ -40,6 +40,7 @@ export default class infoPage extends Component {
       <img
         style={{ maxWidth: "752px", width: "100%", height: "200px" }}
         src={people}
+        alt="people"
       />
     );
 
@@ -48,7 +49,7 @@ export default class infoPage extends Component {
         className="dashboard"
         justify="center"
         align="center"
-        full={true}
+        full={false}
         pad="medium"
         colorIndex="neutral-3"
       >
@@ -112,45 +113,54 @@ export default class infoPage extends Component {
           >
             <Meter
               type="circle"
-              label={<Value value={2.7} colorIndex="graph-3" units="Bil" />}
-              threshold={3}
-              max={3.2}
-              value={2.7}
+              label={<Value value={95} colorIndex="graph-3" units="%" />}
+              threshold={95}
+              max={100}
+              value={95}
               onActive={() => {}}
             />
-            <Heading tag="h3">
-              Based on Statistics, eMail has an Average ROI of $38/dollar spent.
-              80% of professionals said email marketing drives customer
-              aquisition and retention. And most importantly, eMail has a higher
-              conversion rate than social mediaand search combined.
+            <Heading tag="h4">
+              The most common reason that emails never reach the inbox is spam
+              complaints. Every time a subscriber reports an email as spam–even
+              if it isn’t really spam–this complaint gets recorded by the
+              mailbox provider. Once the complaints exceed a certain threshold,
+              all future campaigns skip the inbox and get sent directly to the
+              spam folder. With Carrier, ensure all your email get delivered to
+              an Inbox.
             </Heading>
           </Box>
-
           <Box
-            className="area-box col__span-25"
+            className="meter-box col__span-25"
             justify="start"
             pad={{ horizontal: "medium" }}
             align="center"
           >
-            <Meter
-              type="circle"
-              label={<Value value={40} units="GB" />}
-              threshold={90}
-              max={100}
-              value={40}
-              onActive={() => {}}
-            />
-            <Heading tag="h3">
-              {
-                "Based on Statistics, eMail has an Average ROI of $38/dollar spent. 80% of professionals said email marketing drives customer aquisition and retention. And most importantly, eMail has a higher conversion rate than social mediaand search combined."
-              }
+            <Box responsive={false} align="center">
+              <Meter
+                type="arc"
+                threshold={10}
+                max={12}
+                value={11}
+                onActive={() => {}}
+              />
+              <Value value={5} units="Sec : <" />
+            </Box>
+            <Heading tag="h4">
+              Consumers want to hear from you. 61 percent of consumers enjoy
+              receiving promotional emails weekly. 38 percent would like emails
+              to come even more frequently. Keep this in mind the next time
+              you’re fretting that customers will get turned off by sending
+              emails too often. With Carrier, send emails near instantly or on a
+              set schedule down to the minute.
             </Heading>
           </Box>
+
           <Box
             className="map-box col__span-50"
             justify="start"
             pad={{ horizontal: "medium" }}
             align="center"
+            style={{ marginTop: "-85px" }}
           >
             <WorldMap
               zoom={false}
@@ -201,9 +211,10 @@ export default class infoPage extends Component {
                 }
               ]}
             />
-            <Heading tag="h3" style={{ marginBottom: "100px" }}>
+
+            <Heading tag="h4" style={{ marginTop: "50px" }}>
               {
-                "Based on Statistics, eMail has an Average ROI of $38/dollar spent. 80% of professionals said email marketing drives customer aquisition and retention. And most importantly, eMail has a higher conversion rate than social mediaand search combined."
+                "Based on Statistics, eMail has an Average ROI of $38/dollar spent and most importantly, eMail has a higher conversion rate than social media and search combined. These email marketing stats prove just how valuable email can be for your business. Whether you want to increase your number of customers or strengthen your relationship with existing customers, email marketing will give you the tools you need."
               }
             </Heading>
           </Box>

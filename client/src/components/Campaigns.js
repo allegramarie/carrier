@@ -66,30 +66,36 @@ class Campaigns extends Component {
   }
 
   handleClick() {
+    var a = this.props.contacts.map(a => {
+      return a.email;
+    });
     var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (
       checker.test(this.state.emailInput) &&
       this.state.nameInput.length > 0
     ) {
-      this.props.dispatch(
-        addContact(
-          this.state.nameInput,
-          this.state.emailInput,
-          this.props.match.params.id
-        )
-      );
-      this.setState({
-        emailInput: "",
-        nameInput: "",
-        badInputs: false,
-        loading: true
-      });
+      if (a.includes(this.state.emailInput) === false) {
+        this.props.dispatch(
+          addContact(
+            this.state.nameInput,
+            this.state.emailInput,
+            this.props.match.params.id
+          )
+        );
+        this.setState({
+          emailInput: "",
+          nameInput: "",
+          badInputs: false,
+          loading: true
+        });
+      }
     }
   }
 
-  handleDelete(id, contactid, campaignid) {
+  handleDelete(contactid, campaignid) {
+    // console.log(contactid, campaignid)
     this.props
-      .dispatch(deleteContact(id, contactid, campaignid))
+      .dispatch(deleteContact(contactid, campaignid))
       .then(() => {
         this.props.dispatch(getContacts(this.props.match.params.id));
       })
@@ -114,6 +120,7 @@ class Campaigns extends Component {
   }
 
   addGroupToContacts() {
+    console.log(this.props);
     this.props
       .dispatch(groupToCampaigns(this.props.match.params.id, this.state.id))
       .then(() => {
@@ -135,6 +142,18 @@ class Campaigns extends Component {
   }
 
   render() {
+    var thing = [];
+    var emailchecker = [];
+    if (this.props.contacts) {
+      var arr = this.props.contacts;
+      for (var i = 0; i < arr.length; i++) {
+        if (emailchecker.indexOf(arr[i].email) === -1) {
+          emailchecker.push(arr[i].email);
+          thing.push(arr[i]);
+        }
+      }
+    }
+
     return (
       <div>
         <Split fixed={false} separator={false} showOnResponsive="both">
@@ -251,13 +270,15 @@ class Campaigns extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.props.contacts.map((contact, index) => (
-                          <Recipients
-                            contact={contact}
-                            key={index}
-                            handleDelete={this.handleDelete}
-                          />
-                        ))}
+                        {thing.map((contact, index, arr) => {
+                          return (
+                            <Recipients
+                              contact={contact}
+                              key={index}
+                              handleDelete={this.handleDelete}
+                            />
+                          );
+                        })}
                       </tbody>
                     </Table>
                   </FormFields>

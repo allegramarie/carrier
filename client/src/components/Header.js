@@ -26,6 +26,7 @@ export default function AppHeader(props) {
         <Anchor path="/">
           <img
             src={carrierpigeon3}
+            alt="LOGO"
             style={{
               position: "relative",
               float: "left",

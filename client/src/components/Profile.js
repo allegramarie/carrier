@@ -78,7 +78,7 @@ class Profile extends React.Component {
       <Split flex="right" separator={false} fixed={false}>
         <Sidebar />
         <Box justify="center" align="start" pad="medium">
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", marginTop: "50px" }}>
             <h1>Settings</h1>
             <List
               selectable={true}

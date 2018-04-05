@@ -55,12 +55,12 @@ export default class LandingPage extends Component {
             size={{ width: { max: "xxlarge" } }}
           >
             <Heading tag="h1" strong={true} margin="none">
-              There's MailChimp, then there's Us.
+              There's MailChimp, then there's Carrier.
             </Heading>
             <Paragraph size="xlarge" width="large">
-              Lorem ipsum dolor sit amet, dicat sonet congue ei mei, est summo
-              copiosae facilisi an. Sumo accumsan mel ea, eu ignota hendrerit
-              consequuntur me.
+              With Carrier, send up to 100 custom templated emails daily for
+              Free. Manage multiple campaigns, keep track of email statistics,
+              send bundled emails, all in 3 steps.
             </Paragraph>
           </Box>
         </Box>
@@ -81,6 +81,7 @@ export default class LandingPage extends Component {
           <Title>
             <img
               src={carrierpigeon3}
+              alt="LOGO"
               style={{
                 position: "relative",
                 float: "left",
