@@ -109,7 +109,7 @@ class CampaignTable extends React.Component {
                         />
                       </Box>
                       This Campaign is complete and has been sent. You can view
-                      your stats here. Thanks for using CarrierPigeon.
+                      your stats here. Thanks for using Carrier.
                     </Paragraph>
                   ) : campaign.status === "Active" ? (
                     <Paragraph>
@@ -122,7 +122,7 @@ class CampaignTable extends React.Component {
                           colorIndex="critical"
                         />
                       </Box>
-                      This campaign is currently Active.(Campaign email has not
+                      This campaign is currently Active. (Campaign email has not
                       been sent). To complete this draft, edit the remaining
                       template and press send.
                     </Paragraph>
@@ -155,7 +155,7 @@ class CampaignTable extends React.Component {
                         onClick={() => {
                           this.handleClick(campaign.id, campaign.status);
                         }}
-                        style={{ width: "150px" }}
+                        style={{ width: "150px", marginRight: "5px" }}
                       />
                       <Button
                         icon={<ClearIcon />}
@@ -164,7 +164,7 @@ class CampaignTable extends React.Component {
                         onClick={() => {
                           this.handleDelete(campaign);
                         }}
-                        style={{ width: "150px" }}
+                        style={{ width: "150px", marginRight: "5px" }}
                       />
                     </div>
                   )}

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Spinning from "grommet/components/icons/Spinning";
 import Sidebar from "./Sidebar";
 // import { createBrowserHistory } from "history";
-import { Heading } from "grommet";
+import { Heading, Box } from "grommet";
 import Split from "grommet/components/Split";
 import Accordion from "grommet/components/Accordion";
 import AccordionPanel from "grommet/components/AccordionPanel";
@@ -90,23 +90,29 @@ class Groups extends React.Component {
                         <p />
                       ) : (
                         <div>
-                          <Button
-                            icon={<EditIcon />}
-                            label="Edit"
-                            onClick={() => {
-                              this.handleClick(group.id);
-                            }}
-                            style={{ width: "150px", marginLeft: "45px" }}
-                          />
-                          <Button
-                            icon={<ClearIcon />}
-                            primary="true"
-                            label="Delete"
-                            onClick={() => {
-                              this.handleDelete(group);
-                            }}
-                            style={{ width: "150px" }}
-                          />
+                          <Box direction="row">
+                            <Box pad="small">
+                              <Button
+                                icon={<EditIcon />}
+                                label="Edit"
+                                onClick={() => {
+                                  this.handleClick(group.id);
+                                }}
+                                style={{ width: "150px", marginLeft: "45px" }}
+                              />
+                            </Box>
+                            <Box pad="small">
+                              <Button
+                                icon={<ClearIcon />}
+                                primary="true"
+                                label="Delete"
+                                onClick={() => {
+                                  this.handleDelete(group);
+                                }}
+                                style={{ width: "150px" }}
+                              />
+                            </Box>
+                          </Box>
                         </div>
                       )}
                     </AccordionPanel>

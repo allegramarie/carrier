@@ -156,7 +156,12 @@ class Campaigns extends Component {
 
     return (
       <div>
-        <Split fixed={false} separator={false} showOnResponsive="both">
+        <Split
+          fixed={false}
+          separator={false}
+          showOnResponsive="both"
+          style={{ flex: 0 }}
+        >
           <Sidebar />
           <Box>
             <Button icon={<RevertIcon />} path="/" />
@@ -166,6 +171,7 @@ class Campaigns extends Component {
               </Header>
               <FormFields>
                 <TextInput
+                  style={{ marginRight: "5px" }}
                   value={this.state.nameInput}
                   onDOMChange={e => {
                     this.handleName(e);
@@ -173,6 +179,7 @@ class Campaigns extends Component {
                   placeHolder="Name"
                 />
                 <TextInput
+                  style={{ marginRight: "5px" }}
                   value={this.state.emailInput}
                   onDOMChange={e => {
                     this.handleEmail(e);
