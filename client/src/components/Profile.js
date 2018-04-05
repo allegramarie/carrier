@@ -5,6 +5,7 @@ import List from "grommet/components/List";
 import ListItem from "grommet/components/ListItem";
 import EditIcon from "grommet/components/icons/base/Edit";
 import Sidebar from "./Sidebar";
+import style from "../index.css";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -75,7 +76,13 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <Split flex="right" separator={false} fixed={false}>
+      <Split
+        flex="right"
+        separator={false}
+        fixed={false}
+        className="Edited"
+        style={{ flex: "1 1" }}
+      >
         <Sidebar />
         <Box justify="center" align="start" pad="medium">
           <div style={{ width: "100%", marginTop: "50px" }}>

@@ -159,6 +159,7 @@ class Campaigns extends Component {
         <Split
           fixed={false}
           separator={false}
+          flex="right"
           showOnResponsive="both"
           style={{ flex: 0 }}
         >
