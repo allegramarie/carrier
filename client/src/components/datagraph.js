@@ -18,15 +18,17 @@ class DataGraph extends React.Component {
       open: 0,
       unsubscribe: 0
     };
-    this.pieGraph = this.pieGraph.bind(this);
+    this.pieGraph1 = this.pieGraph1.bind(this);
     this.getData = this.getData.bind(this);
     this.barGraph = this.barGraph.bind(this);
+    this.pieGraph2 = this.pieGraph2.bind(this);
   }
 
   componentDidMount() {
     this.getData()
       .then(() => {
-        this.pieGraph();
+        this.pieGraph1();
+        this.pieGraph2();
         this.barGraph();
       })
       .catch(err => {
@@ -68,14 +70,37 @@ class DataGraph extends React.Component {
       });
   }
 
-  pieGraph() {
+  pieGraph1() {
     // console.log(this.state)
     const chart = c3.generate({
       bindto: "#chart",
       data: {
         columns: [
-          ["send", this.state.send],
+          // ["send", this.state.send],
           ["open", this.state.open],
+          ["not open", this.state.send - this.state.open]
+          // ["unsubscribe", this.state.unsubscribe]
+        ],
+        type: "pie"
+      },
+      pie: {
+        label: {
+          format: function(value, ratio, id) {
+            return value;
+          }
+        }
+      }
+    });
+  }
+
+  pieGraph2() {
+    const chart2 = c3.generate({
+      bindto: "#chart2",
+      data: {
+        columns: [
+          // ["send", this.state.send],
+          // ["open", this.state.open],
+          ["subscribe", this.state.send - this.state.unsubscribe],
           ["unsubscribe", this.state.unsubscribe]
         ],
         type: "pie"
@@ -89,32 +114,58 @@ class DataGraph extends React.Component {
       }
     });
   }
+
   barGraph() {
-    const chart2 = c3.generate({
-      bindto: "#chart2",
+    const chart3 = c3.generate({
+      bindto: "#chart3",
       data: {
         columns: [
           ["send", this.state.send],
           ["open", this.state.open],
           ["unsubscribe", this.state.unsubscribe]
         ],
-        type: "bar"
-      },
-      bar: {
-        label: {
-          format: function(value, ratio, id) {
-            return value;
-          }
-        }
+        type: "bar",
+        labels: true
       }
     });
   }
-
+  // width: 15%;
+  //     height: 200px;
+  //     background: red;
+  //     float: left;
   render() {
     return (
       <div>
-        <div id="chart" />
-        <div id="chart2" />
+        <h2
+          style={{
+            textAlign: "center",
+            marginTop: "50px",
+            marginBottom: "-40px"
+          }}
+        >
+          Email Statistics
+        </h2>
+        <div
+          id="chart"
+          style={{
+            float: "left",
+            width: "40%",
+            height: "50%",
+            marginLeft: "150px",
+            marginTop: "50px"
+          }}
+        />
+        <div
+          id="chart2"
+          style={{
+            float: "right",
+            width: "30%",
+            height: "50%",
+            marginRight: "200px",
+            marginTop: "50px"
+          }}
+        />
+        <div id="chart3" />
         <Footer
           justify="between"
           colorIndex="grey-1"
