@@ -12,6 +12,7 @@ import Meter from "grommet/components/Meter";
 import Auth from "../Auth";
 import { getCampaigns, deleteCampaign } from "../actions";
 import ClearIcon from "grommet/components/icons/base/Clear";
+import BarChartIcon from "grommet/components/icons/base/BarChart";
 
 class CampaignTable extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class CampaignTable extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.getCampaigns = this.getCampaigns.bind(this);
+    // this.handleData = this.handleData.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +58,8 @@ class CampaignTable extends React.Component {
       });
   }
 
+  // this.handleData
+
   handleClick(campaigns, status) {
     if (status !== "Sent") {
       this.setState({
@@ -85,17 +89,19 @@ class CampaignTable extends React.Component {
           {this.state.loading === true ? (
             <Accordion
               openMulti={false}
-              style={{ width: "70%", overflow: "auto", height: "600px" }}
+              style={{ width: "75%", overflow: "auto", height: "750px" }}
             >
               {this.props.campaigns.campaigns.map((campaign, index) => (
                 <AccordionPanel
                   key={index}
-                  heading={`Status: ${
-                    campaign.status
-                  } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
-                    campaign.name
-                  }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
-              `}
+                  heading={
+                    <h4>{`Status: ${
+                      campaign.status
+                    } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
+                      campaign.name
+                    }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
+              `}</h4>
+                  }
                 >
                   {campaign.status === "Sent" ? (
                     <Paragraph>
@@ -146,7 +152,12 @@ class CampaignTable extends React.Component {
                     <p />
                   )}
                   {campaign.status === "Sent" ? (
-                    <p />
+                    <Button
+                      icon={<BarChartIcon />}
+                      label="Data"
+                      path={`/data/${campaign.id}`}
+                      style={{ width: "150px" }}
+                    />
                   ) : (
                     <div>
                       <Button

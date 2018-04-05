@@ -94,6 +94,7 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       combinedHTML +
       htmlEmailContent.slice(bodyCloseIndex);
     console.log(htmlEmailContent);
+    console.log("eric");
 
     //for each campaign contact, build their message object and add it to
     //the emails array.
@@ -139,7 +140,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     sgMail
       .send(emails)
       .then(sgResponse => db.updateCampaignStatusToSent(campaignId))
-      .then(response.status(202).send({ msg: "Created and sent emails!" }))
       .catch(error => response.status(500).send({ error }));
   });
 });
@@ -285,7 +285,7 @@ app.post("/newContact", (request, response) => {
       db
         .createCampaignContact(campaignid, data.rows[0].id)
         .then(res => {
-          console.log(res, "inserver");
+          // console.log(res, "inserver");
           response.send(res);
         })
         .catch(err => {
@@ -513,6 +513,19 @@ app.delete("/deleteGroup", (request, response) => {
         .catch(err => {
           console.log(err);
         });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.get("/getData", (request, response) => {
+  // console.log(request.query)
+  db
+    .getData(request.query)
+    .then(data => {
+      // console.log(data,"inserver")
+      response.send(data);
     })
     .catch(err => {
       console.log(err);
