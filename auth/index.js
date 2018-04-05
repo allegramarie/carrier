@@ -36,12 +36,11 @@ const attachSession = (request, response, next) => {
   console.log("Trying to attach a session");
   const { token } = request.body;
   if (token) {
-    console.log("found a token in request");
+    console.log("found a token in request", token);
     getSession(token, reply => {
       request.session = reply;
       // next must come after the session is set.
-      console.log("added session to request.session");
-      console.log(reply);
+      console.log("added session to request.session", reply);
       next();
     });
   } else {
@@ -62,7 +61,7 @@ const protect = (request, response, next) => {
 
 const setSession = (input, callback) => {
   const { token, userID, username } = input;
-  console.log(token, userID, username);
+  console.log("token", token, "userID", userID, "username", username);
   client.hmset(
     // Key
     token,
@@ -71,7 +70,7 @@ const setSession = (input, callback) => {
     (err, results) => {
       console.log("setting session in redis", results);
       if (err) {
-        console.log("redis error", err);
+        console.log("redis error setting session", err);
         callback(err, null);
       }
       callback(null, results);
@@ -80,44 +79,56 @@ const setSession = (input, callback) => {
 };
 
 const getSession = (token, callback) => {
+  console.log("token in get session", token);
   client.hmget(token, "username", "userID", (err, reply) => {
     console.log("getting the session from redis");
     console.log("reply: ", reply);
     if (err) {
+      console.log("error getting session", err);
       callback(err, null);
     } else {
+      console.log("got session!", reply);
       callback(null, reply);
     }
   });
 };
 
 const deleteSession = (token, callback) => {
+  console.log("delete this session", token);
   client.hdel(token, (err, response) => {
     if (err) {
+      console.log("error deleting session", err);
       callback(err, null);
     } else {
+      console.log("success deleting session", err);
       callback(null, response);
     }
   });
 };
 
 const setDraftInSession = (token, templateJSON, callback) => {
+  console.log("setting draft in session", token, "template", templateJSON);
   client.hmset(token, ["templateJSON", templateJSON], (err, response) => {
     console.log("storeDraftInSession: ", response);
     if (err) {
+      console.log("error setting session draft", err);
       callback(err, null);
     } else {
+      console.log("got session draft", response);
       callback(null, response);
     }
   });
 };
 
 const getDraftInSession = (token, callback) => {
+  console.log("getting draft in session", token);
   client.hmget(token, "draft", (err, response) => {
     console.log("getDraftInSession: ", response);
     if (err) {
+      console.log("error getting session draft", err);
       callback(err, null);
     } else {
+      console.log("got session draft", response);
       callback(null, response);
     }
   });
