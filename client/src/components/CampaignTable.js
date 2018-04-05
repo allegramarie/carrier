@@ -95,7 +95,9 @@ class CampaignTable extends React.Component {
                 <AccordionPanel
                   key={index}
                   heading={
-                    <h4>{`Status: ${campaign.status.padEnd(20)}Subject: ${
+                    <h4>{`Status: ${
+                      campaign.status
+                    } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
                       campaign.name
                     }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
               `}</h4>
@@ -150,14 +152,12 @@ class CampaignTable extends React.Component {
                     <p />
                   )}
                   {campaign.status === "Sent" ? (
-                    <div>
-                      <Button
-                        icon={<BarChartIcon />}
-                        label="Data"
-                        path={`/data/${campaign.id}`}
-                        style={{ width: "150px" }}
-                      />
-                    </div>
+                    <Button
+                      icon={<BarChartIcon />}
+                      label="Data"
+                      path={`/data/${campaign.id}`}
+                      style={{ width: "150px" }}
+                    />
                   ) : (
                     <div>
                       <Button
