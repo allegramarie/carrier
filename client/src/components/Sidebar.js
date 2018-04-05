@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Title, Sidebar as GrommetSidebar, Header, Box, Anchor } from "grommet";
 import SidebarMenu from "./SidebarMenu";
 import carrierpigeon3 from "./carrier-pigeon3.png";
-import { Animated } from "react-animated-css";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -14,25 +13,19 @@ class Sidebar extends Component {
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
         <Anchor href="/about" className="flash">
-          <Animated
-            animationIn="headShake infinite"
-            animationOut="wobble infinite"
-            isVisible={true}
-          >
-            <img
-              src={carrierpigeon3}
-              alt="LOGO"
-              style={{
-                position: "relative",
-                float: "left",
-                height: "70px",
-                width: "70px",
-                marginLeft: "75px",
-                marginTop: "50px",
-                marginBottom: "5px"
-              }}
-            />
-          </Animated>
+          <img
+            src={carrierpigeon3}
+            alt="LOGO"
+            style={{
+              position: "relative",
+              float: "left",
+              height: "70px",
+              width: "70px",
+              marginLeft: "75px",
+              marginTop: "50px",
+              marginBottom: "5px"
+            }}
+          />
         </Anchor>
         <Header pad="medium" justify="start">
           <Title style={{ marginLeft: "35px" }}>
