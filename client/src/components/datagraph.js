@@ -4,16 +4,10 @@ import d3 from "d3";
 import axios from "axios";
 import Anchor from "grommet/components/Anchor";
 import Box from "grommet/components/Box";
-import Card from "grommet/components/Card";
 import Footer from "grommet/components/Footer";
-import Heading from "grommet/components/Heading";
-import Hero from "grommet/components/Hero";
 import Paragraph from "grommet/components/Paragraph";
-import Header from "./Header";
-import NewsFeed from "./NewsFeed";
 import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
-import InfoPage from "./InfoPage.js";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 
 class DataGraph extends React.Component {
