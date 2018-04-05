@@ -164,7 +164,11 @@ class Campaigns extends Component {
         >
           <Sidebar />
           <Box>
-            <Button icon={<RevertIcon />} path="/" />
+            <Button
+              icon={<RevertIcon />}
+              path="/"
+              style={{ marginTop: "25px" }}
+            />
             <Form style={{ marginLeft: "50px" }}>
               <Header>
                 <Heading style={{ fontSize: "25px" }}>Input New Emails</Heading>
