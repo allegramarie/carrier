@@ -162,7 +162,7 @@ class Campaigns extends Component {
             <Button
               icon={<RevertIcon />}
               path="/"
-              style={{ marginTop: "25px" }}
+              style={{ marginTop: "50px", marginLeft: "50px" }}
             />
             <Form style={{ marginLeft: "50px" }}>
               <Header>

@@ -94,6 +94,7 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       combinedHTML +
       htmlEmailContent.slice(bodyCloseIndex);
     console.log(htmlEmailContent);
+    console.log("eric");
 
     //for each campaign contact, build their message object and add it to
     //the emails array.
@@ -139,7 +140,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     sgMail
       .send(emails)
       .then(sgResponse => db.updateCampaignStatusToSent(campaignId))
-      .then(response.status(202).send({ msg: "Created and sent emails!" }))
       .catch(error => response.status(500).send({ error }));
   });
 });
