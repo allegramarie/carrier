@@ -333,14 +333,20 @@ app.get("/templates/:campaignId", (request, response) => {
   db
     .retrieveDraft(campaignId)
     .then(results => {
-      // Use the URL to get JSON from S3
-      axios.get(results.rows[0].templateurl).then(results => {
-        // Send the JSON data back to the client
-        response.send({ templateJSON: JSON.stringify(results.data) });
-      });
+      const templateurl = results.rows[0].templateurl;
+      // If there is a URL (if it has been saved before)
+      if (templateurl) {
+        // Use the URL to get JSON from S3
+        axios.get(results.rows[0].templateurl).then(results => {
+          // Send the JSON data back to the client
+          response.send({ templateJSON: JSON.stringify(results.data) });
+        });
+      } else {
+        response.status(404).send({ error: "Template not found" });
+      }
     })
     .catch(err => {
-      console.log(err);
+      throw err;
     });
 });
 
