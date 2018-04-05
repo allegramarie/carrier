@@ -89,17 +89,17 @@ class CampaignTable extends React.Component {
           {this.state.loading === true ? (
             <Accordion
               openMulti={false}
-              style={{ width: "70%", overflow: "auto", height: "600px" }}
+              style={{ width: "75%", overflow: "auto", height: "750px" }}
             >
               {this.props.campaigns.campaigns.map((campaign, index) => (
                 <AccordionPanel
                   key={index}
-                  heading={`Status: ${
-                    campaign.status
-                  } \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Subject: ${
-                    campaign.name
-                  }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
-              `}
+                  heading={
+                    <h4>{`Status: ${campaign.status.padEnd(20)}Subject: ${
+                      campaign.name
+                    }  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0
+              `}</h4>
+                  }
                 >
                   {campaign.status === "Sent" ? (
                     <Paragraph>

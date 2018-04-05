@@ -98,6 +98,7 @@ class Profile extends React.Component {
                       ) : (
                         <Form>
                           <TextInput
+                            defaultValue={this.state.name}
                             onDOMChange={e => {
                               this.setState({ name: e.target.value });
                             }}
@@ -127,6 +128,7 @@ class Profile extends React.Component {
                       ) : (
                         <Form>
                           <TextInput
+                            defaultValue={this.state.email}
                             onDOMChange={e => {
                               this.setState({ email: e.target.value });
                             }}
@@ -156,6 +158,7 @@ class Profile extends React.Component {
                       ) : (
                         <Form>
                           <TextInput
+                            defaultValue={this.state.bio}
                             onDOMChange={e => {
                               this.setState({ bio: e.target.value });
                             }}

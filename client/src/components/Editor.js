@@ -233,6 +233,7 @@ class Editor extends Component {
   //Need to Keep this here to test and for Regex reference
   exportHtml = () => {
     // TODO: Scheduling?
+    console.log("in here");
     var sendAt = this.state.date || `${Date.now()}`.slice(0, 10);
     this.setState({ sendPopup: true });
     this.editor.exportHtml(data => {

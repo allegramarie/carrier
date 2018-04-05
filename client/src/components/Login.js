@@ -3,6 +3,11 @@ import { Redirect } from "react-router-dom";
 import { LoginForm, Anchor, Section, Box } from "grommet";
 import Auth from "../Auth";
 import Status from "grommet/components/icons/Status";
+import carrierpigeon3 from "./carrier-pigeon3.png";
+import Title from "grommet/components/Title";
+import Menu from "grommet/components/Menu";
+import Footer from "grommet/components/Footer";
+import Paragraph from "grommet/components/Paragraph";
 
 class Login extends Component {
   constructor(props) {
@@ -53,6 +58,46 @@ class Login extends Component {
             forgotPassword={<Anchor path="/signup" label="First time here?" />}
           />
         </Box>
+        <Footer
+          justify="between"
+          colorIndex="grey-1"
+          size="small"
+          style={{ position: "fixed", bottom: 0 }}
+        >
+          <Anchor path="/about">
+            <Title>
+              <img
+                src={carrierpigeon3}
+                alt="LOGO"
+                style={{
+                  position: "relative",
+                  float: "left",
+                  height: "60px",
+                  marginTop: "5px",
+                  marginLeft: "65px",
+                  marginBottom: "5px"
+                }}
+              />
+              CARRIER
+            </Title>
+          </Anchor>
+          <Box direction="row" align="center" pad={{ between: "medium" }}>
+            <Paragraph margin="none">© CARRIER</Paragraph>
+            <Menu
+              direction="row"
+              size="medium"
+              dropAlign={{ right: "right" }}
+              style={{ marginRight: "50px" }}
+            >
+              <Anchor path="/">Home</Anchor>
+              <Anchor path={`/campaigns/${this.props.match.params.id}`}>
+                Back
+              </Anchor>
+              <Anchor path="/contactus">Contact Us</Anchor>
+              <Anchor path="#">About</Anchor>
+            </Menu>
+          </Box>
+        </Footer>
       </Section>
     );
   }
