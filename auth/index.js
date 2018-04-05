@@ -1,21 +1,6 @@
 const db = require("../database");
 const { client, expiration } = require("../database/connections");
 
-// TODO: Sessions should be stored in a database, or a cache, but not in
-// volatile memory.
-
-// Token->SessionInfo pairs
-let sessions = {};
-
-// // Returns the session given a token, else null.
-// const getSession = token => {
-//   return sessions[token] ? sessions[token] : null;
-// };
-
-// const deleteSession = token => {
-//   delete sessions[token];
-// };
-
 // Returns a new token.
 const genToken = () => {
   return "token-" + new Date().toISOString();
@@ -38,9 +23,14 @@ const attachSession = (request, response, next) => {
   if (token) {
     console.log("found a token in request", token);
     getSession(token, reply => {
+      console.log("Looked for a session, and found: ", reply);
       request.session = reply;
+      if (reply) {
+        console.log("added session to request.session");
+      } else {
+        console.log("Did not find a session.");
+      }
       // next must come after the session is set.
-      console.log("added session to request.session", reply);
       next();
     });
   } else {
@@ -72,8 +62,9 @@ const setSession = (input, callback) => {
       if (err) {
         console.log("redis error setting session", err);
         callback(err, null);
+      } else {
+        callback(null, results);
       }
-      callback(null, results);
     }
   );
 };
@@ -138,7 +129,6 @@ module.exports = {
   genToken,
   getSession,
   deleteSession,
-  sessions,
   attachSession,
   validateUserLogin,
   setSession,
