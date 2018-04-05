@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Provides access to user sessions via `request.session`
 app.use(auth.attachSession);
 // Declare static files
-app.use(express.static(__dirname + "/client/build"));
+const staticPath = __dirname + "/client/build";
+app.use(express.static(staticPath));
 
 const apiLimiter = function(request, response, next) {
   console.log("api limiter called");
@@ -44,8 +45,6 @@ const apiLimiter = function(request, response, next) {
     }
   });
 };
-
-//app.use("/exportHTML", apiLimiter);
 
 app.post("/contactUs", (req, res) => {
   console.log(req.body);
@@ -602,6 +601,11 @@ app.post("/auth", (request, response) => {
 });
 
 // SERVER SETUP ------------------------------------------------
+
+const path = require("path");
+app.get("*", (request, response) =>
+  response.sendFile(path.resolve(staticPath, "index.html"))
+);
 
 let port = process.env.PORT || 8080;
 
