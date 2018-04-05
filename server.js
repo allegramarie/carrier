@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Provides access to user sessions via `request.session`
 app.use(auth.attachSession);
 // Declare static files
-app.use(express.static(__dirname + "/client/build"));
+const staticPath = __dirname + "/client/build";
+app.use(express.static(staticPath));
 
 const apiLimiter = function(request, response, next) {
   console.log("api limiter called");
@@ -44,8 +45,6 @@ const apiLimiter = function(request, response, next) {
     }
   });
 };
-
-//app.use("/exportHTML", apiLimiter);
 
 app.post("/contactUs", (req, res) => {
   console.log(req.body);
@@ -106,8 +105,6 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
       }
       console.log(`Making message for ${JSON.stringify(contact)}`);
 
-      console.log(config);
-
       const trackingImageURL = `${config.HOSTING_LOCATION}/${
         contact.contactid
       }/${campaignId}/footer.png`;
@@ -139,7 +136,11 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     }
     sgMail
       .send(emails)
-      .then(sgResponse => db.updateCampaignStatusToSent(campaignId))
+      .then(sgResponse =>
+        db
+          .updateCampaignStatusToSent(campaignId)
+          .then(dbResponse => response.status(202).send({ msg: "Success" }))
+      )
       .catch(error => response.status(500).send({ error }));
   });
 });
@@ -541,15 +542,13 @@ app.post("/login", (request, response) => {
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
-      auth.setSession({ token, username, userID }, results => {
+      auth.setSession({ token, username, userID }, (error, results) => {
         console.log(
           "server.js :: /login :: setSession callback :: results -> ",
           results
         );
         response.send({ token, userID });
       });
-      // auth.setSession(token, { username, userID });
-      // response.send({ token, userID });
     } else {
       response.status(401).send({ err: "Bad Credentials: Access Denied" });
     }
@@ -602,6 +601,11 @@ app.post("/auth", (request, response) => {
 });
 
 // SERVER SETUP ------------------------------------------------
+
+const path = require("path");
+app.get("*", (request, response) =>
+  response.sendFile(path.resolve(staticPath, "index.html"))
+);
 
 let port = process.env.PORT || 8080;
 

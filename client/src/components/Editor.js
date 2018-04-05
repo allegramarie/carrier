@@ -18,6 +18,7 @@ import Menu from "grommet/components/Menu";
 import Paragraph from "grommet/components/Paragraph";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 import { getContacts } from "../actions";
+import carrierfly from "./carrierfly.png";
 
 class Editor extends Component {
   constructor(props) {
@@ -197,7 +198,7 @@ class Editor extends Component {
           <Anchor path="/">
             <Title>
               <img
-                src={carrierpigeon3}
+                src={carrierfly}
                 alt="LOGO"
                 style={{
                   position: "relative",

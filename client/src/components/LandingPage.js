@@ -13,6 +13,8 @@ import Menu from "grommet/components/Menu";
 import InfoPage from "./InfoPage.js";
 import carrierpigeon3 from "./carrier-pigeon3.png";
 import style from "../index.css";
+import carrierfly from "./carrierfly.png";
+import { Animated } from "react-animated-css";
 
 export default class LandingPage extends Component {
   render() {
@@ -115,18 +117,24 @@ export default class LandingPage extends Component {
         </Box>
         <Footer justify="between" colorIndex="grey-1" size="small">
           <Title>
-            <img
-              src={carrierpigeon3}
-              alt="LOGO"
-              style={{
-                position: "relative",
-                float: "left",
-                height: "60px",
-                marginTop: "5px",
-                marginLeft: "65px",
-                marginBottom: "5px"
-              }}
-            />
+            <Animated
+              animationIn="fadeInLeft"
+              animationOut="wobble infinite"
+              isVisible={true}
+            >
+              <img
+                src={carrierfly}
+                alt="LOGO"
+                style={{
+                  position: "relative",
+                  float: "left",
+                  height: "60px",
+                  marginTop: "5px",
+                  marginLeft: "65px",
+                  marginBottom: "5px"
+                }}
+              />
+            </Animated>
             Carrier
           </Title>
           <Box direction="row" align="center" pad={{ between: "medium" }}>

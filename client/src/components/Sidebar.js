@@ -12,7 +12,7 @@ class Sidebar extends Component {
   render() {
     return (
       <GrommetSidebar size="small" colorIndex="neutral-3" fixed={true}>
-        <Anchor href="/about">
+        <Anchor href="/about" className="flash">
           <img
             src={carrierpigeon3}
             alt="LOGO"
