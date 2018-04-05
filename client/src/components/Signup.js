@@ -46,7 +46,7 @@ class Signup extends Component {
 
   render() {
     return this.state.redirect ? (
-      <Redirect to="/login" />
+      <Redirect to="/" />
     ) : (
       <Section align="center">
         <Box flex="center" seperator={false} fixed={false}>
