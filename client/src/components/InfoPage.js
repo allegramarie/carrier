@@ -9,6 +9,7 @@ import people from "./people.svg";
 import Meter from "grommet/components/Meter";
 import Value from "grommet/components/Value";
 import WorldMap from "grommet/components/WorldMap";
+import style from "../index.css";
 
 export default class infoPage extends Component {
   constructor() {
@@ -56,12 +57,12 @@ export default class infoPage extends Component {
         <Box className="infographic-start" direction="column">
           <Box justify="center" align="start">
             <Box direction="row">
-              <Headline size="medium" strong={true}>
+              <Headline size="medium" strong={true} className="Roboto">
                 Worldwide Email Usage
               </Headline>
             </Box>
             <Box direction="column">
-              <Heading tag="h3">
+              <Heading tag="h3" className="Lato">
                 Email use worldwide will top 3 billion users by 2020. Currently
                 205 billion emails are sent every day. This figure is expected
                 to grow at an average annual rate of 3%, reaching over 246
@@ -86,15 +87,20 @@ export default class infoPage extends Component {
           >
             {statImg}
             <Box direction="column" style={{ marginLeft: "100px" }}>
-              <Heading tag="h4" strong={true} margin="none">
+              <Heading tag="h4" strong={true} margin="none" className="Lato">
                 Nearly
               </Heading>
-              <Heading tag="h1" strong={true}>
+              <Heading tag="h1" strong={true} className="Roboto">
                 88
-                <span className="unit">%</span>
-                <span className="support"> (or 2.22B people)</span>
+                <span className="unit" className="Roboto">
+                  %
+                </span>
+                <span className="support" className="Roboto">
+                  {" "}
+                  (or 2.22B people)
+                </span>
               </Heading>
-              <Heading tag="h3">
+              <Heading tag="h3" className="Lato">
                 of smartphone users actively check emails on their phones.
               </Heading>
             </Box>

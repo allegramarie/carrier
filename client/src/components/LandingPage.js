@@ -12,6 +12,7 @@ import Title from "grommet/components/Title";
 import Menu from "grommet/components/Menu";
 import InfoPage from "./InfoPage.js";
 import carrierpigeon3 from "./carrier-pigeon3.png";
+import style from "../index.css";
 
 export default class LandingPage extends Component {
   render() {
@@ -32,16 +33,40 @@ export default class LandingPage extends Component {
                 bottom: "0px"
               }}
               heading={
-                <Heading strong={true}>
+                <Heading
+                  strong={true}
+                  className="Roboto"
+                  style={{
+                    fontWeight: "bold"
+                  }}
+                >
                   Send eMails Faster, Easier, for Free
                 </Heading>
               }
               description={
-                <p style={{ color: "orange" }}>
-                  Sign Up for a free acount for a full User experience
+                <p
+                  className="Lato"
+                  style={{
+                    color: "orange",
+                    fontSize: "116%",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Sign up for a free acount to begin
                 </p>
               }
-              label={<p style={{ color: "orange" }}>CARRIER</p>}
+              label={
+                <p
+                  style={{
+                    color: "orange",
+                    fontWeight: "bold",
+                    fontSize: "125%"
+                  }}
+                  className="Lato"
+                >
+                  CARRIER
+                </p>
+              }
               size="large"
               link={<Anchor path="/signup" primary={true} label="Learn More" />}
             />
@@ -54,10 +79,16 @@ export default class LandingPage extends Component {
             textAlign="center"
             size={{ width: { max: "xxlarge" } }}
           >
-            <Heading tag="h1" strong={true} margin="none">
-              There's MailChimp, then there's Carrier.
+            <Heading
+              tag="h1"
+              strong={true}
+              margin="none"
+              className="Roboto"
+              style={{ fontWeight: "medium" }}
+            >
+              There's MailChimp. <br />And now there's Carrier.
             </Heading>
-            <Paragraph size="xlarge" width="large">
+            <Paragraph size="xlarge" width="large" className="Lato">
               With Carrier, send up to 100 custom templated emails daily for
               Free. Manage multiple campaigns, keep track of email statistics,
               send bundled emails, all in 3 steps.
@@ -71,7 +102,12 @@ export default class LandingPage extends Component {
             size={{ width: "xxlarge" }}
             pad={{ horizontal: "large" }}
           >
-            <Heading tag="h2" strong={true}>
+            <Heading
+              tag="h2"
+              strong={true}
+              className="Roboto"
+              style={{ fontWeight: "bold" }}
+            >
               About Us
             </Heading>
           </Box>

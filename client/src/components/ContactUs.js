@@ -18,6 +18,7 @@ import yuyu from "./yuyu.png";
 import allegra from "./allegra.png";
 import eric from "./eric.png";
 import axios from "axios";
+import style from "../index.css";
 
 export default class ContactUs extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ export default class ContactUs extends Component {
           margin="none"
           strong={true}
           style={{ marginTop: "100px", marginBottom: "20px" }}
+          className="Roboto"
         >
           Contact Us
         </Heading>
@@ -108,20 +110,20 @@ export default class ContactUs extends Component {
               }}
             />
           </Footer>
-          <Box style={{ height: "50px" }}>
+          <Box style={{ height: "50px" }} className="Lato">
             <Box style={{ position: "absolute", right: -880, top: 39 }}>
               <Image
                 src={yuyu}
                 size="small"
                 full="vertical"
-                caption={"Developer-Eugene Dong"}
+                caption={"Developer: Eugene Dong"}
                 alt="Sample alt"
               />
               <Image
                 src={eric}
                 size="small"
                 full="vertical"
-                caption={"Developer-Eric Shum"}
+                caption={"Developer: Eric Shum"}
                 alt="Sample alt"
               />
             </Box>
@@ -132,13 +134,16 @@ export default class ContactUs extends Component {
                 top: 50,
                 marginTop: "-50px"
               }}
+              className="Lato"
             >
-              <h3 style={{ marginBottom: "10px" }}>Meet The Team</h3>
+              <h3 style={{ marginBottom: "10px" }} className="Lato">
+                Meet The Team
+              </h3>
               <Image
                 src={allegra}
                 size="small"
                 full="vertical"
-                caption="Product Owner-Allegra Berndt"
+                caption="Product Owner: Allegra Berndt"
                 alt="Sample alt"
                 style={{ textColor: "white" }}
               />
@@ -146,7 +151,7 @@ export default class ContactUs extends Component {
                 src={chojnacki}
                 size="small"
                 full="vertical"
-                caption="Senior Developer-Alex chojnacki"
+                caption="Senior Developer: Alex Chojnacki"
                 alt="Sample alt"
               />
             </Box>

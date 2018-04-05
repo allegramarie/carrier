@@ -4,6 +4,14 @@ body {
   font-family: sans-serif;
 }
 
+.Roboto {
+  font-family: Roboto, sans-serif;
+}
+
+.Lato {
+  font-family: Lato, sans-serif;
+}
+
 .grommetux-split__column--flex {
   flex: 0;
 }

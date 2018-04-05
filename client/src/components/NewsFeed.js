@@ -8,6 +8,7 @@ import SocialTwitterIcon from "grommet/components/icons/base/SocialTwitter";
 import SocialFacebookIcon from "grommet/components/icons/base/SocialFacebook";
 import SocialInstagramIcon from "grommet/components/icons/base/SocialInstagram";
 import LinkNextIcon from "grommet/components/icons/base/LinkNext";
+import style from "../index.css";
 
 export default class NewsFeed extends Component {
   _onClickCard(path, event) {
