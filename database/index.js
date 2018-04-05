@@ -79,12 +79,12 @@ const getUserGroups = function(input, callback) {
 
 const userOpenedEmail = function(contact, campaign, callback) {
   pool.query(
-    `update campaignContacts opened = 'true' where campaignID ='${campaign}' and contactID = '${contact}';`,
+    `UPDATE campaignContacts SET opened = true WHERE campaignID ='${campaign}' AND contactID = '${contact}';`,
     (err, results) => {
       if (err) {
         console.log("error inserting open boolean", err);
       } else {
-        callback(result);
+        callback(results);
       }
     }
   );

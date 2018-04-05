@@ -66,6 +66,8 @@ app.post("/contactUs", (req, res) => {
     });
 });
 
+// TODO: This is a great place to factor chunks of code into smaller functions.
+// See email building section.
 // TODO: This should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
   console.log("We are sending an email!");
@@ -79,6 +81,20 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
     sgMail.setApiKey(`${config.TOKEN}`);
     sgMail.setSubstitutionWrappers("{{", "}}");
     const emails = [];
+
+    const imgHTML = '<img src="{{trackingImageURL}}"/>';
+    const unsubscribeHTML = `<p>Want to unsubscribe? Click <a href="{{unsubscribeURL}}">here</a>`;
+    const combinedHTML = imgHTML + unsubscribeHTML;
+
+    // Get the closing body tag
+    const bodyCloseIndex = htmlEmailContent.indexOf("</body>");
+    // Insert the combinedHTML
+    htmlEmailContent =
+      htmlEmailContent.slice(0, bodyCloseIndex) +
+      combinedHTML +
+      htmlEmailContent.slice(bodyCloseIndex);
+    console.log(htmlEmailContent);
+
     //for each campaign contact, build their message object and add it to
     //the emails array.
     for (const contact of contacts) {
@@ -88,6 +104,18 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
         continue;
       }
       console.log(`Making message for ${JSON.stringify(contact)}`);
+
+      console.log(config);
+
+      const trackingImageURL = `${config.HOSTING_LOCATION}/${
+        contact.contactid
+      }/${campaignId}/footer.png`;
+      const unsubscribeURL = `${config.HOSTING_LOCATION}/unsubscribe/${
+        contact.contactid
+      }`;
+      console.log("trackingImageURL: ", trackingImageURL);
+      console.log("unsubscribeURL: ", unsubscribeURL);
+
       const msg = {
         subject,
         to: contact.email,
@@ -101,12 +129,8 @@ app.post("/exportHTML", apiLimiter, (request, response) => {
         ],
         // Assuming contact.id is userId
         substitutions: {
-          trackingImageURL: `${contact.contactid}/${campaignId}/footer.png`,
-          // TODO: Change url for production
-          unsubscribeURL: `http://localhost:3000/unsubscribe/${
-            contact.contactid
-          }`,
-          foo: "BAR"
+          trackingImageURL,
+          unsubscribeURL
         },
         sendAt: parseInt(`${sendAt}`)
       };
@@ -125,7 +149,7 @@ app.get("/:id/:cid/footer.png", (request, response) => {
   var campaignID = request.params.cid;
   //also need campaign id
   response.set("Content-Type", "image/png");
-  res.sendFile("./footer.png", err => {
+  response.sendFile(__dirname + "/footer.png", err => {
     if (err) {
       console.log("sending the file", err);
     } else {
