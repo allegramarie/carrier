@@ -72,7 +72,11 @@ const Auth = {
       .catch(Promise.reject);
   },
   logout() {
-    axios.post("/logout", { token: this.token });
+    console.log("logging out");
+    axios
+      .post("/logout", { token: this.token })
+      .then(res => console.log("awesome, it worked"))
+      .catch(err => console.log("it did not work"));
     this.token = "";
     this.isAuthenticated = false;
     this.saveState();

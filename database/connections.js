@@ -1,10 +1,12 @@
-var redis = require("redis"),
-  client = redis.createClient();
-var expiration = 86400;
+const redis = require("redis");
+const expiration = 86400;
 
-const incrementConnections = function(input, callback) {
+// Redis defaults to port 6379; if running locally, no config required
+const client = redis.createClient();
+
+const incrementConnections = (input, callback) => {
   console.log("input: ", input);
-  client.exists("connections", function(err, reply) {
+  client.exists("connections", (err, reply) => {
     if (reply) {
       while (input > 0) {
         client.incr("connections", (err, reply) => {
@@ -19,8 +21,8 @@ const incrementConnections = function(input, callback) {
   });
 };
 
-const returnConnectionsCount = function(callback) {
-  client.exists("connections", function(err, reply) {
+const returnConnectionsCount = callback => {
+  client.exists("connections", (err, reply) => {
     if (reply) {
       client.get("connections", (err, reply) => {
         console.log("Returned the count from redis", reply);
@@ -50,8 +52,10 @@ client.on("connect", function() {
 });
 
 module.exports = {
+  client,
   incrementConnections,
-  returnConnectionsCount
+  returnConnectionsCount,
+  expiration
 };
 
 //brew install redis

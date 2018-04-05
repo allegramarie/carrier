@@ -68,7 +68,7 @@ app.post("/contactUs", (req, res) => {
 
 // TODO: This should really be `/send`
 app.post("/exportHTML", apiLimiter, (request, response) => {
-  console.log("We are sending an email!");
+  console.log("We are sending an email!", request.body.contacts);
   let { campaignId, htmlEmailContent, sendAt, contacts } = request.body;
   // sendAt = parseInt(sendAt);
   console.log(sendAt);
@@ -496,8 +496,15 @@ app.post("/login", (request, response) => {
     // If credentials are valid, generate a new token and return it.
     if (isValid) {
       const token = auth.genToken();
-      auth.setSession(token, { username, userID });
-      response.send({ token, userID });
+      auth.setSession({ token, username, userID }, results => {
+        console.log(
+          "server.js :: /login :: setSession callback :: results -> ",
+          results
+        );
+        response.send({ token, userID });
+      });
+      // auth.setSession(token, { username, userID });
+      // response.send({ token, userID });
     } else {
       response.status(401).send({ err: "Bad Credentials: Access Denied" });
     }
@@ -511,27 +518,29 @@ app.post("/signup", (request, response) => {
     .then(data => {
       const userID = data.rows[0].id;
       const token = auth.genToken();
-      // // TODO: Remove hard coded userID
-      auth.setSession(token, username);
-      response.send({ token, userID });
+      auth.setSession({ token, username, userID }, (err, results) => {
+        console.log(
+          "server.js :: /signup :: setSession callback :: results -> ",
+          results
+        );
+        response.send({ token, userID });
+      });
     })
     .catch(err => {
       response.status(400).send({ error: "Bad Request" });
     });
 });
 
-// response.status(400).send({ error: "Bad Request" });
-// } else {
-// const userID = res.rows[0].id;
-// const token = auth.genToken();
-// // TODO: Remove hard coded userID
-// auth.setSession(token, username);
-// response.send({ token, userID });
-
 app.post("/logout", (request, response) => {
+  console.log(request.session);
   if (request.session) {
-    auth.deleteSession(request.session.token);
-    response.send({ msg: "User session destroyed" });
+    auth.deleteSession(request.session.token, (err, results) => {
+      console.log("User session destroyed");
+      console.log(results);
+      response.send({ msg: "Success!" });
+    });
+    // auth.deleteSession(request.session.token);
+    // response.send({ msg: "User session destroyed" });
   } else {
     response.status(401).send({ msg: "Session not valid" });
   }
