@@ -47,8 +47,9 @@ class Profile extends React.Component {
   }
 
   handleKeyPress = event => {
+    var checker = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (event.key === "Enter") {
-      if (this.state.email.length > 1) {
+      if (checker.test(this.state.email)) {
         axios
           .post("/saveProfile", {
             data: this.state,

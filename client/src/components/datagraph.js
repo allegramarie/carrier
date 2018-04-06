@@ -135,7 +135,7 @@ class DataGraph extends React.Component {
   //     float: left;
   render() {
     return (
-      <div>
+      <div style={{}}>
         <h2
           style={{
             textAlign: "center",
@@ -170,7 +170,7 @@ class DataGraph extends React.Component {
           justify="between"
           colorIndex="grey-1"
           size="small"
-          style={{ position: "fixed", bottom: 0 }}
+          style={{ position: "absolute", bottom: 0 }}
         >
           <Title>
             <img
