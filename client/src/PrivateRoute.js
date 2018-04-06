@@ -10,6 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   let isAllowed = Auth.isAuthenticated;
   let redirectTo = "/about";
 
+  console.log("PrivateRoute :: render :: rest -> ", rest);
   if (rest.path.includes("campaigns/")) {
     // Get the campaignId from the route
     const campaignId = Number(rest.computedMatch.params.id);
@@ -29,9 +30,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     const groupId = Number(rest.computedMatch.params.id);
     // Check in campaigns if this campaign belongs to the user
     let usersGroupIds = [];
-    for (const camp of rest.campaigns) {
+    for (const camp of rest.groups) {
       usersGroupIds.push(camp.id);
     }
+    console.log("PrivateRoute :: usersGroupIds -> ", usersGroupIds);
+    console.log("PrivateRoute :: groupId -> ", groupId);
     // If not,
     //   set redirect route to 404
     if (!usersGroupIds.includes(groupId)) {

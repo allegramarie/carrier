@@ -23,13 +23,14 @@ class NewGroup extends Component {
     super(props);
     this.state = {
       name: "",
-      cid: null,
+      gid: null,
       show: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+
   handleSubmit(e) {
     e.preventDefault();
     const { name } = this.state;
@@ -37,7 +38,7 @@ class NewGroup extends Component {
       .dispatch(addGroup(name, Auth.userID))
       .then(() => {
         this.setState({
-          cid: this.props.groups[this.props.groups.length - 1],
+          gid: this.props.groups[this.props.groups.length - 1].id,
           name: "",
           show: true
         });
@@ -58,7 +59,7 @@ class NewGroup extends Component {
 
   render() {
     if (this.state.show === true) {
-      return <Redirect to={`/groups/${this.state.cid.rows[0].id}`} />;
+      return <Redirect to={`/groups/${this.state.gid}`} />;
     }
     return (
       <div>

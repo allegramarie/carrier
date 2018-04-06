@@ -129,12 +129,13 @@ export function getGroups(userID) {
 }
 
 export function addGroup(name, userID) {
-  const payload = { name, userID };
+  let payload = { name, userID };
   return function(dispatch) {
     return axios
       .post("/newGroup", payload)
       .then(response => {
-        dispatch({ type: types.ADD_GROUP, payload: response.data });
+        payload = { ...payload, id: response.data.rows[0].id };
+        dispatch({ type: types.ADD_GROUP, payload });
         return response.data;
       })
       .catch(err => {
