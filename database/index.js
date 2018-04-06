@@ -2,7 +2,7 @@ var format = require("pg-format");
 const { Pool } = require("pg");
 const config = require("../config.js");
 
-const pool = true
+const pool = config.prod
   ? // If true, use production.
     new Pool({
       host: config.host,
