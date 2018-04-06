@@ -48,12 +48,13 @@ const Auth = {
         userID: ${userID}
         `);
         this.token = token;
+        this.isAuthenticated = true;
         this.userID = userID;
         this.saveState();
         return Promise.resolve(response.data);
       })
       .catch(error => {
-        console.log("Returned a bad?");
+        console.log("Singup failed");
         return Promise.reject(error);
       });
   },
@@ -75,11 +76,14 @@ const Auth = {
     console.log("logging out");
     axios
       .post("/logout", { token: this.token })
-      .then(res => console.log("awesome, it worked"))
+      .then(res => {
+        console.log("awesome, it worked");
+        this.token = "";
+        this.userID = "";
+        this.isAuthenticated = false;
+        this.saveState();
+      })
       .catch(err => console.log("it did not work"));
-    this.token = "";
-    this.isAuthenticated = false;
-    this.saveState();
   }
 };
 

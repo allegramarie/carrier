@@ -576,9 +576,13 @@ app.post("/signup", (request, response) => {
 });
 
 app.post("/logout", (request, response) => {
-  console.log(request.session);
+  const { token } = request.body;
+  console.log("app.post/logout :: request.session -> ", request.session);
   if (request.session) {
-    auth.deleteSession(request.session.token, (err, results) => {
+    auth.deleteSession(token, (err, results) => {
+      if (err) {
+        throw err;
+      }
       console.log("User session destroyed");
       console.log(results);
       response.send({ msg: "Success!" });

@@ -18,17 +18,17 @@ const validateUserLogin = (username, password) => {
 
 // Middleware that allows every session to access request.session
 const attachSession = (request, response, next) => {
-  console.log("Trying to attach a session");
+  console.log("attachSession :: Trying to attach a session");
   const { token } = request.body;
   if (token) {
-    console.log("found a token in request", token);
-    getSession(token, reply => {
-      console.log("Looked for a session, and found: ", reply);
+    console.log("attachSession :: found a token in request", token);
+    getSession(token, (err, reply) => {
+      console.log("attachSession :: Looked for a session, and found: ", reply);
       request.session = reply;
       if (reply) {
-        console.log("added session to request.session");
+        console.log("attachSession :: added session to request.session");
       } else {
-        console.log("Did not find a session.");
+        console.log("attachSession :: Did not find a session.");
       }
       // next must come after the session is set.
       next();
@@ -74,19 +74,25 @@ const getSession = (token, callback) => {
   client.hmget(token, "username", "userID", (err, reply) => {
     console.log("getting the session from redis");
     console.log("reply: ", reply);
+    // Convert redis array to session object
+    const session = {
+      username: reply[0],
+      userID: reply[1]
+    };
+    console.log(session);
     if (err) {
       console.log("error getting session", err);
       callback(err, null);
     } else {
-      console.log("got session!", reply);
-      callback(null, reply);
+      console.log("got session!", session);
+      callback(null, session);
     }
   });
 };
 
 const deleteSession = (token, callback) => {
   console.log("delete this session", token);
-  client.hdel(token, (err, response) => {
+  client.hdel(token, "username", "userID", (err, response) => {
     if (err) {
       console.log("error deleting session", err);
       callback(err, null);
