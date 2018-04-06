@@ -44,7 +44,7 @@ class NewCampaign extends Component {
         this.setState({
           cid: this.props.campaigns.campaigns[
             this.props.campaigns.campaigns.length - 1
-          ],
+          ].id,
           nameInput: "",
           subjectInput: "",
           show: true
@@ -66,7 +66,7 @@ class NewCampaign extends Component {
 
   render() {
     if (this.state.show === true) {
-      return <Redirect to={`/campaigns/${this.state.cid.rows[0].id}`} />;
+      return <Redirect to={`/campaigns/${this.state.cid}`} />;
     }
     return (
       <Split flex="right" separator={false} fixed={false}>

@@ -11,7 +11,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   let redirectTo = "/about";
 
   if (rest.path.includes("campaigns/")) {
-    console.log("ROUTE INCLUDES CAMPAIGNS");
     // Get the campaignId from the route
     const campaignId = Number(rest.computedMatch.params.id);
     // Check in campaigns if this campaign belongs to the user
@@ -26,7 +25,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       redirectTo = fourohfour;
     }
   } else if (rest.path.includes("groups/")) {
-    console.log("ROUTE INCLUDES GROUPS");
     // Get the groupId from the route
     const groupId = Number(rest.computedMatch.params.id);
     // Check in campaigns if this campaign belongs to the user
@@ -41,7 +39,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       redirectTo = fourohfour;
     }
   } else if (rest.path.includes("profile/")) {
-    console.log("ROUTE INCLUDES PROFILE");
     // Get the profileId from the route
     const profileId = Number(rest.computedMatch.params.id);
     // Check against Auth.userID

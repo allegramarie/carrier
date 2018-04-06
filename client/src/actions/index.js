@@ -5,12 +5,17 @@ import axios from "axios";
 // export const addCampaign = () => ({ type: types.ADD_CAMPAIGN }); // Add other fields when we know what needs to be passed to the reducer.
 //export const deleteTodo = id => ({ type: types.DELETE_CAMPAIGN, id, //other info })
 export function addCampaign(name, status, subject, userID) {
-  const payload = { name, status, subject, userID };
+  let payload = { name, status, subject, userID };
   return function(dispatch) {
     return axios
       .post("/newCampaign", payload)
       .then(response => {
-        dispatch({ type: types.ADD_CAMPAIGN, payload: response.data });
+        payload = {
+          ...payload,
+          id: response.data.rows[0].id,
+          templateurl: null
+        };
+        dispatch({ type: types.ADD_CAMPAIGN, payload });
         return response.data;
       })
       .catch(err => {
