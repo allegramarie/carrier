@@ -1,0 +1,355 @@
+{
+  "counters": {
+    "u_row": 5,
+    "u_column": 12,
+    "u_content_text": 2,
+    "u_content_divider": 1,
+    "u_content_image": 6
+  },
+  "body": {
+    "rows": [
+      {
+        "cells": [1],
+        "columns": [
+          {
+            "contents": [
+              {
+                "type": "text",
+                "values": {
+                  "color": "#000",
+                  "_meta": {
+                    "htmlID": "u_content_text_1",
+                    "htmlClassNames": "u_content_text"
+                  },
+                  "text":
+                    "<p style=\"font-size: 14px; line-height: 120%;\"><span style=\"text-decoration: underline; font-size: 14px; line-height: 16.8px;\"><span style=\"font-size: 24px; line-height: 28.8px; font-family: 'comic sans ms', sans-serif;\"><strong>Welcome to CARRIER</strong></span></span></p>",
+                  "draggable": true,
+                  "containerPadding": "10px",
+                  "deletable": true,
+                  "selectable": true,
+                  "textAlign": "center",
+                  "lineHeight": "120%"
+                }
+              },
+              {
+                "type": "divider",
+                "values": {
+                  "containerPadding": "10px",
+                  "_meta": {
+                    "htmlID": "u_content_divider_1",
+                    "htmlClassNames": "u_content_divider"
+                  },
+                  "selectable": true,
+                  "draggable": true,
+                  "deletable": true,
+                  "width": "100%",
+                  "border": {
+                    "borderTopWidth": "1px",
+                    "borderTopStyle": "solid",
+                    "borderTopColor": "#CCC"
+                  },
+                  "textAlign": "center"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_2",
+                "htmlClassNames": "u_column"
+              }
+            }
+          }
+        ],
+        "values": {
+          "backgroundColor": "#ffffff",
+          "backgroundImage": {
+            "url": "",
+            "fullWidth": true,
+            "repeat": false,
+            "center": true,
+            "cover": false
+          },
+          "padding": "10px",
+          "columnsBackgroundColor": "rgba(255,255,255,0)",
+          "_meta": {
+            "htmlID": "u_row_2",
+            "htmlClassNames": "u_row"
+          },
+          "selectable": true,
+          "draggable": true,
+          "deletable": true
+        }
+      },
+      {
+        "cells": [1, 1, 1, 1],
+        "columns": [
+          {
+            "contents": [
+              {
+                "type": "image",
+                "values": {
+                  "maxWidth": "100%",
+                  "src": {
+                    "url":
+                      "https://unroll-images-production.s3.amazonaws.com/projects/618/1521657017113-Screen%20Shot%202018-03-21%20at%202.28.06%20PM.png",
+                    "width": 692,
+                    "height": 484
+                  },
+                  "_meta": {
+                    "htmlID": "u_content_image_3",
+                    "htmlClassNames": "u_content_image"
+                  },
+                  "draggable": true,
+                  "containerPadding": "0px",
+                  "deletable": true,
+                  "selectable": true,
+                  "action": {
+                    "url": "",
+                    "target": ""
+                  },
+                  "altText": "Image",
+                  "fullWidth": true,
+                  "textAlign": "center"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_9",
+                "htmlClassNames": "u_column"
+              }
+            }
+          },
+          {
+            "contents": [
+              {
+                "type": "image",
+                "values": {
+                  "maxWidth": "100%",
+                  "src": {
+                    "url":
+                      "https://unroll-images-production.s3.amazonaws.com/projects/618/1521657109134-Screen%20Shot%202018-03-21%20at%202.31.32%20PM.png",
+                    "width": 620,
+                    "height": 478
+                  },
+                  "_meta": {
+                    "htmlID": "u_content_image_4",
+                    "htmlClassNames": "u_content_image"
+                  },
+                  "draggable": true,
+                  "containerPadding": "0px",
+                  "deletable": true,
+                  "selectable": true,
+                  "action": {
+                    "url": "",
+                    "target": ""
+                  },
+                  "altText": "Image",
+                  "fullWidth": false,
+                  "textAlign": "center"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_10",
+                "htmlClassNames": "u_column"
+              }
+            }
+          },
+          {
+            "contents": [
+              {
+                "type": "image",
+                "values": {
+                  "maxWidth": "100%",
+                  "src": {
+                    "url":
+                      "https://unroll-images-production.s3.amazonaws.com/projects/618/1521657219312-Screen%20Shot%202018-03-21%20at%202.31.32%20PM.png",
+                    "width": 620,
+                    "height": 478
+                  },
+                  "_meta": {
+                    "htmlID": "u_content_image_5",
+                    "htmlClassNames": "u_content_image"
+                  },
+                  "draggable": true,
+                  "containerPadding": "0px",
+                  "deletable": true,
+                  "selectable": true,
+                  "action": {
+                    "url": "",
+                    "target": ""
+                  },
+                  "altText": "Image",
+                  "fullWidth": false,
+                  "textAlign": "center"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_11",
+                "htmlClassNames": "u_column"
+              }
+            }
+          },
+          {
+            "contents": [
+              {
+                "type": "image",
+                "values": {
+                  "maxWidth": "100%",
+                  "src": {
+                    "url":
+                      "https://unroll-images-production.s3.amazonaws.com/projects/618/1521657058179-Screen%20Shot%202018-03-21%20at%202.28.06%20PM.png",
+                    "width": 692,
+                    "height": 484
+                  },
+                  "_meta": {
+                    "htmlID": "u_content_image_6",
+                    "htmlClassNames": "u_content_image"
+                  },
+                  "draggable": true,
+                  "containerPadding": "0px",
+                  "deletable": true,
+                  "selectable": true,
+                  "action": {
+                    "url": "",
+                    "target": ""
+                  },
+                  "altText": "Image",
+                  "fullWidth": false,
+                  "textAlign": "center"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_12",
+                "htmlClassNames": "u_column"
+              }
+            }
+          }
+        ],
+        "values": {
+          "backgroundColor": "rgba(255,255,255,0)",
+          "backgroundImage": {
+            "url": "",
+            "fullWidth": true,
+            "repeat": false,
+            "center": true,
+            "cover": false
+          },
+          "padding": "10px",
+          "columnsBackgroundColor": "rgba(255,255,255,0)",
+          "_meta": {
+            "htmlID": "u_row_5",
+            "htmlClassNames": "u_row"
+          },
+          "selectable": true,
+          "draggable": true,
+          "deletable": true
+        }
+      },
+      {
+        "cells": [1],
+        "columns": [
+          {
+            "contents": [
+              {
+                "type": "image",
+                "values": {
+                  "maxWidth": "100%",
+                  "src": {
+                    "url":
+                      "https://unroll-images-production.s3.amazonaws.com/projects/618/1521655526096-drags.jpg",
+                    "width": 236,
+                    "height": 276
+                  },
+                  "_meta": {
+                    "htmlID": "u_content_image_1",
+                    "htmlClassNames": "u_content_image"
+                  },
+                  "draggable": true,
+                  "containerPadding": "10px",
+                  "deletable": true,
+                  "selectable": true,
+                  "action": {
+                    "url": "",
+                    "target": ""
+                  },
+                  "altText": "Image",
+                  "fullWidth": false,
+                  "textAlign": "center"
+                }
+              },
+              {
+                "type": "text",
+                "values": {
+                  "color": "#000",
+                  "_meta": {
+                    "htmlID": "u_content_text_2",
+                    "htmlClassNames": "u_content_text"
+                  },
+                  "text":
+                    "<p style=\"line-height: 120%; font-size: 14px;\">Lorem ipsum dolor sit amet, vix partem intellegat at, quis agam mediocritatem cum et. Ei cum melius definiebas, sint audiam dignissim eu mea, invenire comprehensam sit et. Alienum nostrum dissentiunt ex nec. Eum id everti deseruisse.bbnkjnj</p>\n<p style=\"line-height: 120%; font-size: 14px;\">&nbsp;</p>\n<p style=\"line-height: 120%; font-size: 14px;\">Id nam veritus invenire pericula. Hinc ceteros incorrupte est ne, cum utinam option et, et eam doctus quaerendum. Vel evertitur conceptam et, pro volumus patrioque cu, cum cu dicta accusam interpretaris. Agam oporteat definitionem sit an, in per mundi albucius hendrerit, suas tollit quidam pri id.</p>\n<p style=\"line-height: 120%; font-size: 14px;\">&nbsp;</p>\n<p style=\"line-height: 120%; font-size: 14px;\">Pri in liberavisse delicatissimi, mei tritani tincidunt ut, ex mei vitae periculis. Cu graeci interpretaris pri, per meliore fuisset ut, mutat perpetua id his. Splendide ullamcorper comprehensam has ex, id sea ubique putent. Facer inermis pro at, altera iisque ex vel. No commune referrentur nec. Mel placerat antiopam no.</p>\n<p style=\"line-height: 120%; font-size: 14px;\">&nbsp;</p>\n<p style=\"line-height: 120%; font-size: 14px;\">In vel quas illud. Has natum tation id, ei utamur interpretaris vix. Eu usu mollis quaeque nusquam, ex eam dico exerci doctus, pro ut modo regione percipit. Ipsum idque dicunt an mel, ea legendos sensibus cotidieque mei.</p>\n<p style=\"line-height: 120%; font-size: 14px;\">&nbsp;</p>\n<p style=\"line-height: 120%; font-size: 14px;\">Nec ullum contentiones ei. Zril fastidii ea vix, fugit summo oblique nam te. Dolore verterem oportere mel in, integre conclusionemque pri eu, no dissentias accommodare est. An mea lorem antiopam assentior, duis alterum deseruisse cum cu. Pro eu graece intellegat, ius te commodo graecis. Modo principes adversarium pro an.</p>",
+                  "draggable": true,
+                  "containerPadding": "10px",
+                  "deletable": true,
+                  "selectable": true,
+                  "textAlign": "left",
+                  "lineHeight": "120%"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_1",
+                "htmlClassNames": "u_column"
+              }
+            }
+          }
+        ],
+        "values": {
+          "backgroundColor": "#ffffff",
+          "backgroundImage": {
+            "url": "",
+            "fullWidth": true,
+            "repeat": false,
+            "center": true,
+            "cover": false
+          },
+          "padding": "10px",
+          "columnsBackgroundColor": "rgba(255,255,255,0)",
+          "_meta": {
+            "htmlID": "u_row_1",
+            "htmlClassNames": "u_row"
+          },
+          "selectable": true,
+          "draggable": true,
+          "deletable": true
+        }
+      }
+    ],
+    "values": {
+      "backgroundColor": "#ffffff",
+      "backgroundImage": {
+        "url": "",
+        "fullWidth": true,
+        "repeat": false,
+        "center": true,
+        "cover": false
+      },
+      "contentWidth": "500px",
+      "fontFamily": {
+        "label": "Arial",
+        "value": "arial,helvetica,sans-serif"
+      },
+      "_meta": {
+        "htmlID": "u_body",
+        "htmlClassNames": "u_body"
+      }
+    }
+  }
+}

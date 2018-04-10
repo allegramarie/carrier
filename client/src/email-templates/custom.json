@@ -1,0 +1,82 @@
+{
+  "counters": {
+    "u_row": 1,
+    "u_column": 1,
+    "u_content_text": 1
+  },
+  "body": {
+    "rows": [
+      {
+        "cells": [1],
+        "columns": [
+          {
+            "contents": [
+              {
+                "type": "text",
+                "values": {
+                  "color": "#000",
+                  "_meta": {
+                    "htmlID": "u_content_text_1",
+                    "htmlClassNames": "u_content_text"
+                  },
+                  "text":
+                    "<p style=\"font-size: 14px; line-height: 120%;\">This is a sample email template.</p>\n<p style=\"font-size: 14px; line-height: 120%;\">&nbsp;</p>\n<p style=\"font-size: 14px; line-height: 120%;\">Feel free to modify this or create new templates.</p>",
+                  "draggable": true,
+                  "containerPadding": "20px",
+                  "deletable": true,
+                  "selectable": true,
+                  "textAlign": "left",
+                  "lineHeight": "120%"
+                }
+              }
+            ],
+            "values": {
+              "_meta": {
+                "htmlID": "u_column_1",
+                "htmlClassNames": "u_column"
+              }
+            }
+          }
+        ],
+        "values": {
+          "backgroundColor": "rgba(255,255,255,0)",
+          "backgroundImage": {
+            "url": "",
+            "fullWidth": true,
+            "repeat": false,
+            "center": true,
+            "cover": false
+          },
+          "padding": "10px",
+          "columnsBackgroundColor": "#ffffff",
+          "_meta": {
+            "htmlID": "u_row_1",
+            "htmlClassNames": "u_row"
+          },
+          "selectable": true,
+          "draggable": true,
+          "deletable": true
+        }
+      }
+    ],
+    "values": {
+      "backgroundColor": "#e7e7e7",
+      "backgroundImage": {
+        "url": "",
+        "fullWidth": true,
+        "repeat": false,
+        "center": true,
+        "cover": false
+      },
+      "contentWidth": "600px",
+      "fontFamily": {
+        "label": "Arial",
+        "value": "arial,helvetica,sans-serif"
+      },
+      "_meta": {
+        "htmlID": "u_body",
+        "htmlClassNames": "u_body"
+      }
+    }
+  }
+}

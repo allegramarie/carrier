@@ -1,32 +1,32 @@
-import {ADD_CAMPAIGN} from '../constants';
+import {
+  ADD_CAMPAIGN,
+  GET_CAMPAIGNS,
+  UPDATE_CAMPAIGN,
+  DELETE_CAMPAIGN
+} from "../constants";
 
-const initialState = [
-  {
-    // an example of a campaign
-    id: 1,
-    name: 'Example Campaign',
-    subject: 'Subject line for an email',
-    from: 'hackers@hrnyc.com',
-    userId: 1, // Default
-    content: 'https://', // Fill this in with a S3 URI later
-  },
-];
+const initialState = {
+  campaigns: []
+};
 
 export default function campaigns(state = initialState, action) {
   switch (action.type) {
     case ADD_CAMPAIGN:
-      return [
-        ...state,
-        //action.payload // Using this assumes a fully formed campaign object is the payload.
-        {
-          id: 1,
-          name: 'This is a campaign name',
-          subject: 'Subject line for an email',
-          from: 'hackers@hrnyc.com',
-          userId: 1, // Default
-          content: 'https://', // Fill this in with a S3 URI later
-        },
-      ];
+      return {
+        campaigns: [...state.campaigns, action.payload]
+      };
+    case GET_CAMPAIGNS:
+      return {
+        campaigns: action.payload
+      };
+    case UPDATE_CAMPAIGN:
+      return {
+        campaigns: [...state.campaigns, action.payload]
+      };
+    case DELETE_CAMPAIGN:
+      return {
+        campaigns: [...state.campaigns, action.payload]
+      };
 
     default:
       return state;
