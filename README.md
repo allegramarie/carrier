@@ -1,6 +1,27 @@
-# Thesis Project
+# Carrier
 
-This is, indeed, the thesis project for _"House Targaryen"_.
+> An email newsletter client for customizable email templates.
+
+## Team
+
+  - __Product Owner__: [Allegra](https://github.com/allegramarie)
+  - __Scrum Master__: [Alex](https://github.com/the-alex)
+  - __Development Team Members__: [Eric](https://github.com/Defection), [Eugene](https://github.com/yuqing630)
+
+## Table of Contents
+
+1. [Requirements](#requirements)
+1. [Getting Started](#getting-started)
+1. [Local Development](#local-development)
+1. [Team](#team)
+1. [Contributing](#contributing)
+1. [Style Guide](#style-guide)
+
+## Requirements
+
+- Node 9.4.x
+- Postgresql 10.1.x
+- Redis 4.0.x
 
 ## Getting Started
 
