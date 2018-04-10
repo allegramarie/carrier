@@ -39,3 +39,11 @@ Go ahead and use your favorite package manager to install dependencies. This pro
 1.  Use `config.js` to set `prod` to `false`.
 1.  Set up a postgres database and add the configuration settings to `config.js`.
 1.  Run `yarn run start` will run the server in production mode, serving static files from `client/build`.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## Style Guide
+
+See [STYLE-GUIDE.md](STYLE-GUIDE.md) for the style guide.
